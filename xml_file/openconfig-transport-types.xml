@@ -1,0 +1,1347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="openconfig-transport-types"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:oc-opt-types="http://openconfig.net/yang/transport-types"
+        xmlns:oc-platform-types="http://openconfig.net/yang/platform-types"
+        xmlns:oc-ext="http://openconfig.net/yang/openconfig-ext"
+        xmlns:oc-types="http://openconfig.net/yang/openconfig-types">
+  <yang-version value="1"/>
+  <namespace uri="http://openconfig.net/yang/transport-types"/>
+  <prefix value="oc-opt-types"/>
+  <import module="openconfig-platform-types">
+    <prefix value="oc-platform-types"/>
+  </import>
+  <import module="openconfig-extensions">
+    <prefix value="oc-ext"/>
+  </import>
+  <import module="openconfig-types">
+    <prefix value="oc-types"/>
+  </import>
+  <organization>
+    <text>OpenConfig working group</text>
+  </organization>
+  <contact>
+    <text>OpenConfig working group
+www.openconfig.net</text>
+  </contact>
+  <description>
+    <text>This module contains general type definitions and identities
+for optical transport models.</text>
+  </description>
+  <oc-ext:openconfig-version semver="0.13.0"/>
+  <revision date="2021-02-26">
+    <description>
+      <text>Additional PMD types, form factors, and protocol types.</text>
+    </description>
+    <reference>
+      <text>0.13.0</text>
+    </reference>
+  </revision>
+  <revision date="2020-08-12">
+    <description>
+      <text>Additional tributary rates.</text>
+    </description>
+    <reference>
+      <text>0.12.0</text>
+    </reference>
+  </revision>
+  <revision date="2020-04-24">
+    <description>
+      <text>Add 400G protocol and additional tributary half rates.</text>
+    </description>
+    <reference>
+      <text>0.11.0</text>
+    </reference>
+  </revision>
+  <revision date="2020-04-22">
+    <description>
+      <text>Add AOC and DAC connector identities.</text>
+    </description>
+    <reference>
+      <text>0.10.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-06-27">
+    <description>
+      <text>Add FIBER_JUMPER_TYPE identityref.</text>
+    </description>
+    <reference>
+      <text>0.9.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-06-21">
+    <description>
+      <text>Generalize and rename optical port type identity</text>
+    </description>
+    <reference>
+      <text>0.8.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-11-21">
+    <description>
+      <text>Add OpenConfig module metadata extensions.</text>
+    </description>
+    <reference>
+      <text>0.7.1</text>
+    </reference>
+  </revision>
+  <revision date="2018-10-23">
+    <description>
+      <text>Added frame mapping protocols for logical channels assignments
+and tributary slot granularity for OTN logical channels</text>
+    </description>
+    <reference>
+      <text>0.7.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-05-16">
+    <description>
+      <text>Added interval,min,max time to interval stats.</text>
+    </description>
+    <reference>
+      <text>0.6.0</text>
+    </reference>
+  </revision>
+  <revision date="2017-08-16">
+    <description>
+      <text>Added ODU Cn protocol type</text>
+    </description>
+    <reference>
+      <text>0.5.0</text>
+    </reference>
+  </revision>
+  <revision date="2016-12-22">
+    <description>
+      <text>Fixes and additions for terminal optics model</text>
+    </description>
+    <reference>
+      <text>0.4.0</text>
+    </reference>
+  </revision>
+  <oc-ext:regexp-posix/>
+  <oc-ext:catalog-organization org="openconfig"/>
+  <oc-ext:origin origin="openconfig"/>
+  <typedef name="frequency-type">
+    <type name="uint64"/>
+    <units name="MHz"/>
+    <description>
+      <text>Type for optical spectrum frequency values</text>
+    </description>
+  </typedef>
+  <typedef name="admin-state-type">
+    <type name="enumeration">
+      <enum name="ENABLED">
+        <description>
+          <text>Sets the channel admin state to enabled</text>
+        </description>
+      </enum>
+      <enum name="DISABLED">
+        <description>
+          <text>Sets the channel admin state to disabled</text>
+        </description>
+      </enum>
+      <enum name="MAINT">
+        <description>
+          <text>Sets the channel to maintenance / diagnostic mode</text>
+        </description>
+      </enum>
+    </type>
+    <description>
+      <text>Administrative state modes for
+logical channels in the transponder model.</text>
+    </description>
+  </typedef>
+  <typedef name="loopback-mode-type">
+    <type name="enumeration">
+      <enum name="NONE">
+        <description>
+          <text>No loopback is applied</text>
+        </description>
+      </enum>
+      <enum name="FACILITY">
+        <description>
+          <text>A loopback which directs traffic normally transmitted
+on the port back to the device as if received on the same
+port from an external source.</text>
+        </description>
+      </enum>
+      <enum name="TERMINAL">
+        <description>
+          <text>A loopback which directs traffic received from an external
+source on the port back out the transmit side of the same
+port.</text>
+        </description>
+      </enum>
+    </type>
+    <default value="NONE"/>
+    <description>
+      <text>Loopback modes for transponder logical channels</text>
+    </description>
+  </typedef>
+  <identity name="FRAME_MAPPING_PROTOCOL">
+    <description>
+      <text>Base identity for frame mapping protocols that can be used
+when mapping Ethernet, OTN or other client signals to OTN
+logical channels.</text>
+    </description>
+  </identity>
+  <identity name="AMP">
+    <base name="FRAME_MAPPING_PROTOCOL"/>
+    <description>
+      <text>Asynchronous Mapping Procedure</text>
+    </description>
+  </identity>
+  <identity name="GMP">
+    <base name="FRAME_MAPPING_PROTOCOL"/>
+    <description>
+      <text>Generic Mapping Procedure</text>
+    </description>
+  </identity>
+  <identity name="BMP">
+    <base name="FRAME_MAPPING_PROTOCOL"/>
+    <description>
+      <text>Bit-synchronous Mapping Procedure</text>
+    </description>
+  </identity>
+  <identity name="CBR">
+    <base name="FRAME_MAPPING_PROTOCOL"/>
+    <description>
+      <text>Constant Bit Rate Mapping Procedure</text>
+    </description>
+  </identity>
+  <identity name="GFP_T">
+    <base name="FRAME_MAPPING_PROTOCOL"/>
+    <description>
+      <text>Transparent Generic Framing Protocol</text>
+    </description>
+  </identity>
+  <identity name="GFP_F">
+    <base name="FRAME_MAPPING_PROTOCOL"/>
+    <description>
+      <text>Framed-Mapped Generic Framing Protocol</text>
+    </description>
+  </identity>
+  <identity name="TRIBUTARY_SLOT_GRANULARITY">
+    <description>
+      <text>Base identity for tributary slot granularity for OTN
+logical channels.</text>
+    </description>
+  </identity>
+  <identity name="TRIB_SLOT_1.25G">
+    <base name="TRIBUTARY_SLOT_GRANULARITY"/>
+    <description>
+      <text>The tributary slot with a bandwidth of approximately 1.25 Gb/s
+as defined in ITU-T G.709 standard.</text>
+    </description>
+  </identity>
+  <identity name="TRIB_SLOT_2.5G">
+    <base name="TRIBUTARY_SLOT_GRANULARITY"/>
+    <description>
+      <text>The tributary slot with a bandwidth of approximately 2.5 Gb/s
+as defined in ITU-T G.709 standard.</text>
+    </description>
+  </identity>
+  <identity name="TRIB_SLOT_5G">
+    <base name="TRIBUTARY_SLOT_GRANULARITY"/>
+    <description>
+      <text>The tributary slot with a bandwidth of approximately 5 Gb/s
+as defined in ITU-T G.709 standard.</text>
+    </description>
+  </identity>
+  <grouping name="avg-min-max-instant-stats-precision2-ps-nm">
+    <description>
+      <text>Common grouping for recording picosecond per nanometer
+values with 2 decimal precision. Values include the
+instantaneous, average, minimum, and maximum statistics.
+Statistics are computed and reported based on a moving time
+interval (e.g., the last 30s).  If supported by the device,
+the time interval over which the statistics are computed, and
+the times at which the minimum and maximum values occurred,
+are also reported.</text>
+    </description>
+    <leaf name="instant">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps-nm"/>
+      <description>
+        <text>The instantaneous value of the statistic.</text>
+      </description>
+    </leaf>
+    <leaf name="avg">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps-nm"/>
+      <description>
+        <text>The arithmetic mean value of the statistic over the
+time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="min">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps-nm"/>
+      <description>
+        <text>The minimum value of the statistic over the time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="max">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps-nm"/>
+      <description>
+        <text>The maximum value of the statistic over the time interval.</text>
+      </description>
+    </leaf>
+    <uses name="oc-types:stat-interval-state"/>
+    <uses name="oc-types:min-max-time"/>
+  </grouping>
+  <grouping name="avg-min-max-instant-stats-precision2-ps">
+    <description>
+      <text>Common grouping for recording picosecond values with
+2 decimal precision. Values include the
+instantaneous, average, minimum, and maximum statistics.
+Statistics are computed and reported based on a moving time
+interval (e.g., the last 30s).  If supported by the device,
+the time interval over which the statistics are computed, and
+the times at which the minimum and maximum values occurred,
+are also reported.</text>
+    </description>
+    <leaf name="instant">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps"/>
+      <description>
+        <text>The instantaneous value of the statistic.</text>
+      </description>
+    </leaf>
+    <leaf name="avg">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps"/>
+      <description>
+        <text>The arithmetic mean value of the statistic over the
+time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="min">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps"/>
+      <description>
+        <text>The minimum value of the statistic over the time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="max">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps"/>
+      <description>
+        <text>The maximum value of the statistic over the time interval.</text>
+      </description>
+    </leaf>
+    <uses name="oc-types:stat-interval-state"/>
+    <uses name="oc-types:min-max-time"/>
+  </grouping>
+  <grouping name="avg-min-max-instant-stats-precision2-ps2">
+    <description>
+      <text>Common grouping for recording picosecond^2 values with
+2 decimal precision. Values include the
+instantaneous, average, minimum, and maximum statistics.
+Statistics are computed and reported based on a moving time
+interval (e.g., the last 30s).  If supported by the device,
+the time interval over which the statistics are computed, and
+the times at which the minimum and maximum values occurred,
+are also reported.</text>
+    </description>
+    <leaf name="instant">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps^2"/>
+      <description>
+        <text>The instantaneous value of the statistic.</text>
+      </description>
+    </leaf>
+    <leaf name="avg">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps^2"/>
+      <description>
+        <text>The arithmetic mean value of the statistic over the
+time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="min">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps^2"/>
+      <description>
+        <text>The minimum value of the statistic over the time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="max">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="ps^2"/>
+      <description>
+        <text>The maximum value of the statistic over the time
+interval.</text>
+      </description>
+    </leaf>
+    <uses name="oc-types:stat-interval-state"/>
+    <uses name="oc-types:min-max-time"/>
+  </grouping>
+  <grouping name="avg-min-max-instant-stats-precision18-ber">
+    <description>
+      <text>Common grouping for recording bit error rate (BER) values
+with 18 decimal precision. Note that decimal64 supports
+values as small as i x 10^-18 where i is an integer. Values
+smaller than this should be reported as 0 to inidicate error
+free or near error free performance. Values include the
+instantaneous, average, minimum, and maximum statistics.
+Statistics are computed and reported based on a moving time
+interval (e.g., the last 30s).  If supported by the device,
+the time interval over which the statistics are computed, and
+the times at which the minimum and maximum values occurred,
+are also reported.</text>
+    </description>
+    <leaf name="instant">
+      <type name="decimal64">
+        <fraction-digits value="18"/>
+      </type>
+      <units name="bit-errors-per-second"/>
+      <description>
+        <text>The instantaneous value of the statistic.</text>
+      </description>
+    </leaf>
+    <leaf name="avg">
+      <type name="decimal64">
+        <fraction-digits value="18"/>
+      </type>
+      <units name="bit-errors-per-second"/>
+      <description>
+        <text>The arithmetic mean value of the statistic over the
+time interval.</text>
+      </description>
+    </leaf>
+    <leaf name="min">
+      <type name="decimal64">
+        <fraction-digits value="18"/>
+      </type>
+      <units name="bit-errors-per-second"/>
+      <description>
+        <text>The minimum value of the statistic over the time
+interval.</text>
+      </description>
+    </leaf>
+    <leaf name="max">
+      <type name="decimal64">
+        <fraction-digits value="18"/>
+      </type>
+      <units name="bit-errors-per-second"/>
+      <description>
+        <text>The maximum value of the statistic over the time
+interval.</text>
+      </description>
+    </leaf>
+    <uses name="oc-types:stat-interval-state"/>
+    <uses name="oc-types:min-max-time"/>
+  </grouping>
+  <identity name="TRIBUTARY_PROTOCOL_TYPE">
+    <description>
+      <text>Base identity for protocol framing used by tributary
+signals.</text>
+    </description>
+  </identity>
+  <identity name="PROT_1GE">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>1G Ethernet protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OC48">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OC48 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_STM16">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>STM 16 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_10GE_LAN">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>10G Ethernet LAN protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_10GE_WAN">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>10G Ethernet WAN protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OC192">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OC 192 (9.6GB) port protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_STM64">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>STM 64 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTU2">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTU 2 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTU2E">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTU 2e protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTU1E">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTU 1e protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODU2">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU 2 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODU2E">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU 2e protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_40GE">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>40G Ethernet port protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OC768">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OC 768 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_STM256">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>STM 256 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTU3">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTU 3 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODU3">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU 3 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_100GE">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>100G Ethernet protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_100G_MLG">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>100G MLG protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTU4">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTU4 signal protocol (112G) for transporting
+100GE signal</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTUCN">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTU Cn protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODUCN">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU Cn protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODU4">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU 4 protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_400GE">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>400G Ethernet protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTSIG">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>Optical tributary signal group protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODUFLEX_CBR">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU Flex with CBR protocol</text>
+    </description>
+  </identity>
+  <identity name="PROT_ODUFLEX_GFP">
+    <base name="TRIBUTARY_PROTOCOL_TYPE"/>
+    <description>
+      <text>ODU Flex with GFP protocol</text>
+    </description>
+  </identity>
+  <identity name="TRANSCEIVER_FORM_FACTOR_TYPE">
+    <description>
+      <text>Base identity for identifying the type of pluggable optic
+transceiver (i.e,. form factor) used in a port.</text>
+    </description>
+  </identity>
+  <identity name="CFP">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>C form-factor pluggable, that can support up to a
+100 Gb/s signal with 10x10G or 4x25G physical channels</text>
+    </description>
+  </identity>
+  <identity name="CFP2">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>1/2 C form-factor pluggable, that can support up to a
+200 Gb/s signal with 10x10G, 4x25G, or 8x25G physical
+channels</text>
+    </description>
+  </identity>
+  <identity name="CFP2_ACO">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>CFP2 analog coherent optics transceiver, supporting
+100 Gb, 200Gb, and 250 Gb/s signal.</text>
+    </description>
+  </identity>
+  <identity name="CFP4">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>1/4 C form-factor pluggable, that can support up to a
+100 Gb/s signal with 10x10G or 4x25G physical channels</text>
+    </description>
+  </identity>
+  <identity name="QSFP">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>OriginalQuad Small Form-factor Pluggable transceiver that can
+support 4x1G physical channels.  Not commonly used.</text>
+    </description>
+  </identity>
+  <identity name="QSFP_PLUS">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Quad Small Form-factor Pluggable transceiver that can support
+up to 4x10G physical channels.</text>
+    </description>
+  </identity>
+  <identity name="QSFP28">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>QSFP pluggable optic with support for up to 4x28G physical
+channels</text>
+    </description>
+  </identity>
+  <identity name="QSFP56_DD_TYPE1">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>QSFP DD pluggable optic with support for up to 8x56G physical
+channels. Type 1 uses eight optical and electrical signals.</text>
+    </description>
+  </identity>
+  <identity name="QSFP56_DD_TYPE2">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>QSFP DD pluggable optic with support for up to 4x112G physical
+channels. Type 2 uses four optical and eight electrical
+signals.</text>
+    </description>
+  </identity>
+  <identity name="CPAK">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Cisco CPAK transceiver supporting 100 Gb/s.</text>
+    </description>
+  </identity>
+  <identity name="SFP">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Small form-factor pluggable transceiver supporting up to
+10 Gb/s signal</text>
+    </description>
+  </identity>
+  <identity name="SFP_PLUS">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Enhanced small form-factor pluggable transceiver supporting
+up to 16 Gb/s signals, including 10 GbE and OTU2</text>
+    </description>
+  </identity>
+  <identity name="XFP">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>10 Gigabit small form factor pluggable transceiver supporting
+10 GbE and OTU2</text>
+    </description>
+  </identity>
+  <identity name="X2">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>10 Gigabit small form factor pluggable transceiver supporting
+10 GbE using a XAUI inerface and 4 data channels.</text>
+    </description>
+  </identity>
+  <identity name="OSFP">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Octal small form factor pluggable transceiver supporting
+400 Gb/s.</text>
+    </description>
+  </identity>
+  <identity name="NON_PLUGGABLE">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Represents a port that does not require a pluggable optic,
+e.g., with on-board optics like COBO</text>
+    </description>
+  </identity>
+  <identity name="OTHER">
+    <base name="TRANSCEIVER_FORM_FACTOR_TYPE"/>
+    <description>
+      <text>Represents a transceiver form factor not otherwise listed</text>
+    </description>
+  </identity>
+  <identity name="FIBER_CONNECTOR_TYPE">
+    <description>
+      <text>Type of optical fiber connector</text>
+    </description>
+  </identity>
+  <identity name="SC_CONNECTOR">
+    <base name="FIBER_CONNECTOR_TYPE"/>
+    <description>
+      <text>SC type fiber connector</text>
+    </description>
+  </identity>
+  <identity name="LC_CONNECTOR">
+    <base name="FIBER_CONNECTOR_TYPE"/>
+    <description>
+      <text>LC type fiber connector</text>
+    </description>
+  </identity>
+  <identity name="MPO_CONNECTOR">
+    <base name="FIBER_CONNECTOR_TYPE"/>
+    <description>
+      <text>MPO (multi-fiber push-on/pull-off) type fiber connector
+1x12 fibers</text>
+    </description>
+  </identity>
+  <identity name="AOC_CONNECTOR">
+    <base name="FIBER_CONNECTOR_TYPE"/>
+    <description>
+      <text>AOC (active optical cable) type fiber connector</text>
+    </description>
+  </identity>
+  <identity name="DAC_CONNECTOR">
+    <base name="FIBER_CONNECTOR_TYPE"/>
+    <description>
+      <text>DAC (direct attach copper) type fiber connector</text>
+    </description>
+  </identity>
+  <identity name="ETHERNET_PMD_TYPE">
+    <description>
+      <text>Ethernet compliance codes (PMD) supported by transceivers</text>
+    </description>
+  </identity>
+  <identity name="ETH_10GBASE_LRM">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 10GBASE_LRM</text>
+    </description>
+  </identity>
+  <identity name="ETH_10GBASE_LR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 10GBASE_LR</text>
+    </description>
+  </identity>
+  <identity name="ETH_10GBASE_ZR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 10GBASE_ZR</text>
+    </description>
+  </identity>
+  <identity name="ETH_10GBASE_ER">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 10GBASE_ER</text>
+    </description>
+  </identity>
+  <identity name="ETH_10GBASE_SR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 10GBASE_SR</text>
+    </description>
+  </identity>
+  <identity name="ETH_40GBASE_CR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 40GBASE_CR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_40GBASE_SR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 40GBASE_SR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_40GBASE_LR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 40GBASE_LR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_40GBASE_ER4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 40GBASE_ER4</text>
+    </description>
+  </identity>
+  <identity name="ETH_40GBASE_PSM4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 40GBASE_PSM4</text>
+    </description>
+  </identity>
+  <identity name="ETH_4X10GBASE_LR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 4x10GBASE_LR</text>
+    </description>
+  </identity>
+  <identity name="ETH_4X10GBASE_SR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 4x10GBASE_SR</text>
+    </description>
+  </identity>
+  <identity name="ETH_100G_AOC">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100G_AOC</text>
+    </description>
+  </identity>
+  <identity name="ETH_100G_ACC">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100G_ACC</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_SR10">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_SR10</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_SR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_SR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_LR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_LR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_ER4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_ER4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_CWDM4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_CWDM4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_CLR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_CLR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_PSM4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_PSM4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_CR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_CR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_100GBASE_FR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 100GBASE_FR</text>
+    </description>
+  </identity>
+  <identity name="ETH_400GBASE_ZR">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 400GBASE_ZR</text>
+    </description>
+  </identity>
+  <identity name="ETH_400GBASE_LR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 400GBASE_LR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_400GBASE_FR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 400GBASE_FR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_400GBASE_LR8">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 400GBASE_LR8</text>
+    </description>
+  </identity>
+  <identity name="ETH_400GBASE_DR4">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: 400GBASE_DR4</text>
+    </description>
+  </identity>
+  <identity name="ETH_UNDEFINED">
+    <base name="ETHERNET_PMD_TYPE"/>
+    <description>
+      <text>Ethernet compliance code: undefined</text>
+    </description>
+  </identity>
+  <identity name="SONET_APPLICATION_CODE">
+    <description>
+      <text>Supported SONET/SDH application codes</text>
+    </description>
+  </identity>
+  <identity name="VSR2000_3R2">
+    <base name="SONET_APPLICATION_CODE"/>
+    <description>
+      <text>SONET/SDH application code: VSR2000_3R2</text>
+    </description>
+  </identity>
+  <identity name="VSR2000_3R3">
+    <base name="SONET_APPLICATION_CODE"/>
+    <description>
+      <text>SONET/SDH application code: VSR2000_3R3</text>
+    </description>
+  </identity>
+  <identity name="VSR2000_3R5">
+    <base name="SONET_APPLICATION_CODE"/>
+    <description>
+      <text>SONET/SDH application code: VSR2000_3R5</text>
+    </description>
+  </identity>
+  <identity name="SONET_UNDEFINED">
+    <base name="SONET_APPLICATION_CODE"/>
+    <description>
+      <text>SONET/SDH application code: undefined</text>
+    </description>
+  </identity>
+  <identity name="OTN_APPLICATION_CODE">
+    <description>
+      <text>Supported OTN application codes</text>
+    </description>
+  </identity>
+  <identity name="P1L1_2D1">
+    <base name="OTN_APPLICATION_CODE"/>
+    <description>
+      <text>OTN application code: P1L1_2D1</text>
+    </description>
+  </identity>
+  <identity name="P1S1_2D2">
+    <base name="OTN_APPLICATION_CODE"/>
+    <description>
+      <text>OTN application code: P1S1_2D2</text>
+    </description>
+  </identity>
+  <identity name="P1L1_2D2">
+    <base name="OTN_APPLICATION_CODE"/>
+    <description>
+      <text>OTN application code: P1L1_2D2</text>
+    </description>
+  </identity>
+  <identity name="OTN_UNDEFINED">
+    <base name="OTN_APPLICATION_CODE"/>
+    <description>
+      <text>OTN application code: undefined</text>
+    </description>
+  </identity>
+  <identity name="TRIBUTARY_RATE_CLASS_TYPE">
+    <description>
+      <text>Rate of tributary signal _- identities will typically reflect
+rounded bit rate.</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_2.5G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>2.5G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_10G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>10G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_40G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>40G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_100G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>100G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_150G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>150G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_200G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>200G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_250G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>250G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_300G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>300G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_350G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>350G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_400G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>400G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_450G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>450G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_500G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>500G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_550G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>550G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_600G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>600G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_650G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>650G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_700G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>700G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_750G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>750G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_800G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>800G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_850G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>850G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_900G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>900G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_950G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>950G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1000G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1000G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1050G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1050G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1100G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1100G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1150G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1150G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1200G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1200G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1250G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1250G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1300G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1300G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1350G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1350G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1400G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1400G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1450G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1450G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1500G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1500G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1550G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1550G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="TRIB_RATE_1600G">
+    <base name="TRIBUTARY_RATE_CLASS_TYPE"/>
+    <description>
+      <text>1600G tributary signal rate</text>
+    </description>
+  </identity>
+  <identity name="LOGICAL_ELEMENT_PROTOCOL_TYPE">
+    <description>
+      <text>Type of protocol framing used on the logical channel or
+tributary</text>
+    </description>
+  </identity>
+  <identity name="PROT_ETHERNET">
+    <base name="LOGICAL_ELEMENT_PROTOCOL_TYPE"/>
+    <description>
+      <text>Ethernet protocol framing</text>
+    </description>
+  </identity>
+  <identity name="PROT_OTN">
+    <base name="LOGICAL_ELEMENT_PROTOCOL_TYPE"/>
+    <description>
+      <text>OTN protocol framing</text>
+    </description>
+  </identity>
+  <identity name="OPTICAL_CHANNEL">
+    <base name="oc-platform-types:OPENCONFIG_HARDWARE_COMPONENT"/>
+    <description>
+      <text>Optical channels act as carriers for transport traffic
+directed over a line system.  They are represented as
+physical components in the physical inventory model.</text>
+    </description>
+  </identity>
+  <identity name="FIBER_JUMPER_TYPE">
+    <description>
+      <text>Types of fiber jumpers used for connecting device ports</text>
+    </description>
+  </identity>
+  <identity name="FIBER_JUMPER_SIMPLEX">
+    <base name="FIBER_JUMPER_TYPE"/>
+    <description>
+      <text>Simplex fiber jumper</text>
+    </description>
+  </identity>
+  <identity name="FIBER_JUMPER_MULTI_FIBER_STRAND">
+    <base name="FIBER_JUMPER_TYPE"/>
+    <description>
+      <text>One strand of a fiber jumper which contains multiple fibers
+within it, such as an MPO based fiber jumper</text>
+    </description>
+  </identity>
+  <identity name="OPTICAL_PORT_TYPE">
+    <description>
+      <text>Type definition for optical transport port types</text>
+    </description>
+  </identity>
+  <identity name="INGRESS">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Ingress port, corresponding to a signal entering
+a line system device such as an amplifier or wavelength
+router.</text>
+    </description>
+  </identity>
+  <identity name="EGRESS">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Egress port, corresponding to a signal exiting
+a line system device such as an amplifier or wavelength
+router.</text>
+    </description>
+  </identity>
+  <identity name="ADD">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Add port, corresponding to a signal injected
+at a wavelength router.</text>
+    </description>
+  </identity>
+  <identity name="DROP">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Drop port, corresponding to a signal dropped
+at a wavelength router.</text>
+    </description>
+  </identity>
+  <identity name="MONITOR">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Monitor port, corresponding to a signal used by an optical
+channel monitor. This is used to represent the connection
+that a channel monitor port is connected to, typically on a
+line system device. This  connection may be via physical cable
+and faceplate ports or internal to the device</text>
+    </description>
+  </identity>
+  <identity name="TERMINAL_CLIENT">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Client-facing port on a terminal optics device (e.g.,
+transponder or muxponder).</text>
+    </description>
+  </identity>
+  <identity name="TERMINAL_LINE">
+    <base name="OPTICAL_PORT_TYPE"/>
+    <description>
+      <text>Line-facing port on a terminal optics device (e.g.,
+transponder or muxponder).</text>
+    </description>
+  </identity>
+</module>

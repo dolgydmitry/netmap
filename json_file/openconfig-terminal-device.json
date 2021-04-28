@@ -1,0 +1,1760 @@
+{
+    "ns0:module": {
+        "@xmlns:ns0": "urn:ietf:params:xml:ns:yang:yin:1",
+        "@xmlns:ns1": "http://openconfig.net/yang/openconfig-ext",
+        "@name": "openconfig-terminal-device",
+        "ns0:yang-version": {
+            "@value": "1"
+        },
+        "ns0:namespace": {
+            "@uri": "http://openconfig.net/yang/terminal-device"
+        },
+        "ns0:prefix": {
+            "@value": "oc-opt-term"
+        },
+        "ns0:import": [
+            {
+                "@module": "openconfig-types",
+                "ns0:prefix": {
+                    "@value": "oc-types"
+                }
+            },
+            {
+                "@module": "openconfig-transport-types",
+                "ns0:prefix": {
+                    "@value": "oc-opt-types"
+                }
+            },
+            {
+                "@module": "openconfig-if-ethernet",
+                "ns0:prefix": {
+                    "@value": "oc-eth"
+                }
+            },
+            {
+                "@module": "openconfig-platform",
+                "ns0:prefix": {
+                    "@value": "oc-platform"
+                }
+            },
+            {
+                "@module": "openconfig-platform-transceiver",
+                "ns0:prefix": {
+                    "@value": "oc-transceiver"
+                }
+            },
+            {
+                "@module": "openconfig-lldp",
+                "ns0:prefix": {
+                    "@value": "oc-lldp"
+                }
+            },
+            {
+                "@module": "openconfig-extensions",
+                "ns0:prefix": {
+                    "@value": "oc-ext"
+                }
+            },
+            {
+                "@module": "ietf-yang-types",
+                "ns0:prefix": {
+                    "@value": "yang"
+                }
+            },
+            {
+                "@module": "openconfig-yang-types",
+                "ns0:prefix": {
+                    "@value": "oc-yang"
+                }
+            }
+        ],
+        "ns0:organization": {
+            "ns0:text": "OpenConfig working group"
+        },
+        "ns0:contact": {
+            "ns0:text": "OpenConfig working group\nwww.openconfig.net"
+        },
+        "ns0:description": {
+            "ns0:text": "This module describes a terminal optics device model for\nmanaging the terminal systems (client and line side) in a\nDWDM transport network.\n\nElements of the model:\n\nphysical port: corresponds to a physical, pluggable client\nport on the terminal device. Examples includes 10G, 40G, 100G\n(e.g., 10x10G, 4x25G or 1x100G) and 400G/1T in the future.\nPhysical client ports will have associated operational state or\nPMs.\n\nphysical channel: a physical lane or channel in the\nphysical client port.  Each physical client port has 1 or more\nchannels. An example is 100GBASE-LR4 client physical port having\n4x25G channels. Channels have their own optical PMs and can be\nmonitored independently within a client physical port (e.g.,\nchannel power).  Physical client channels are defined in the\nmodel as part of a physical client port, and are modeled\nprimarily for reading their PMs.\n\nlogical channel: a logical grouping of logical grooming elements\nthat may be assigned to subsequent grooming stages for\nmultiplexing / de-multiplexing, or to an optical channel for\nline side transmission.  The logical channels can represent, for\nexample, an ODU/OTU logical packing of the client\ndata onto the line side.  Tributaries are similarly logical\ngroupings of demand that can be represented in this structure and\nassigned to an optical channel.  Note that different types of\nlogical channels may be present, each with their corresponding\nPMs.\n\noptical channel:  corresponds to an optical carrier and is\nassigned a wavelength/frequency.  Optical channels have PMs\nsuch as power, BER, and operational mode.\n\nDirectionality:\n\nTo maintain simplicity in the model, the configuration is\ndescribed from client-to-line direction.  The assumption is that\nequivalent reverse configuration is implicit, resulting in\nthe same line-to-client configuration.\n\nPhysical layout:\n\nThe model does not assume a particular physical layout of client\nand line ports on the terminal device (e.g., such as number of\nports per linecard, separate linecards for client and line ports,\netc.)."
+        },
+        "ns1:openconfig-version": {
+            "@semver": "1.7.3"
+        },
+        "ns0:revision": [
+            {
+                "@date": "2020-05-09",
+                "ns0:description": {
+                    "ns0:text": "Remove references from read-write contexts to read-only\ncontexts in when statements."
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.7.3"
+                }
+            },
+            {
+                "@date": "2019-11-28",
+                "ns0:description": {
+                    "ns0:text": "Additional xpath fixes in when statement"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.7.2"
+                }
+            },
+            {
+                "@date": "2019-10-12",
+                "ns0:description": {
+                    "ns0:text": "Fix when statement paths"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.7.1"
+                }
+            },
+            {
+                "@date": "2019-08-08",
+                "ns0:description": {
+                    "ns0:text": "Add ALS config to logical-channel/ethernet/config and remove\nlegacy interfaces augment for this config. Client FEC was\npreviosuly migrated to the components model and should not\nbe here anymore."
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.7.0"
+                }
+            },
+            {
+                "@date": "2019-07-26",
+                "ns0:description": {
+                    "ns0:text": "Add support for LLDP natively on logical-channels."
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.6.0"
+                }
+            },
+            {
+                "@date": "2018-11-21",
+                "ns0:description": {
+                    "ns0:text": "Add OpenConfig module metadata extensions."
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.5.1"
+                }
+            },
+            {
+                "@date": "2018-10-23",
+                "ns0:description": {
+                    "ns0:text": "Adds support of logical-channel tributary slot allocation to\nlogical-channel-assignments with different channel speeds.\nEnables logical channel mapping procedure specification."
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.5.0"
+                }
+            },
+            {
+                "@date": "2018-08-28",
+                "ns0:description": {
+                    "ns0:text": "Adds terminal device related Ethernet counters"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.4.0"
+                }
+            },
+            {
+                "@date": "2018-07-30",
+                "ns0:description": {
+                    "ns0:text": "Adds lldp snooping config leaf and augmented it to oc-lldp"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.3.0"
+                }
+            },
+            {
+                "@date": "2018-07-26",
+                "ns0:description": {
+                    "ns0:text": "Adds OTN protocol counter stats of errored-blocks and\nfec-uncorrectable-blocks, adds ethernet-config-ext grouping\nand uses it to augment oc-eth"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.2.0"
+                }
+            },
+            {
+                "@date": "2018-07-17",
+                "ns0:description": {
+                    "ns0:text": "Adds testing enum to link-state"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.1.0"
+                }
+            },
+            {
+                "@date": "2017-07-08",
+                "ns0:description": {
+                    "ns0:text": "Adds test-signal"
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.0.0"
+                }
+            },
+            {
+                "@date": "2016-12-22",
+                "ns0:description": {
+                    "ns0:text": "Fixes and additions to terminal optics model"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.4.0"
+                }
+            }
+        ],
+        "ns1:regexp-posix": null,
+        "ns1:catalog-organization": {
+            "@org": "openconfig"
+        },
+        "ns1:origin": {
+            "@origin": "openconfig"
+        },
+        "ns0:grouping": [
+            {
+                "@name": "terminal-input-optical-power",
+                "ns0:description": {
+                    "ns0:text": "Reusable leaves related to input optical power"
+                },
+                "ns0:leaf": {
+                    "@name": "input-power",
+                    "ns0:type": {
+                        "@name": "decimal64",
+                        "ns0:fraction-digits": {
+                            "@value": "2"
+                        }
+                    },
+                    "ns0:units": {
+                        "@name": "dBm"
+                    },
+                    "ns0:description": {
+                        "ns0:text": "The input optical power of this port in units of 0.01dBm.\nIf the port is an aggregate of multiple physical channels,\nthis attribute is the total power or sum of all channels."
+                    }
+                }
+            },
+            {
+                "@name": "terminal-ethernet-protocol-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for logical channels with Ethernet\nframing"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "client-als",
+                        "ns0:type": {
+                            "@name": "enumeration",
+                            "ns0:enum": [
+                                {
+                                    "@name": "NONE",
+                                    "ns0:description": {
+                                        "ns0:text": "The client port will do nothing when a failure is\ndetected on the line port or the remote client port"
+                                    }
+                                },
+                                {
+                                    "@name": "LASER_SHUTDOWN",
+                                    "ns0:description": {
+                                        "ns0:text": "The client port will shut down the laser to notify the\nsubtending Ethernet equipment of the failure detected on\nthe line port or the remote client port."
+                                    }
+                                },
+                                {
+                                    "@name": "ETHERNET",
+                                    "ns0:description": {
+                                        "ns0:text": "The client port will propagate the local fault or remote\nfault signal to the subtending Ethernet equipment."
+                                    }
+                                }
+                            ]
+                        },
+                        "ns0:default": {
+                            "@value": "ETHERNET"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Sets the client port behavior that defines if the actions\nof automatic laser shutdown (als), ethernet fault\npropagation, or nothing will be done upon the detection\nof a failure on the line port or the upstream remote\nclient port."
+                        }
+                    },
+                    {
+                        "@name": "als-delay",
+                        "ns0:type": {
+                            "@name": "uint32"
+                        },
+                        "ns0:units": {
+                            "@name": "milliseconds"
+                        },
+                        "ns0:default": {
+                            "@value": "0"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The timer to delay the client-als actions on the client\nport when a local or remote fault is detected on the line\nport. The delay will only be valid when the client-als is\nset to LASER_SHUTDOWN"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-ethernet-protocol-state",
+                "ns0:description": {
+                    "ns0:text": "Ethernet-specific counters when logical channel\nis using Ethernet protocol framing, e.g., 10GE, 100GE"
+                },
+                "ns0:uses": [
+                    {
+                        "@name": "oc-eth:ethernet-interface-state-counters"
+                    },
+                    {
+                        "@name": "terminal-ethernet-protocol-state-counters"
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-ethernet-protocol-state-counters",
+                "ns0:description": {
+                    "ns0:text": "Ethernet-specific counters for terminal devices when\nlogical channel is using Ethernet protocol framing,\ne.g., 10GE, 100GE"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "in-pcs-bip-errors",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of received bit interleaved parity (BIP) errors\nat the physical coding sublayer (PCS). If the interface\nconsists of multiple lanes, this will be the sum of all\nerrors on the lane"
+                        }
+                    },
+                    {
+                        "@name": "in-pcs-errored-seconds",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of seconds that physical coding sublayer (PCS)\nerrors have crossed a sytem defined threshold indicating the\nlink is erroring"
+                        }
+                    },
+                    {
+                        "@name": "in-pcs-severely-errored-seconds",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of seconds that physical coding sublayer (PCS)\nerrors have crossed a system defined threshold indicating the\nlink is severely erroring"
+                        }
+                    },
+                    {
+                        "@name": "in-pcs-unavailable-seconds",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of seconds that physical coding sublayer (PCS)\nerrors have crossed a system defined threshold indicating the\nlink is unavailable"
+                        }
+                    },
+                    {
+                        "@name": "out-pcs-bip-errors",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of transmitted bit interleaved parity (BIP) errors\nat the physical coding sublayer (PCS). If the interface\nconsists of multiple lanes, this will be the sum of all\nerrors on the lane"
+                        }
+                    },
+                    {
+                        "@name": "out-crc-errors",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Number of FCS/CRC error check failures sent on the interface"
+                        }
+                    },
+                    {
+                        "@name": "out-block-errors",
+                        "ns0:type": {
+                            "@name": "oc-yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of transmitted errored blocks. Error detection\ncodes are capable of detecting whether one or more errors have\noccurred in a given sequence of bits \u2013 the block. It is\nnormally not possible to determine the exact number of errored\nbits within the block"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-ethernet-protocol-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for data related to Ethernet protocol\nframing on logical channels"
+                },
+                "ns0:container": {
+                    "@name": "ethernet",
+                    "ns0:description": {
+                        "ns0:text": "Top level container for data related to Ethernet framing\nfor the logical channel"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for Ethernet protocol framing on\nlogical channels"
+                            },
+                            "ns0:uses": {
+                                "@name": "terminal-ethernet-protocol-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for Ethernet protocol framing\non logical channels"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "terminal-ethernet-protocol-config"
+                                },
+                                {
+                                    "@name": "terminal-ethernet-protocol-state"
+                                }
+                            ]
+                        }
+                    ],
+                    "ns0:uses": {
+                        "@name": "lldp-logical-channel-top"
+                    }
+                }
+            },
+            {
+                "@name": "lldp-logical-channel-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for LLDP data for a logical channel"
+                },
+                "ns0:container": {
+                    "@name": "lldp",
+                    "ns0:description": {
+                        "ns0:text": "LLDP data for logical channels"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "LLDP configuration data for logical channels"
+                            },
+                            "ns0:uses": {
+                                "@name": "lldp-logical-channel-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "LLDP operational state data for logical channels"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "lldp-logical-channel-config"
+                                },
+                                {
+                                    "@name": "oc-lldp:lldp-interface-state"
+                                }
+                            ]
+                        }
+                    ],
+                    "ns0:uses": {
+                        "@name": "lldp-logical-channel-neighbor-top"
+                    }
+                }
+            },
+            {
+                "@name": "lldp-logical-channel-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for LLDP for logical-channels"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "enabled",
+                        "ns0:type": {
+                            "@name": "boolean"
+                        },
+                        "ns0:default": {
+                            "@value": "false"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Enable or disable the LLDP protocol on the logical channel."
+                        }
+                    },
+                    {
+                        "@name": "snooping",
+                        "ns0:type": {
+                            "@name": "boolean"
+                        },
+                        "ns0:default": {
+                            "@value": "false"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "If true, LLDP PDUs are only received and processed on\nthe logical-channel, but are not originated by the local\nagent. The PDUs are not dropped by the logical channel after\nprocessing, but relayed to the downstream link layer\nneighbors. The snooping mode is valid only when LLDP is\nenabled on the logical channel. The snooping mode is useful\nwhen a logical channel does not want its link layer neighbors\nto discover itself since, for example, it is a lower-layer\nlogical channel."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "lldp-logical-channel-neighbor-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for the LLDP neighbor list"
+                },
+                "ns0:container": {
+                    "@name": "neighbors",
+                    "ns0:config": {
+                        "@value": "false"
+                    },
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for list of LLDP neighbors on\na logical channel"
+                    },
+                    "ns0:list": {
+                        "@name": "neighbor",
+                        "ns0:key": {
+                            "@value": "id"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of LLDP neighbors. If the implementation only\nsupports one neighbor, this would always be a list with\none item. If the device and neighbor supported multiple\nneighbors, which can be achieved via LLDP forwarding, then\nthis would be supported"
+                        },
+                        "ns0:reference": {
+                            "ns0:text": "IEEE Std 802.1AB-2016, section 7.1, Destination address"
+                        },
+                        "ns0:leaf": {
+                            "@name": "id",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../state/id"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "System generated identifier for the neighbor on\nthe logical channel."
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data"
+                                },
+                                "ns0:uses": {
+                                    "@name": "lldp-logical-channel-neighbor-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "oc-lldp:lldp-system-info-config"
+                                    },
+                                    {
+                                        "@name": "oc-lldp:lldp-system-info-state"
+                                    },
+                                    {
+                                        "@name": "oc-lldp:lldp-neighbor-config"
+                                    },
+                                    {
+                                        "@name": "oc-lldp:lldp-neighbor-state"
+                                    }
+                                ]
+                            }
+                        ],
+                        "ns0:uses": {
+                            "@name": "oc-lldp:lldp-custom-tlv-top"
+                        }
+                    }
+                }
+            },
+            {
+                "@name": "lldp-logical-channel-neighbor-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for LLDP neighbors"
+                }
+            },
+            {
+                "@name": "terminal-otn-protocol-config",
+                "ns0:description": {
+                    "ns0:text": "OTU configuration when logical channel\nframing is using an OTU protocol, e.g., OTU1, OTU3, etc."
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "tti-msg-transmit",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Trail trace identifier (TTI) message transmitted"
+                        }
+                    },
+                    {
+                        "@name": "tti-msg-expected",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Trail trace identifier (TTI) message expected"
+                        }
+                    },
+                    {
+                        "@name": "tti-msg-auto",
+                        "ns0:type": {
+                            "@name": "boolean"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Trail trace identifier (TTI) transmit message automatically\ncreated.  If true, then setting a custom transmit message\nwould be invalid."
+                        }
+                    },
+                    {
+                        "@name": "tributary-slot-granularity",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "oc-opt-types:TRIBUTARY_SLOT_GRANULARITY"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Granularity value of OPUk or OPUCn tributary slots for OTN\nsignal allocation. The currently defined values follow the\nexisting ITU-T G.709 standard, which can be extended as\nneeded in future."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-otn-protocol-counter-stats",
+                "ns0:description": {
+                    "ns0:text": "Counter based statistics containers for logical channels\nusing OTN framing"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "errored-seconds",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of seconds that at least one errored blocks\noccurs, at least one code violation occurs, loss of sync is\ndetected or loss of signal is detected"
+                        }
+                    },
+                    {
+                        "@name": "severely-errored-seconds",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of seconds that loss of frame is detected OR\nthe number of errored blocks, code violations, loss of sync\nor loss of signal is detected exceeds a predefined\nthreshold"
+                        }
+                    },
+                    {
+                        "@name": "unavailable-seconds",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of seconds during which the link is unavailable"
+                        }
+                    },
+                    {
+                        "@name": "code-violations",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "For ethernet or fiberchannel links, the number of 8b/10b\ncoding violations. For SONET/SDH, the number of BIP (bit\ninterleaved parity) errors"
+                        }
+                    },
+                    {
+                        "@name": "errored-blocks",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of errored blocks. Error detection codes are\ncapable to detect whether one or more errors have occurred\nin a given sequence of bits \u2013 the block. It is normally not\npossible to determine the exact number of errored bits within\nthe block."
+                        },
+                        "ns0:reference": {
+                            "ns0:text": "ITU-T Rec. G.826"
+                        }
+                    },
+                    {
+                        "@name": "fec-uncorrectable-blocks",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of blocks that were uncorrectable by the FEC"
+                        }
+                    },
+                    {
+                        "@name": "fec-uncorrectable-words",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of words that were uncorrectable by the FEC"
+                        }
+                    },
+                    {
+                        "@name": "fec-corrected-bytes",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of bytes that were corrected by the FEC"
+                        }
+                    },
+                    {
+                        "@name": "fec-corrected-bits",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of bits that were corrected by the FEC"
+                        }
+                    },
+                    {
+                        "@name": "background-block-errors",
+                        "ns0:type": {
+                            "@name": "yang:counter64"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The number of background block errors"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-otn-protocol-multi-stats",
+                "ns0:description": {
+                    "ns0:text": "Multi-value statistics containers for logical channels using\nOTN framing (e.g., max, min, avg, instant)"
+                },
+                "ns0:container": [
+                    {
+                        "@name": "pre-fec-ber",
+                        "ns0:description": {
+                            "ns0:text": "Bit error rate before forward error correction -- computed\nvalue with 18 decimal precision. Note that decimal64\nsupports values as small as i x 10^-18 where i is an\ninteger. Values smaller than this should be reported as 0\nto inidicate error free or near error free performance.\nValues include the instantaneous, average, minimum, and\nmaximum statistics. If avg/min/max statistics are not\nsupported, the target is expected to just supply the\ninstant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-opt-types:avg-min-max-instant-stats-precision18-ber"
+                        }
+                    },
+                    {
+                        "@name": "post-fec-ber",
+                        "ns0:description": {
+                            "ns0:text": "Bit error rate after forward error correction -- computed\nvalue with 18 decimal precision. Note that decimal64\nsupports values as small as i x 10^-18 where i is an\ninteger. Values smaller than this should be reported as 0\nto inidicate error free or near error free performance.\nValues include the instantaneous, average, minimum, and\nmaximum statistics. If avg/min/max statistics are not\nsupported, the target is expected to just supply the\ninstant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-opt-types:avg-min-max-instant-stats-precision18-ber"
+                        }
+                    },
+                    {
+                        "@name": "q-value",
+                        "ns0:description": {
+                            "ns0:text": "Quality value (factor) in dB of a channel with two\ndecimal precision. Values include the instantaneous,\naverage, minimum, and maximum statistics. If avg/min/max\nstatistics are not supported, the target is expected\nto just supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dB"
+                        }
+                    },
+                    {
+                        "@name": "esnr",
+                        "ns0:description": {
+                            "ns0:text": "Electrical signal to noise ratio. Baud rate\nnormalized signal to noise ratio based on\nerror vector magnitude in dB with two decimal\nprecision. Values include the instantaneous, average,\nminimum, and maximum statistics. If avg/min/max\nstatistics are not supported, the target is expected\nto just supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dB"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-otn-protocol-state",
+                "ns0:description": {
+                    "ns0:text": "OTU operational state when logical channel\nframing is using an OTU protocol, e.g., OTU1, OTU3, etc."
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "tti-msg-recv",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Trail trace identifier (TTI) message received"
+                        }
+                    },
+                    {
+                        "@name": "rdi-msg",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Remote defect indication (RDI) message received"
+                        }
+                    }
+                ],
+                "ns0:uses": [
+                    {
+                        "@name": "terminal-otn-protocol-counter-stats"
+                    },
+                    {
+                        "@name": "terminal-otn-protocol-multi-stats"
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-otn-protocol-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for data related to OTN protocol framing"
+                },
+                "ns0:container": {
+                    "@name": "otn",
+                    "ns0:description": {
+                        "ns0:text": "Top level container for OTU configuration when logical\nchannel framing is using an OTU protocol, e.g., OTU1, OTU3,\netc."
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for OTN protocol framing"
+                            },
+                            "ns0:uses": {
+                                "@name": "terminal-otn-protocol-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for OTN protocol PMs, statistics,\netc."
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "terminal-otn-protocol-config"
+                                },
+                                {
+                                    "@name": "terminal-otn-protocol-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "terminal-client-port-assignment-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for assigning physical client ports to\nlogical channels"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "index",
+                        "ns0:type": {
+                            "@name": "uint32"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Index of the client port assignment"
+                        }
+                    },
+                    {
+                        "@name": "description",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Descriptive name for the client port-to-logical channel\nmapping"
+                        }
+                    },
+                    {
+                        "@name": "logical-channel",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-opt-term:terminal-device/oc-opt-term:logical-channels/oc-opt-term:channel/oc-opt-term:index"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to the logical channel for this\nassignment"
+                        }
+                    },
+                    {
+                        "@name": "allocation",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "3"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "Gbps"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Allocation of the client physical port to the assigned\nlogical channel expressed in Gbps.  In most cases,\nthe full client physical port rate is assigned to a single\nlogical channel."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-client-port-assignment-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for assigning physical client ports\nto logical channels"
+                }
+            },
+            {
+                "@name": "terminal-client-port-assignment-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for the assigment of client physical ports\nto logical channels"
+                },
+                "ns0:container": {
+                    "@name": "logical-channel-assignments",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for client port to logical client\nmappings"
+                    },
+                    "ns0:list": {
+                        "@name": "assignment",
+                        "ns0:key": {
+                            "@value": "index"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of assignments to logical clients"
+                        },
+                        "ns0:leaf": {
+                            "@name": "index",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../config/index"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Reference to the index of this logical client\nassignment"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data for the logical client assignment"
+                                },
+                                "ns0:uses": {
+                                    "@name": "terminal-client-port-assignment-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data for the logical client\nassignment"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "terminal-client-port-assignment-config"
+                                    },
+                                    {
+                                        "@name": "terminal-client-port-assignment-state"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "@name": "terminal-logical-chan-assignment-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for assigning client logical channels\nto line-side tributaries"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "index",
+                        "ns0:type": {
+                            "@name": "uint32"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Index of the current logical client channel to tributary\nmapping"
+                        }
+                    },
+                    {
+                        "@name": "description",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Name assigned to the logical client channel"
+                        }
+                    },
+                    {
+                        "@name": "assignment-type",
+                        "ns0:type": {
+                            "@name": "enumeration",
+                            "ns0:enum": [
+                                {
+                                    "@name": "LOGICAL_CHANNEL",
+                                    "ns0:description": {
+                                        "ns0:text": "Subsequent channel is a logical channel"
+                                    }
+                                },
+                                {
+                                    "@name": "OPTICAL_CHANNEL",
+                                    "ns0:description": {
+                                        "ns0:text": "Subsequent channel is a optical channel / carrier"
+                                    }
+                                }
+                            ]
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Each logical channel element may be assigned to subsequent\nstages of logical elements to implement further grooming, or\ncan be assigned to a line-side optical channel for\ntransmission.  Each assignment also has an associated\nbandwidth allocation."
+                        }
+                    },
+                    {
+                        "@name": "logical-channel",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-opt-term:terminal-device/oc-opt-term:logical-channels/oc-opt-term:channel/oc-opt-term:index"
+                            }
+                        },
+                        "ns0:must": {
+                            "@condition": "../assignment-type = 'LOGICAL_CHANNEL'",
+                            "ns0:description": {
+                                "ns0:text": "The assignment-type must be set to LOGICAL_CHANNEL for\nthis leaf to be valid"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to another stage of logical channel elements."
+                        }
+                    },
+                    {
+                        "@name": "optical-channel",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:must": {
+                            "@condition": "../assignment-type = 'OPTICAL_CHANNEL'",
+                            "ns0:description": {
+                                "ns0:text": "The assignment-type must be set to OPTICAL_CHANNEL for\nthis leaf to be valid"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to the line-side optical channel that should\ncarry the current logical channel element.  Use this\nreference to exit the logical element stage."
+                        }
+                    },
+                    {
+                        "@name": "allocation",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "3"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "Gbps"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Allocation of the logical client channel to the tributary\nor sub-channel, expressed in Gbps. Please note that if the\nassignment is to an OTN logical channel, the allocation must\nbe an integer multiplication to tributary-slot-granularity\nof the OTN logical channel."
+                        }
+                    },
+                    {
+                        "@name": "tributary-slot-index",
+                        "ns0:type": {
+                            "@name": "int32"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Indicates the first tributary slot index allocated to the\nclient signal or logical channel in the assignment. Valid\nonly when the assignment is to an OTN logical channel."
+                        }
+                    },
+                    {
+                        "@name": "mapping",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "oc-opt-types:FRAME_MAPPING_PROTOCOL"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Logical channel mapping procedure. Valid only when the\nassignment is to an OTN logical channel."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-logical-chan-assignment-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for the assignment of logical client\nchannel to line-side tributary"
+                }
+            },
+            {
+                "@name": "terminal-logical-chan-assignment-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for the list of logical client channel-to-\ntributary assignments"
+                },
+                "ns0:container": {
+                    "@name": "logical-channel-assignments",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for tributary assignments"
+                    },
+                    "ns0:list": {
+                        "@name": "assignment",
+                        "ns0:key": {
+                            "@value": "index"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Logical channel elements may be assigned directly to\noptical channels for line-side transmission, or can be\nfurther groomed into additional stages of logical channel\nelements.  The grooming can multiplex (i.e., split the\ncurrent element into multiple elements in the subsequent\nstage) or de-multiplex (i.e., combine the current element\nwith other elements into the same element in the subsequent\nstage) logical elements in each stage.\n\nNote that to support the ability to groom the logical\nelements, the list of logical channel elements should be\npopulated with an entry for the logical elements at\neach stage, starting with the initial assignment from the\nrespective client physical port.\n\nEach logical element assignment consists of a pointer to\nan element in the next stage, or to an optical channel,\nalong with a bandwidth allocation for the corresponding\nassignment (e.g., to split or combine signal)."
+                        },
+                        "ns0:leaf": {
+                            "@name": "index",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../config/index"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Reference to the index for the current tributary\nassignment"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data for tributary assignments"
+                                },
+                                "ns0:uses": {
+                                    "@name": "terminal-logical-chan-assignment-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data for tributary assignments"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "terminal-logical-chan-assignment-config"
+                                    },
+                                    {
+                                        "@name": "terminal-logical-chan-assignment-state"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "@name": "terminal-logical-channel-ingress-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for ingress signal to logical channel"
+                },
+                "ns0:leaf": {
+                    "@name": "transceiver",
+                    "ns0:type": {
+                        "@name": "leafref",
+                        "ns0:path": {
+                            "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                        }
+                    },
+                    "ns0:description": {
+                        "ns0:text": "Reference to the transceiver carrying the input signal\nfor the logical channel.  If specific physical channels\nare mapped to the logical channel (as opposed to all\nphysical channels carried by the transceiver), they can be\nspecified in the list of physical channel references."
+                    }
+                },
+                "ns0:leaf-list": {
+                    "@name": "physical-channel",
+                    "ns0:type": {
+                        "@name": "leafref",
+                        "ns0:path": {
+                            "@value": "/oc-platform:components/oc-platform:component/oc-transceiver:transceiver/oc-transceiver:physical-channels/oc-transceiver:channel/oc-transceiver:index"
+                        }
+                    },
+                    "ns0:description": {
+                        "ns0:text": "This list should be populated with references\nto the client physical channels that feed this logical\nchannel from the transceiver specified in the 'transceiver'\nleaf, which must be specified.  If this leaf-list is empty,\nall physical channels in the transceiver are assumed to be\nmapped to the logical channel."
+                    }
+                }
+            },
+            {
+                "@name": "terminal-logical-channel-ingress-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for ingress signal to logical channel"
+                }
+            },
+            {
+                "@name": "terminal-logical-channel-ingress-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for ingress signal to logical channel"
+                },
+                "ns0:container": {
+                    "@name": "ingress",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for specifying references to the\nsource of signal for the logical channel, either a\ntransceiver or individual physical channels"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for the signal source for the\nlogical channel"
+                            },
+                            "ns0:uses": {
+                                "@name": "terminal-logical-channel-ingress-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for the signal source for the\nlogical channel"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "terminal-logical-channel-ingress-config"
+                                },
+                                {
+                                    "@name": "terminal-logical-channel-ingress-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "terminal-logical-channel-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for logical channels"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "index",
+                        "ns0:type": {
+                            "@name": "uint32"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Index of the current logical channel"
+                        }
+                    },
+                    {
+                        "@name": "description",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Description of the logical channel"
+                        }
+                    },
+                    {
+                        "@name": "admin-state",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:admin-state-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Sets the admin state of the logical channel"
+                        }
+                    },
+                    {
+                        "@name": "rate-class",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "oc-opt-types:TRIBUTARY_RATE_CLASS_TYPE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Rounded bit rate of the tributary signal. Exact bit rate\nwill be refined by protocol selection."
+                        }
+                    },
+                    {
+                        "@name": "trib-protocol",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "oc-opt-types:TRIBUTARY_PROTOCOL_TYPE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Protocol framing of the tributary signal. If this\nLogicalChannel is directly connected to a Client-Port or\nOptical-Channel, this is the protocol of the associated port.\nIf the LogicalChannel is connected to other LogicalChannels,\nthe TributaryProtocol of the LogicalChannels will define a\nspecific mapping/demapping or multiplexing/demultiplexing\nfunction.\n\nNot all protocols are valid, depending on the value\nof trib-rate-class.  The expectation is that the NMS\nwill validate that a correct combination of rate class\nand protocol are specfied.  Basic combinations are:\n\nrate class: 1G\nprotocols: 1GE\n\nrate class: 2.5G\nprotocols: OC48, STM16\n\nrate class: 10G\nprotocols:  10GE LAN, 10GE WAN, OC192, STM64, OTU2, OTU2e,\n           OTU1e, ODU2, ODU2e, ODU1e\n\nrate class: 40G\nprotocols:  40GE, OC768, STM256, OTU3, ODU3\n\nrate class: 100G\nprotocols:  100GE, 100G MLG, OTU4, OTUCn, ODU4"
+                        }
+                    },
+                    {
+                        "@name": "logical-channel-type",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "oc-opt-types:LOGICAL_ELEMENT_PROTOCOL_TYPE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The type / stage of the logical element determines the\nconfiguration and operational state parameters (PMs)\navailable for the logical element"
+                        }
+                    },
+                    {
+                        "@name": "loopback-mode",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:loopback-mode-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Sets the loopback type on the logical channel. Setting the\nmode to something besides NONE activates the loopback in\nthe specified mode."
+                        }
+                    },
+                    {
+                        "@name": "test-signal",
+                        "ns0:type": {
+                            "@name": "boolean"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "When enabled the logical channel's DSP will generate a pseudo\nrandmon bit stream (PRBS) which can be used during testing."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-logical-channel-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for logical client channels"
+                },
+                "ns0:leaf": {
+                    "@name": "link-state",
+                    "ns0:type": {
+                        "@name": "enumeration",
+                        "ns0:enum": [
+                            {
+                                "@name": "UP",
+                                "ns0:description": {
+                                    "ns0:text": "Logical channel is operationally up"
+                                }
+                            },
+                            {
+                                "@name": "DOWN",
+                                "ns0:description": {
+                                    "ns0:text": "Logical channel is operationally down"
+                                }
+                            },
+                            {
+                                "@name": "TESTING",
+                                "ns0:description": {
+                                    "ns0:text": "Logical channel is under test as a result of\nenabling test-signal"
+                                }
+                            }
+                        ]
+                    },
+                    "ns0:description": {
+                        "ns0:text": "Link-state of the Ethernet protocol on the logical channel,\nSONET / SDH framed signal, etc."
+                    }
+                }
+            },
+            {
+                "@name": "terminal-logical-channel-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for logical channels"
+                },
+                "ns0:container": {
+                    "@name": "logical-channels",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container the list of logical channels"
+                    },
+                    "ns0:list": {
+                        "@name": "channel",
+                        "ns0:key": {
+                            "@value": "index"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of logical channels"
+                        },
+                        "ns0:leaf": {
+                            "@name": "index",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../config/index"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Reference to the index of the logical channel"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data for logical channels"
+                                },
+                                "ns0:uses": {
+                                    "@name": "terminal-logical-channel-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data for logical channels"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "terminal-logical-channel-config"
+                                    },
+                                    {
+                                        "@name": "terminal-logical-channel-state"
+                                    }
+                                ]
+                            }
+                        ],
+                        "ns0:uses": [
+                            {
+                                "@name": "terminal-otn-protocol-top",
+                                "ns0:when": {
+                                    "@condition": "./config/logical-channel-type = 'PROT_OTN'",
+                                    "ns0:description": {
+                                        "ns0:text": "Include the OTN protocol data only when the\nchannel is using OTN framing."
+                                    }
+                                }
+                            },
+                            {
+                                "@name": "terminal-ethernet-protocol-top",
+                                "ns0:when": {
+                                    "@condition": "./config/logical-channel-type = 'PROT_ETHERNET'",
+                                    "ns0:description": {
+                                        "ns0:text": "Include the Ethernet protocol statistics only when the\nprotocol used by the link is Ethernet."
+                                    }
+                                }
+                            },
+                            {
+                                "@name": "terminal-logical-channel-ingress-top"
+                            },
+                            {
+                                "@name": "terminal-logical-chan-assignment-top"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "@name": "terminal-optical-channel-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for describing optical channels"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Frequency of the optical channel, expressed in MHz"
+                        }
+                    },
+                    {
+                        "@name": "target-output-power",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Target output optical power level of the optical channel,\nexpressed in increments of 0.01 dBm (decibel-milliwats)"
+                        }
+                    },
+                    {
+                        "@name": "operational-mode",
+                        "ns0:type": {
+                            "@name": "uint16"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Vendor-specific mode identifier -- sets the operational\nmode for the channel.  The specified operational mode must\nexist in the list of supported operational modes supplied\nby the device"
+                        }
+                    },
+                    {
+                        "@name": "line-port",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to the line-side physical port that carries\nthis optical channel.  The target port should be\na component in the physical inventory data model."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-optical-channel-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for optical channels"
+                },
+                "ns0:leaf": {
+                    "@name": "group-id",
+                    "ns0:type": {
+                        "@name": "uint32"
+                    },
+                    "ns0:description": {
+                        "ns0:text": "If the device places constraints on which optical\nchannels must be managed together (e.g., transmitted on the\nsame line port), it can indicate that by setting the group-id\nto the same value across related optical channels."
+                    }
+                },
+                "ns0:uses": {
+                    "@name": "oc-transceiver:optical-power-state"
+                },
+                "ns0:container": [
+                    {
+                        "@name": "chromatic-dispersion",
+                        "ns0:description": {
+                            "ns0:text": "Chromatic Dispersion of an optical channel in\npicoseconds / nanometer (ps/nm) as reported by receiver\nwith two decimal precision. Values include the instantaneous,\naverage, minimum, and maximum statistics. If avg/min/max\nstatistics are not supported, the target is expected to just\nsupply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-opt-types:avg-min-max-instant-stats-precision2-ps-nm"
+                        }
+                    },
+                    {
+                        "@name": "polarization-mode-dispersion",
+                        "ns0:description": {
+                            "ns0:text": "Polarization Mode Dispersion of an optical channel\nin picosends (ps) as reported by receiver with two decimal\nprecision. Values include the instantaneous, average,\nminimum, and maximum statistics. If avg/min/max statistics\nare not supported, the target is expected to just supply the\ninstant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-opt-types:avg-min-max-instant-stats-precision2-ps"
+                        }
+                    },
+                    {
+                        "@name": "second-order-polarization-mode-dispersion",
+                        "ns0:description": {
+                            "ns0:text": "Second Order Polarization Mode Dispersion of an optical\nchannel in picoseconds squared (ps^2) as reported by\nreceiver with two decimal precision. Values include the\ninstantaneous, average, minimum, and maximum statistics.\nIf avg/min/max statistics are not supported, the target\nis expected to just supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-opt-types:avg-min-max-instant-stats-precision2-ps2"
+                        }
+                    },
+                    {
+                        "@name": "polarization-dependent-loss",
+                        "ns0:description": {
+                            "ns0:text": "Polarization Dependent Loss of an optical channel\nin dB as reported by receiver with two decimal precision.\nValues include the instantaneous, average, minimum, and\nmaximum statistics. If avg/min/max statistics are not\nsupported, the target is expected to just supply the\ninstant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dB"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-optical-channel-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for optical channel data"
+                },
+                "ns0:container": {
+                    "@name": "optical-channel",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for the list of optical channels"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for optical channels"
+                            },
+                            "ns0:uses": {
+                                "@name": "terminal-optical-channel-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for optical channels"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "terminal-optical-channel-config"
+                                },
+                                {
+                                    "@name": "terminal-optical-channel-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "terminal-operational-mode-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for vendor-supported operational modes"
+                }
+            },
+            {
+                "@name": "terminal-operational-mode-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for vendor-supported operational\nmodes"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "mode-id",
+                        "ns0:type": {
+                            "@name": "uint16"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Two-octet encoding of the vendor-defined operational\nmode"
+                        }
+                    },
+                    {
+                        "@name": "description",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Vendor-supplied textual description of the characteristics\nof this operational mode to enable operators to select the\nappropriate mode for the application."
+                        }
+                    },
+                    {
+                        "@name": "vendor-id",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Identifier to represent the vendor / supplier of the\nplatform and the associated operational mode information"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "terminal-operational-mode-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for vendor-supported operational modes"
+                },
+                "ns0:container": {
+                    "@name": "operational-modes",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for list of operational modes"
+                    },
+                    "ns0:list": {
+                        "@name": "mode",
+                        "ns0:key": {
+                            "@value": "mode-id"
+                        },
+                        "ns0:config": {
+                            "@value": "false"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of operational modes supported by the platform.\nThe operational mode provides a platform-defined summary\nof information such as symbol rate, modulation, pulse\nshaping, etc."
+                        },
+                        "ns0:leaf": {
+                            "@name": "mode-id",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../state/mode-id"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Reference to mode-id"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data for operational mode"
+                                },
+                                "ns0:uses": {
+                                    "@name": "terminal-operational-mode-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data for the platform-defined\noperational mode"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "terminal-operational-mode-config"
+                                    },
+                                    {
+                                        "@name": "terminal-operational-mode-state"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "@name": "terminal-device-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for transport terminal devices at a\ndevice-wide level"
+                }
+            },
+            {
+                "@name": "terminal-device-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for transport terminal devices at a\ndevice-wide level"
+                }
+            },
+            {
+                "@name": "terminal-device-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for data for terminal devices"
+                },
+                "ns0:container": {
+                    "@name": "terminal-device",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for the terminal device"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for global terminal-device"
+                            },
+                            "ns0:uses": {
+                                "@name": "terminal-device-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for global terminal device"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "terminal-device-config"
+                                },
+                                {
+                                    "@name": "terminal-device-state"
+                                }
+                            ]
+                        }
+                    ],
+                    "ns0:uses": [
+                        {
+                            "@name": "terminal-logical-channel-top"
+                        },
+                        {
+                            "@name": "terminal-operational-mode-top"
+                        }
+                    ]
+                }
+            }
+        ],
+        "ns0:uses": {
+            "@name": "terminal-device-top"
+        },
+        "ns0:augment": {
+            "@target-node": "/oc-platform:components/oc-platform:component",
+            "ns0:description": {
+                "ns0:text": "Adding optical channel data to physical inventory. This\naugmentation is only valid when the type of the component\nis OPTICAL_CHANNEL."
+            },
+            "ns0:uses": {
+                "@name": "terminal-optical-channel-top"
+            }
+        }
+    }
+}

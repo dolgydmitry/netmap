@@ -1,0 +1,855 @@
+{
+    "ns0:module": {
+        "@xmlns:ns0": "urn:ietf:params:xml:ns:yang:yin:1",
+        "@xmlns:ns1": "http://openconfig.net/yang/openconfig-ext",
+        "@name": "openconfig-wavelength-router",
+        "ns0:yang-version": {
+            "@value": "1"
+        },
+        "ns0:namespace": {
+            "@uri": "http://openconfig.net/yang/wavelength-router"
+        },
+        "ns0:prefix": {
+            "@value": "oc-wave-router"
+        },
+        "ns0:import": [
+            {
+                "@module": "openconfig-extensions",
+                "ns0:prefix": {
+                    "@value": "oc-ext"
+                }
+            },
+            {
+                "@module": "openconfig-platform",
+                "ns0:prefix": {
+                    "@value": "oc-platform"
+                }
+            },
+            {
+                "@module": "openconfig-transport-types",
+                "ns0:prefix": {
+                    "@value": "oc-opt-types"
+                }
+            }
+        ],
+        "ns0:organization": {
+            "ns0:text": "OpenConfig working group"
+        },
+        "ns0:contact": {
+            "ns0:text": "OpenConfig working group\n www.openconfig.net"
+        },
+        "ns0:description": {
+            "ns0:text": "This model describes configuration and operational state data\nfor an optical transport line system node, or ROADM (incl. CDC\nROADMs, WSS, Dynamic Gain Equalizer/DGE).\n\nNodes are modeled as a configurable switching element with\ningress and egress ports, as well as a number of add/drop ports\nthat can be set up to direct portions of the optical spectrum\nto the appropriate degrees.\n\nIn relation to configuring target spectrum powers, there\nare two, non-overlapping, configuration possibilities that are\nsupported.\n1. Non-noise loaded wavelength router:\n  - The target spectrum powers are configured on each media\n    channel.\n2. Noise-loaded wavelength router:\n  - The target spectrum power values will be configured as a\n    target spectrum power profile over the full spectrum instead\n    of individual media channels."
+        },
+        "ns1:openconfig-version": {
+            "@semver": "1.0.0"
+        },
+        "ns0:revision": [
+            {
+                "@date": "2020-08-28",
+                "ns0:description": {
+                    "ns0:text": "Add ase-injection-delta-threshold leaf."
+                },
+                "ns0:reference": {
+                    "ns0:text": "1.0.0"
+                }
+            },
+            {
+                "@date": "2020-06-03",
+                "ns0:description": {
+                    "ns0:text": "Add attenutation-control-mode to media channel config"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.8.0"
+                }
+            },
+            {
+                "@date": "2019-10-24",
+                "ns0:description": {
+                    "ns0:text": "Migrate from using power spectral densisty to using power\ntarget values"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.7.0"
+                }
+            },
+            {
+                "@date": "2019-09-20",
+                "ns0:description": {
+                    "ns0:text": "Add ASE related state and config. Also add a super channel\nparent leaf"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.6.0"
+                }
+            },
+            {
+                "@date": "2019-06-03",
+                "ns0:description": {
+                    "ns0:text": "PSD profile top-level description and\nport changed to a leafref."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.5.0"
+                }
+            },
+            {
+                "@date": "2019-04-03",
+                "ns0:description": {
+                    "ns0:text": "Add port PSD profile modeling."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.4.0"
+                }
+            },
+            {
+                "@date": "2018-11-21",
+                "ns0:description": {
+                    "ns0:text": "Add OpenConfig module metadata extensions."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.3"
+                }
+            },
+            {
+                "@date": "2018-07-17",
+                "ns0:description": {
+                    "ns0:text": "Correct bug so that source/dest ports are components"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.2"
+                }
+            },
+            {
+                "@date": "2017-09-08",
+                "ns0:description": {
+                    "ns0:text": "Correct bug with OSC interfaces"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.1"
+                }
+            },
+            {
+                "@date": "2017-07-08",
+                "ns0:description": {
+                    "ns0:text": "Support multiple OCMs, add monitor port type\nand refs to hw ports,"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.0"
+                }
+            },
+            {
+                "@date": "2017-03-28",
+                "ns0:description": {
+                    "ns0:text": "Added min/max/avg stats, status for media channels, OCM, APS"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.2.0"
+                }
+            },
+            {
+                "@date": "2016-03-31",
+                "ns0:description": {
+                    "ns0:text": "Initial public release"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.1.0"
+                }
+            }
+        ],
+        "ns1:regexp-posix": null,
+        "ns1:catalog-organization": {
+            "@org": "openconfig"
+        },
+        "ns1:origin": {
+            "@origin": "openconfig"
+        },
+        "ns0:identity": [
+            {
+                "@name": "ATTENUATION_CONTROL_MODE",
+                "ns0:description": {
+                    "ns0:text": "The definition for different types of attenutation control\nmodes on a media channel"
+                }
+            },
+            {
+                "@name": "ATTENUATION_FIXED_LOSS",
+                "ns0:base": {
+                    "@name": "ATTENUATION_CONTROL_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "The attenuation applied across a media channel will be\ncalculated based on the target input and output powers as well\nas the internal losses of the wavelength router. The target\npower levels are configured using port-spectrum-power-profiles\nof the two ports"
+                }
+            },
+            {
+                "@name": "ATTENUATION_DYNAMIC_LOSS",
+                "ns0:base": {
+                    "@name": "ATTENUATION_CONTROL_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "The attenuation applied across a media channel is dynamically\ncontrolled by the device by attempting to meet the target output\npower as defined in the output port's\nport-spectrum-power-profile"
+                }
+            },
+            {
+                "@name": "ASE_CONTROL_MODE",
+                "ns0:description": {
+                    "ns0:text": "The definition for different types of ASE control modes\non a media channel"
+                }
+            },
+            {
+                "@name": "ASE_ENABLED",
+                "ns0:base": {
+                    "@name": "ASE_CONTROL_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "The media channel will immediately have ASE noise injected"
+                }
+            },
+            {
+                "@name": "ASE_DISABLED",
+                "ns0:base": {
+                    "@name": "ASE_CONTROL_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Removes any ASE noise injection that may be present on the\nmedia channel"
+                }
+            },
+            {
+                "@name": "AUTO_ASE_ON_FAILURE",
+                "ns0:base": {
+                    "@name": "ASE_CONTROL_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "The media channel will automatically be injected with noise\nif the media channel target spectrum power drops below the\nprovided threshdold. In this mode, at time of a failure, the\nmedia channel is removed from the system and would need to be\nreconfigured to restore traffic. In addition, unprovisioned\nspectrum will be injected with noise"
+                }
+            },
+            {
+                "@name": "AUTO_ASE_FAILURE_AND_RESTORE",
+                "ns0:base": {
+                    "@name": "ASE_CONTROL_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "The media channel will automatically be injected with noise\nif the media channel target spectrum power drops below the\nprovided threshold. When the original signal is restored above\nthe threshold the ASE noise injection will be automatically\nremoved. In addition, unprovisioned spectrum will be injected\nwith noise"
+                }
+            }
+        ],
+        "ns0:grouping": [
+            {
+                "@name": "port-spectrum-power-profile-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for a wavelength-router\nport spectrum profile"
+                }
+            },
+            {
+                "@name": "port-spectrum-power-profile-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for a wavelength-router port spectrum\nprofile"
+                },
+                "ns0:leaf": {
+                    "@name": "name",
+                    "ns0:type": {
+                        "@name": "leafref",
+                        "ns0:path": {
+                            "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                        }
+                    },
+                    "ns0:description": {
+                        "ns0:text": "Reference to system-supplied name of the wavelength-router\nport component."
+                    }
+                }
+            },
+            {
+                "@name": "port-spectrum-power-profiles-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for the list of wavelength-router port\nspectrum power profiles"
+                },
+                "ns0:container": {
+                    "@name": "port-spectrum-power-profiles",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for wavelength-router port spectrum\npower profiles"
+                    },
+                    "ns0:list": {
+                        "@name": "port",
+                        "ns0:key": {
+                            "@value": "name"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of ports, keyed by port name"
+                        },
+                        "ns0:leaf": {
+                            "@name": "name",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../config/name"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "References the port name"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data for each port"
+                                },
+                                "ns0:uses": {
+                                    "@name": "port-spectrum-power-profile-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data for each port spectrum profile."
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "port-spectrum-power-profile-config"
+                                    },
+                                    {
+                                        "@name": "port-spectrum-power-profile-state"
+                                    }
+                                ]
+                            }
+                        ],
+                        "ns0:uses": {
+                            "@name": "spectrum-target-power-profiles-top"
+                        }
+                    }
+                }
+            },
+            {
+                "@name": "media-channel-port-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for a media channel source/dest port"
+                },
+                "ns0:leaf": {
+                    "@name": "port-name",
+                    "ns0:type": {
+                        "@name": "leafref",
+                        "ns0:path": {
+                            "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                        }
+                    },
+                    "ns0:description": {
+                        "ns0:text": "Reference to the corresponding node port"
+                    }
+                }
+            },
+            {
+                "@name": "media-channel-port-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for a media channel source/dest port"
+                }
+            },
+            {
+                "@name": "media-channel-source-port-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for source of the media channel"
+                },
+                "ns0:container": {
+                    "@name": "source",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for media channel source"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for the media channel source"
+                            },
+                            "ns0:uses": {
+                                "@name": "media-channel-port-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for the media channel source"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "media-channel-port-config"
+                                },
+                                {
+                                    "@name": "media-channel-port-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "media-channel-dest-port-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for destination of the media channel"
+                },
+                "ns0:container": {
+                    "@name": "dest",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for media channel destination"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for the media channel destination"
+                            },
+                            "ns0:uses": {
+                                "@name": "media-channel-port-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for the media channel destination"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "media-channel-port-config"
+                                },
+                                {
+                                    "@name": "media-channel-port-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "spectrum-target-power-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for the media channel target power"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "lower-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Lower frequency of the specified target spectrum power"
+                        }
+                    },
+                    {
+                        "@name": "upper-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Upper frequency of the specified target spectrum power"
+                        }
+                    },
+                    {
+                        "@name": "target-power",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Target average power to achieve within the specified\nspectrum"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "spectrum-target-power-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for the target spectrum power"
+                }
+            },
+            {
+                "@name": "spectrum-target-power-profiles-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for target spectrum profiles"
+                },
+                "ns0:container": {
+                    "@name": "spectrum-power-profile",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for the list of values describing\nthe target spectrum powers"
+                    },
+                    "ns0:list": {
+                        "@name": "distribution",
+                        "ns0:key": {
+                            "@value": "lower-frequency upper-frequency"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of tuples describing the target spectrum power\ndistribution"
+                        },
+                        "ns0:leaf": [
+                            {
+                                "@name": "lower-frequency",
+                                "ns0:type": {
+                                    "@name": "leafref",
+                                    "ns0:path": {
+                                        "@value": "../config/lower-frequency"
+                                    }
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Reference to the list key"
+                                }
+                            },
+                            {
+                                "@name": "upper-frequency",
+                                "ns0:type": {
+                                    "@name": "leafref",
+                                    "ns0:path": {
+                                        "@value": "../config/upper-frequency"
+                                    }
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Reference to the list key"
+                                }
+                            }
+                        ],
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data for target spectrum power"
+                                },
+                                "ns0:uses": {
+                                    "@name": "spectrum-target-power-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data for target spectrum power"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "spectrum-target-power-config"
+                                    },
+                                    {
+                                        "@name": "spectrum-target-power-state"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "@name": "media-channel-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for media channel definitions"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "index",
+                        "ns0:type": {
+                            "@name": "uint32"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Identifier for the defined media channel"
+                        }
+                    },
+                    {
+                        "@name": "name",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The user supplied name of the media channel"
+                        }
+                    },
+                    {
+                        "@name": "lower-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The lower frequency for the spectrum defined by this media\nchannel"
+                        }
+                    },
+                    {
+                        "@name": "upper-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The upper frequency for the spectrum defined by this media\nchannel"
+                        }
+                    },
+                    {
+                        "@name": "admin-status",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:admin-state-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Sets the admin status of the media channel"
+                        }
+                    },
+                    {
+                        "@name": "super-channel",
+                        "ns0:type": {
+                            "@name": "boolean"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "True if the media channel is a super channel which\ncontains multiple media channels within it. The contained\nmedia channels should fall within the boundaries of the\nsuper channel. The device should raise an error if a media\nchannel crosses a super channel boundary. When using super\nchannels, spectrum power targets should be defined in either\nthe:\n- port-spectrum-power-profiles for the port which matches the\n  source port of the media channel representing the super\n  channel\n- media channels that are contained within the super\n  channel, but not on the super channel itself"
+                        }
+                    },
+                    {
+                        "@name": "super-channel-parent",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "../../../channel/config/index"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "If the media channel is contained within a super channel this\nwould specify the index of the super channel parent"
+                        }
+                    },
+                    {
+                        "@name": "ase-control-mode",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "ASE_CONTROL_MODE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Sets the ASE control mode for the media channel.\nThe control mode defines if and when ASE noise is injected\non the media channel"
+                        }
+                    },
+                    {
+                        "@name": "ase-injection-mode",
+                        "ns0:type": {
+                            "@name": "enumeration",
+                            "ns0:enum": [
+                                {
+                                    "@name": "MODE_THRESHOLD",
+                                    "ns0:description": {
+                                        "ns0:text": "When set ASE noise will be injected when a defined\nthreshold is crossed."
+                                    }
+                                },
+                                {
+                                    "@name": "MODE_DELTA",
+                                    "ns0:description": {
+                                        "ns0:text": "When set ASE noise will be injected when a defined\ndelta in optical power occurs."
+                                    }
+                                }
+                            ]
+                        },
+                        "ns0:description": {
+                            "ns0:text": "When specified, defines the mode used to determine whether\nASE noise should be injected on the media channel."
+                        }
+                    },
+                    {
+                        "@name": "ase-injection-threshold",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:when": {
+                            "@condition": "../ase-injection-mode = 'MODE_THRESHOLD'"
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Defines the optical power threshold value below which ASE\nnoise should be injected on the media channel. This or\nase-injection-delta is required if an ase-control-mode is\nconfigured"
+                        }
+                    },
+                    {
+                        "@name": "ase-injection-delta",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:when": {
+                            "@condition": "../ase-injection-mode = 'MODE_DELTA'"
+                        },
+                        "ns0:units": {
+                            "@name": "dB"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Defines the optical power loss from the configured spectrum\npower profile, which would indicate that ASE noise should be\ninjected on the media channel. This or\nase-injection-threshold is required if an ase-control-mode\nis configured"
+                        }
+                    },
+                    {
+                        "@name": "attenuation-control-mode",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "ATTENUATION_CONTROL_MODE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Sets the attenuation control mode for the media channel.\nThe control mode defines the behavior of how the attenuation\nacross a media channel is set"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "media-channel-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for media channels"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "oper-status",
+                        "ns0:type": {
+                            "@name": "enumeration",
+                            "ns0:enum": [
+                                {
+                                    "@name": "UP",
+                                    "ns0:description": {
+                                        "ns0:text": "Media channel is operationally up"
+                                    }
+                                },
+                                {
+                                    "@name": "DOWN",
+                                    "ns0:description": {
+                                        "ns0:text": "Media channel is operationally down"
+                                    }
+                                }
+                            ]
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Operational state of the media channel"
+                        }
+                    },
+                    {
+                        "@name": "ase-status",
+                        "ns0:type": {
+                            "@name": "enumeration",
+                            "ns0:enum": [
+                                {
+                                    "@name": "PRESENT",
+                                    "ns0:description": {
+                                        "ns0:text": "Media channel has injected ASE noise present"
+                                    }
+                                },
+                                {
+                                    "@name": "NOT_PRESENT",
+                                    "ns0:description": {
+                                        "ns0:text": "Media channel does not have injected ASE noise present"
+                                    }
+                                }
+                            ]
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Status of injected ASE noise on the media channel"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "media-channel-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for list of defined media channels"
+                },
+                "ns0:container": {
+                    "@name": "media-channels",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for media channel list"
+                    },
+                    "ns0:list": {
+                        "@name": "channel",
+                        "ns0:key": {
+                            "@value": "index"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of media channels"
+                        },
+                        "ns0:leaf": {
+                            "@name": "index",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../config/index"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Reference to index number of the media channel"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data"
+                                },
+                                "ns0:uses": {
+                                    "@name": "media-channel-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "media-channel-config"
+                                    },
+                                    {
+                                        "@name": "media-channel-state"
+                                    }
+                                ]
+                            }
+                        ],
+                        "ns0:uses": [
+                            {
+                                "@name": "media-channel-source-port-top"
+                            },
+                            {
+                                "@name": "media-channel-dest-port-top"
+                            },
+                            {
+                                "@name": "spectrum-target-power-profiles-top"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "@name": "wavelength-router-top",
+                "ns0:description": {
+                    "ns0:text": "Top level grouping for the wavelength router"
+                },
+                "ns0:container": {
+                    "@name": "wavelength-router",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for wavelength router device"
+                    },
+                    "ns0:uses": [
+                        {
+                            "@name": "media-channel-top"
+                        },
+                        {
+                            "@name": "port-spectrum-power-profiles-top"
+                        }
+                    ]
+                }
+            }
+        ],
+        "ns0:uses": {
+            "@name": "wavelength-router-top"
+        }
+    }
+}

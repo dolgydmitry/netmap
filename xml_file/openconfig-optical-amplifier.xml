@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="openconfig-optical-amplifier"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:oc-opt-amp="http://openconfig.net/yang/optical-amplfier"
+        xmlns:oc-platform="http://openconfig.net/yang/platform"
+        xmlns:oc-line-com="http://openconfig.net/yang/transport-line-common"
+        xmlns:oc-types="http://openconfig.net/yang/openconfig-types"
+        xmlns:oc-ext="http://openconfig.net/yang/openconfig-ext">
+  <yang-version value="1"/>
+  <namespace uri="http://openconfig.net/yang/optical-amplfier"/>
+  <prefix value="oc-opt-amp"/>
+  <import module="openconfig-platform">
+    <prefix value="oc-platform"/>
+  </import>
+  <import module="openconfig-transport-line-common">
+    <prefix value="oc-line-com"/>
+  </import>
+  <import module="openconfig-types">
+    <prefix value="oc-types"/>
+  </import>
+  <import module="openconfig-extensions">
+    <prefix value="oc-ext"/>
+  </import>
+  <organization>
+    <text>OpenConfig working group</text>
+  </organization>
+  <contact>
+    <text>OpenConfig working group
+www.openconfig.net</text>
+  </contact>
+  <description>
+    <text>This model describes configuration and operational state data
+for optical amplifiers, deployed as part of a transport
+line system.</text>
+  </description>
+  <oc-ext:openconfig-version semver="0.5.0"/>
+  <revision date="2019-12-06">
+    <description>
+      <text>Add DYNAMIC_GAIN mode and related leaves.</text>
+    </description>
+    <reference>
+      <text>0.5.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-11-21">
+    <description>
+      <text>Add OpenConfig module metadata extensions.</text>
+    </description>
+    <reference>
+      <text>0.4.1</text>
+    </reference>
+  </revision>
+  <revision date="2017-10-02">
+    <description>
+      <text>Add support for fiber type profile and physical component
+association for amplifier gain blocks.</text>
+    </description>
+    <reference>
+      <text>0.4.0</text>
+    </reference>
+  </revision>
+  <revision date="2017-09-08">
+    <description>
+      <text>Correct bug with OSC interfaces</text>
+    </description>
+    <reference>
+      <text>0.3.1</text>
+    </reference>
+  </revision>
+  <revision date="2017-07-08">
+    <description>
+      <text>Add monitor port type and refs to hw ports, </text>
+    </description>
+    <reference>
+      <text>0.3.0</text>
+    </reference>
+  </revision>
+  <revision date="2017-03-28">
+    <description>
+      <text>Added min/max/avg stats, status for media channels, OCM, APS</text>
+    </description>
+    <reference>
+      <text>0.2.0</text>
+    </reference>
+  </revision>
+  <revision date="2016-03-31">
+    <description>
+      <text>Initial public release</text>
+    </description>
+    <reference>
+      <text>0.1.0</text>
+    </reference>
+  </revision>
+  <oc-ext:regexp-posix/>
+  <oc-ext:catalog-organization org="openconfig"/>
+  <oc-ext:origin origin="openconfig"/>
+  <identity name="OPTICAL_AMPLIFIER_TYPE">
+    <description>
+      <text>Type definition for different types of optical amplifiers</text>
+    </description>
+  </identity>
+  <identity name="EDFA">
+    <base name="OPTICAL_AMPLIFIER_TYPE"/>
+    <description>
+      <text>Erbium doped fiber amplifer (EDFA)</text>
+    </description>
+  </identity>
+  <identity name="FORWARD_RAMAN">
+    <base name="OPTICAL_AMPLIFIER_TYPE"/>
+    <description>
+      <text>Forward pumping Raman amplifier</text>
+    </description>
+  </identity>
+  <identity name="BACKWARD_RAMAN">
+    <base name="OPTICAL_AMPLIFIER_TYPE"/>
+    <description>
+      <text>Backward pumping Raman amplifier</text>
+    </description>
+  </identity>
+  <identity name="HYBRID">
+    <base name="OPTICAL_AMPLIFIER_TYPE"/>
+    <description>
+      <text>Hybrid backward pumping Raman + EDFA amplifier</text>
+    </description>
+  </identity>
+  <identity name="GAIN_RANGE">
+    <description>
+      <text>Base type for expressing the gain range for a switched gain
+amplifier.  The gain range is expressed as a generic setting,
+e.g., LOW/MID/HIGH. The actual db range will be determined
+by the implementation.</text>
+    </description>
+  </identity>
+  <identity name="LOW_GAIN_RANGE">
+    <base name="GAIN_RANGE"/>
+    <description>
+      <text>LOW gain range setting</text>
+    </description>
+  </identity>
+  <identity name="MID_GAIN_RANGE">
+    <base name="GAIN_RANGE"/>
+    <description>
+      <text>MID gain range setting</text>
+    </description>
+  </identity>
+  <identity name="HIGH_GAIN_RANGE">
+    <base name="GAIN_RANGE"/>
+    <description>
+      <text>HIGH gain range setting</text>
+    </description>
+  </identity>
+  <identity name="FIXED_GAIN_RANGE">
+    <base name="GAIN_RANGE"/>
+    <description>
+      <text>Fixed or non-switched gain amplfier</text>
+    </description>
+  </identity>
+  <identity name="OPTICAL_AMPLIFIER_MODE">
+    <description>
+      <text>Type definition for different types of optical amplifier
+operating modes</text>
+    </description>
+  </identity>
+  <identity name="CONSTANT_POWER">
+    <base name="OPTICAL_AMPLIFIER_MODE"/>
+    <description>
+      <text>Constant power mode. In constant power mode, the amplifier
+will maintain a constant output power by adjusting the
+amplifier gain and/or related variable optical attenuators</text>
+    </description>
+  </identity>
+  <identity name="CONSTANT_GAIN">
+    <base name="OPTICAL_AMPLIFIER_MODE"/>
+    <description>
+      <text>Constant gain mode. In constant gain mode, the amplifier
+will maintain a constant amplifier gain</text>
+    </description>
+  </identity>
+  <identity name="DYNAMIC_GAIN">
+    <base name="OPTICAL_AMPLIFIER_MODE"/>
+    <description>
+      <text>Dynamic gain mode. In dynamic gain mode, the amplifier will
+automatically adjust gain to stay within parameters defined
+by:
+- target-gain
+- min-gain
+- max-gain</text>
+    </description>
+  </identity>
+  <identity name="FIBER_TYPE_PROFILE">
+    <description>
+      <text>Type definition for different profiles of fiber types</text>
+    </description>
+  </identity>
+  <identity name="DSF">
+    <base name="FIBER_TYPE_PROFILE"/>
+    <description>
+      <text>Dispersion shifted fiber</text>
+    </description>
+  </identity>
+  <identity name="LEAF">
+    <base name="FIBER_TYPE_PROFILE"/>
+    <description>
+      <text>Large effective area fiber</text>
+    </description>
+  </identity>
+  <identity name="SSMF">
+    <base name="FIBER_TYPE_PROFILE"/>
+    <description>
+      <text>Standard single mode fiber</text>
+    </description>
+  </identity>
+  <identity name="TWC">
+    <base name="FIBER_TYPE_PROFILE"/>
+    <description>
+      <text>True wave classic</text>
+    </description>
+  </identity>
+  <identity name="TWRS">
+    <base name="FIBER_TYPE_PROFILE"/>
+    <description>
+      <text>True wave reduced slope</text>
+    </description>
+  </identity>
+  <grouping name="optical-amplifier-config">
+    <description>
+      <text>Configuration data for optical amplifiers</text>
+    </description>
+    <leaf name="name">
+      <type name="string"/>
+      <description>
+        <text>User-defined name assigned to identify a specific amplifier
+in the device</text>
+      </description>
+    </leaf>
+    <leaf name="type">
+      <type name="identityref">
+        <base name="OPTICAL_AMPLIFIER_TYPE"/>
+      </type>
+      <description>
+        <text>Type of the amplifier</text>
+      </description>
+    </leaf>
+    <leaf name="target-gain">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+        <range value="0..max"/>
+      </type>
+      <units name="dB"/>
+      <description>
+        <text>Positive gain applied by the amplifier. This is used
+when the amp-mode is in CONSTANT_GAIN or DYNAMIC_GAIN
+mode to set the target gain that the amplifier should
+achieve.</text>
+      </description>
+    </leaf>
+    <leaf name="min-gain">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>The minimum allowed gain of the amplifier. This is used
+when the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode
+to prevent the gain from dropping below a desired threshold.
+If left empty, the platform will apply a minimum gain based
+on hardware specifications.</text>
+      </description>
+    </leaf>
+    <leaf name="max-gain">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>The maximum allowed gain of the amplifier. This is used
+when the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode
+to prevent the gain from exceeding a desired threshold. If
+left empty, the platform will apply a maximum gain based on
+hardware specifications.</text>
+      </description>
+    </leaf>
+    <leaf name="target-gain-tilt">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dB"/>
+      <description>
+        <text>Gain tilt control</text>
+      </description>
+    </leaf>
+    <leaf name="gain-range">
+      <type name="identityref">
+        <base name="GAIN_RANGE"/>
+      </type>
+      <description>
+        <text>Selected gain range.  The gain range is a platform-defined
+value indicating the switched gain amplifier setting</text>
+      </description>
+    </leaf>
+    <leaf name="amp-mode">
+      <type name="identityref">
+        <base name="OPTICAL_AMPLIFIER_MODE"/>
+      </type>
+      <description>
+        <text>The operating mode of the amplifier</text>
+      </description>
+    </leaf>
+    <leaf name="target-output-power">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>Output optical power of the amplifier.</text>
+      </description>
+    </leaf>
+    <leaf name="max-output-power">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>The maximum optical output power of the amplifier. This
+may be used to prevent the output power from exceeding a
+desired threshold.</text>
+      </description>
+    </leaf>
+    <leaf name="enabled">
+      <type name="boolean"/>
+      <description>
+        <text>Turns power on / off to the amplifiers gain module.</text>
+      </description>
+    </leaf>
+    <leaf name="fiber-type-profile">
+      <type name="identityref">
+        <base name="FIBER_TYPE_PROFILE"/>
+      </type>
+      <description>
+        <text>The fiber type profile specifies details about the
+fiber type which are needed to accurately determine
+the gain and perform efficient amplification. This is
+only needed for Raman type amplifiers.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="optical-amplifier-state">
+    <description>
+      <text>Operational state data for optical amplifiers</text>
+    </description>
+    <leaf name="component">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to the system-supplied physical component that
+the amplifier gain block is contained within. Multiple
+amplifier gain blocks may be contained within the same
+physical component.</text>
+      </description>
+    </leaf>
+    <leaf name="ingress-port">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to system-supplied name of the amplifier ingress
+port. This leaf is only valid for ports of type INGRESS.</text>
+      </description>
+    </leaf>
+    <leaf name="egress-port">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to system-supplied name of the amplifier egress
+port. This leaf is only valid for ports of type EGRESS.</text>
+      </description>
+    </leaf>
+    <container name="actual-gain">
+      <description>
+        <text>The actual gain applied by the amplifier in units of
+0.01dB. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dB"/>
+    </container>
+    <container name="actual-gain-tilt">
+      <description>
+        <text>The actual tilt applied by the amplifier in units of
+0.01dB. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dB"/>
+    </container>
+    <container name="input-power-total">
+      <description>
+        <text>The total input optical power of this port in units
+of 0.01dBm. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+    <container name="input-power-c-band">
+      <description>
+        <text>The C band (consisting of approximately 191 to 195 THz or
+1530nm to 1565 nm) input optical power of this port in units
+of 0.01dBm. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+    <container name="input-power-l-band">
+      <description>
+        <text>The L band (consisting of approximately 184 to 191 THz or
+1565 to 1625 nm) input optical power of this port in units
+of 0.01dBm. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+    <container name="output-power-total">
+      <description>
+        <text>The total output optical power of this port in units
+of 0.01dBm. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+    <container name="output-power-c-band">
+      <description>
+        <text>The C band (consisting of approximately 191 to 195 THz or
+1530nm to 1565 nm)output optical power of this port in units
+of 0.01dBm. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+    <container name="output-power-l-band">
+      <description>
+        <text>The L band (consisting of approximately 184 to 191 THz or
+1565 to 1625 nm)output optical power of this port in units
+of 0.01dBm. If avg/min/max statistics are not supported,
+just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+    <container name="laser-bias-current">
+      <description>
+        <text>The current applied by the system to the transmit laser to
+achieve the output power. The current is expressed in mA
+with up to two decimal precision. If avg/min/max statistics
+are not supported, just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-mA"/>
+    </container>
+    <container name="optical-return-loss">
+      <description>
+        <text>The optical return loss (ORL) is the ratio of the light
+reflected back into the port to the light launched out of
+the port. ORL is in units of 0.01dBm. If avg/min/max
+statistics are not supported, just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dBm"/>
+    </container>
+  </grouping>
+  <grouping name="optical-amplifier-top">
+    <description>
+      <text>Top-level grouping for optical amplifier data</text>
+    </description>
+    <container name="optical-amplifier">
+      <description>
+        <text>Enclosing container for amplifiers and supervisory channels</text>
+      </description>
+      <container name="amplifiers">
+        <description>
+          <text>Enclosing container for list of amplifiers</text>
+        </description>
+        <list name="amplifier">
+          <key value="name"/>
+          <description>
+            <text>List of optical amplifiers present in the device</text>
+          </description>
+          <leaf name="name">
+            <type name="leafref">
+              <path value="../config/name"/>
+            </type>
+            <description>
+              <text>Reference to the name of the amplifier</text>
+            </description>
+          </leaf>
+          <container name="config">
+            <description>
+              <text>Configuration data for the amplifier</text>
+            </description>
+            <uses name="optical-amplifier-config"/>
+          </container>
+          <container name="state">
+            <config value="false"/>
+            <description>
+              <text>Operational state data for the amplifier</text>
+            </description>
+            <uses name="optical-amplifier-config"/>
+            <uses name="optical-amplifier-state"/>
+          </container>
+        </list>
+      </container>
+      <container name="supervisory-channels">
+        <description>
+          <text>Enclosing container for list of supervisory channels</text>
+        </description>
+        <list name="supervisory-channel">
+          <key value="interface"/>
+          <description>
+            <text>List of supervisory channels</text>
+          </description>
+          <leaf name="interface">
+            <type name="leafref">
+              <path value="../config/interface"/>
+            </type>
+            <description>
+              <text>Reference to the interface of the supervisory channel</text>
+            </description>
+          </leaf>
+          <uses name="oc-line-com:optical-osc-top"/>
+        </list>
+      </container>
+    </container>
+  </grouping>
+  <uses name="optical-amplifier-top"/>
+</module>

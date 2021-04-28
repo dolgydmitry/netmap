@@ -1,0 +1,463 @@
+{
+    "ns0:module": {
+        "@xmlns:ns0": "urn:ietf:params:xml:ns:yang:yin:1",
+        "@xmlns:ns1": "http://openconfig.net/yang/openconfig-ext",
+        "@name": "openconfig-channel-monitor",
+        "ns0:yang-version": {
+            "@value": "1"
+        },
+        "ns0:namespace": {
+            "@uri": "http://openconfig.net/yang/channel-monitor"
+        },
+        "ns0:prefix": {
+            "@value": "oc-chan-monitor"
+        },
+        "ns0:import": [
+            {
+                "@module": "openconfig-extensions",
+                "ns0:prefix": {
+                    "@value": "oc-ext"
+                }
+            },
+            {
+                "@module": "openconfig-interfaces",
+                "ns0:prefix": {
+                    "@value": "oc-if"
+                }
+            },
+            {
+                "@module": "openconfig-platform",
+                "ns0:prefix": {
+                    "@value": "oc-platform"
+                }
+            },
+            {
+                "@module": "openconfig-transport-types",
+                "ns0:prefix": {
+                    "@value": "oc-opt-types"
+                }
+            }
+        ],
+        "ns0:organization": {
+            "ns0:text": "OpenConfig working group"
+        },
+        "ns0:contact": {
+            "ns0:text": "OpenConfig working group\n www.openconfig.net"
+        },
+        "ns0:description": {
+            "ns0:text": "This model describes operational state data for an optical\nchannel monitor (OCM) for optical transport line system\nelements such as wavelength routers (ROADMs) and amplifiers."
+        },
+        "ns1:openconfig-version": {
+            "@semver": "0.4.0"
+        },
+        "ns0:revision": [
+            {
+                "@date": "2019-10-24",
+                "ns0:description": {
+                    "ns0:text": "Migrate from using power spectral densisty to using power\ntarget values"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.4.0"
+                }
+            },
+            {
+                "@date": "2018-11-21",
+                "ns0:description": {
+                    "ns0:text": "Add OpenConfig module metadata extensions."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.2"
+                }
+            },
+            {
+                "@date": "2017-09-08",
+                "ns0:description": {
+                    "ns0:text": "Correct bug with OSC interfaces"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.1"
+                }
+            },
+            {
+                "@date": "2017-07-08",
+                "ns0:description": {
+                    "ns0:text": "Support multiple OCMs, add refs to hw ports,"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.0"
+                }
+            },
+            {
+                "@date": "2017-03-28",
+                "ns0:description": {
+                    "ns0:text": "Added min/max/avg stats, status for media channels, OCM, APS"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.2.0"
+                }
+            },
+            {
+                "@date": "2016-09-14",
+                "ns0:description": {
+                    "ns0:text": "Initial revision"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.1.0"
+                }
+            }
+        ],
+        "ns1:regexp-posix": null,
+        "ns1:catalog-organization": {
+            "@org": "openconfig"
+        },
+        "ns1:origin": {
+            "@origin": "openconfig"
+        },
+        "ns0:grouping": [
+            {
+                "@name": "media-channel-port-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for a media channel source/dest port"
+                },
+                "ns0:leaf": {
+                    "@name": "port-name",
+                    "ns0:type": {
+                        "@name": "oc-if:base-interface-ref"
+                    },
+                    "ns0:description": {
+                        "ns0:text": "Reference to the corresponding node interface"
+                    }
+                }
+            },
+            {
+                "@name": "media-channel-port-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for a media channel source/dest port"
+                }
+            },
+            {
+                "@name": "media-channel-source-port-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for source of the media channel"
+                },
+                "ns0:container": {
+                    "@name": "source",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for media channel source"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for the media channel source"
+                            },
+                            "ns0:uses": {
+                                "@name": "media-channel-port-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for the media channel source"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "media-channel-port-config"
+                                },
+                                {
+                                    "@name": "media-channel-port-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "media-channel-dest-port-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for destination of the media channel"
+                },
+                "ns0:container": {
+                    "@name": "dest",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for media channel destination"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "config",
+                            "ns0:description": {
+                                "ns0:text": "Configuration data for the media channel destination"
+                            },
+                            "ns0:uses": {
+                                "@name": "media-channel-port-config"
+                            }
+                        },
+                        {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for the media channel destination"
+                            },
+                            "ns0:uses": [
+                                {
+                                    "@name": "media-channel-port-config"
+                                },
+                                {
+                                    "@name": "media-channel-port-state"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "@name": "media-channel-spectrum-power-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for the media channel spectrum power"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "lower-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Lower frequency of the specified spectrum power"
+                        }
+                    },
+                    {
+                        "@name": "upper-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Upper frequency of the specified spectrum power"
+                        }
+                    },
+                    {
+                        "@name": "power",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Average measured optical power over the specified spectrum"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "media-channel-spectrum-power-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping"
+                },
+                "ns0:container": {
+                    "@name": "channels",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for the list of values describing\nthe spectrum power distribution"
+                    },
+                    "ns0:list": {
+                        "@name": "channel",
+                        "ns0:key": {
+                            "@value": "lower-frequency upper-frequency"
+                        },
+                        "ns0:config": {
+                            "@value": "false"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of tuples describing the spectrum power distribution"
+                        },
+                        "ns0:leaf": [
+                            {
+                                "@name": "lower-frequency",
+                                "ns0:type": {
+                                    "@name": "leafref",
+                                    "ns0:path": {
+                                        "@value": "../state/lower-frequency"
+                                    }
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Reference to the list key"
+                                }
+                            },
+                            {
+                                "@name": "upper-frequency",
+                                "ns0:type": {
+                                    "@name": "leafref",
+                                    "ns0:path": {
+                                        "@value": "../state/upper-frequency"
+                                    }
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Reference to the list key"
+                                }
+                            }
+                        ],
+                        "ns0:container": {
+                            "@name": "state",
+                            "ns0:config": {
+                                "@value": "false"
+                            },
+                            "ns0:description": {
+                                "ns0:text": "Operational state data for spectrum power"
+                            },
+                            "ns0:uses": {
+                                "@name": "media-channel-spectrum-power-state"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "@name": "media-channel-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for media channel definitions"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "index",
+                        "ns0:type": {
+                            "@name": "uint32"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Identifier for the defined media channel"
+                        }
+                    },
+                    {
+                        "@name": "lower-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The lower frequency for the spectrum defined by this media\nchannel"
+                        }
+                    },
+                    {
+                        "@name": "upper-frequency",
+                        "ns0:type": {
+                            "@name": "oc-opt-types:frequency-type"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The upper frequency for the spectrum defined by this media\nchannel"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "channel-monitor-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for the optical channel monitor"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "name",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to system-supplied name of the port on the\noptical channel monitor (OCM). If this port is embedded\nin another card (i.e. an amplifier card) the device\nshould still define a port representing the OCM even if\nit is internal and not physically present on the\nfaceplate of the card"
+                        }
+                    },
+                    {
+                        "@name": "monitor-port",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to system-supplied name of the port that the\nchannel monitor is physically connected to. This port\nwill be of type MONITOR. This port is a tap off of the\nmonitored-port and would be in the same card as the\nmonitored port. If this port is embedded in another card\n(i.e. an amplifier card) the device should still define\na port representing the monitor port if it is internal\nand not physically present on the faceplate of the card"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "channel-monitor-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data"
+                }
+            },
+            {
+                "@name": "channel-monitor-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping"
+                },
+                "ns0:container": {
+                    "@name": "channel-monitors",
+                    "ns0:description": {
+                        "ns0:text": "Top-level container for optical channel monitors"
+                    },
+                    "ns0:list": {
+                        "@name": "channel-monitor",
+                        "ns0:key": {
+                            "@value": "name"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "List of channel monitors, keyed by channel monitor name."
+                        },
+                        "ns0:leaf": {
+                            "@name": "name",
+                            "ns0:type": {
+                                "@name": "leafref",
+                                "ns0:path": {
+                                    "@value": "../config/name"
+                                }
+                            },
+                            "ns0:description": {
+                                "ns0:text": "References the optical channel monitor name"
+                            }
+                        },
+                        "ns0:container": [
+                            {
+                                "@name": "config",
+                                "ns0:description": {
+                                    "ns0:text": "Configuration data"
+                                },
+                                "ns0:uses": {
+                                    "@name": "channel-monitor-config"
+                                }
+                            },
+                            {
+                                "@name": "state",
+                                "ns0:config": {
+                                    "@value": "false"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "Operational state data"
+                                },
+                                "ns0:uses": [
+                                    {
+                                        "@name": "channel-monitor-config"
+                                    },
+                                    {
+                                        "@name": "channel-monitor-state"
+                                    }
+                                ]
+                            }
+                        ],
+                        "ns0:uses": {
+                            "@name": "media-channel-spectrum-power-top"
+                        }
+                    }
+                }
+            }
+        ],
+        "ns0:uses": {
+            "@name": "channel-monitor-top"
+        }
+    }
+}

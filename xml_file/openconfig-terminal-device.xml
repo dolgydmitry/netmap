@@ -1,0 +1,1449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="openconfig-terminal-device"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:oc-opt-term="http://openconfig.net/yang/terminal-device"
+        xmlns:oc-types="http://openconfig.net/yang/openconfig-types"
+        xmlns:oc-opt-types="http://openconfig.net/yang/transport-types"
+        xmlns:oc-eth="http://openconfig.net/yang/interfaces/ethernet"
+        xmlns:oc-platform="http://openconfig.net/yang/platform"
+        xmlns:oc-transceiver="http://openconfig.net/yang/platform/transceiver"
+        xmlns:oc-lldp="http://openconfig.net/yang/lldp"
+        xmlns:oc-ext="http://openconfig.net/yang/openconfig-ext"
+        xmlns:oc-yang="http://openconfig.net/yang/types/yang">
+  <yang-version value="1"/>
+  <namespace uri="http://openconfig.net/yang/terminal-device"/>
+  <prefix value="oc-opt-term"/>
+  <import module="openconfig-types">
+    <prefix value="oc-types"/>
+  </import>
+  <import module="openconfig-transport-types">
+    <prefix value="oc-opt-types"/>
+  </import>
+  <import module="openconfig-if-ethernet">
+    <prefix value="oc-eth"/>
+  </import>
+  <import module="openconfig-platform">
+    <prefix value="oc-platform"/>
+  </import>
+  <import module="openconfig-platform-transceiver">
+    <prefix value="oc-transceiver"/>
+  </import>
+  <import module="openconfig-lldp">
+    <prefix value="oc-lldp"/>
+  </import>
+  <import module="openconfig-extensions">
+    <prefix value="oc-ext"/>
+  </import>
+  <import module="ietf-yang-types">
+    <prefix value="yang"/>
+  </import>
+  <import module="openconfig-yang-types">
+    <prefix value="oc-yang"/>
+  </import>
+  <organization>
+    <text>OpenConfig working group</text>
+  </organization>
+  <contact>
+    <text>OpenConfig working group
+www.openconfig.net</text>
+  </contact>
+  <description>
+    <text>This module describes a terminal optics device model for
+managing the terminal systems (client and line side) in a
+DWDM transport network.
+
+Elements of the model:
+
+physical port: corresponds to a physical, pluggable client
+port on the terminal device. Examples includes 10G, 40G, 100G
+(e.g., 10x10G, 4x25G or 1x100G) and 400G/1T in the future.
+Physical client ports will have associated operational state or
+PMs.
+
+physical channel: a physical lane or channel in the
+physical client port.  Each physical client port has 1 or more
+channels. An example is 100GBASE-LR4 client physical port having
+4x25G channels. Channels have their own optical PMs and can be
+monitored independently within a client physical port (e.g.,
+channel power).  Physical client channels are defined in the
+model as part of a physical client port, and are modeled
+primarily for reading their PMs.
+
+logical channel: a logical grouping of logical grooming elements
+that may be assigned to subsequent grooming stages for
+multiplexing / de-multiplexing, or to an optical channel for
+line side transmission.  The logical channels can represent, for
+example, an ODU/OTU logical packing of the client
+data onto the line side.  Tributaries are similarly logical
+groupings of demand that can be represented in this structure and
+assigned to an optical channel.  Note that different types of
+logical channels may be present, each with their corresponding
+PMs.
+
+optical channel:  corresponds to an optical carrier and is
+assigned a wavelength/frequency.  Optical channels have PMs
+such as power, BER, and operational mode.
+
+Directionality:
+
+To maintain simplicity in the model, the configuration is
+described from client-to-line direction.  The assumption is that
+equivalent reverse configuration is implicit, resulting in
+the same line-to-client configuration.
+
+Physical layout:
+
+The model does not assume a particular physical layout of client
+and line ports on the terminal device (e.g., such as number of
+ports per linecard, separate linecards for client and line ports,
+etc.).</text>
+  </description>
+  <oc-ext:openconfig-version semver="1.7.3"/>
+  <revision date="2020-05-09">
+    <description>
+      <text>Remove references from read-write contexts to read-only
+contexts in when statements.</text>
+    </description>
+    <reference>
+      <text>1.7.3</text>
+    </reference>
+  </revision>
+  <revision date="2019-11-28">
+    <description>
+      <text>Additional xpath fixes in when statement</text>
+    </description>
+    <reference>
+      <text>1.7.2</text>
+    </reference>
+  </revision>
+  <revision date="2019-10-12">
+    <description>
+      <text>Fix when statement paths</text>
+    </description>
+    <reference>
+      <text>1.7.1</text>
+    </reference>
+  </revision>
+  <revision date="2019-08-08">
+    <description>
+      <text>Add ALS config to logical-channel/ethernet/config and remove
+legacy interfaces augment for this config. Client FEC was
+previosuly migrated to the components model and should not
+be here anymore.</text>
+    </description>
+    <reference>
+      <text>1.7.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-07-26">
+    <description>
+      <text>Add support for LLDP natively on logical-channels.</text>
+    </description>
+    <reference>
+      <text>1.6.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-11-21">
+    <description>
+      <text>Add OpenConfig module metadata extensions.</text>
+    </description>
+    <reference>
+      <text>1.5.1</text>
+    </reference>
+  </revision>
+  <revision date="2018-10-23">
+    <description>
+      <text>Adds support of logical-channel tributary slot allocation to
+logical-channel-assignments with different channel speeds.
+Enables logical channel mapping procedure specification.</text>
+    </description>
+    <reference>
+      <text>1.5.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-08-28">
+    <description>
+      <text>Adds terminal device related Ethernet counters</text>
+    </description>
+    <reference>
+      <text>1.4.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-07-30">
+    <description>
+      <text>Adds lldp snooping config leaf and augmented it to oc-lldp</text>
+    </description>
+    <reference>
+      <text>1.3.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-07-26">
+    <description>
+      <text>Adds OTN protocol counter stats of errored-blocks and
+fec-uncorrectable-blocks, adds ethernet-config-ext grouping
+and uses it to augment oc-eth</text>
+    </description>
+    <reference>
+      <text>1.2.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-07-17">
+    <description>
+      <text>Adds testing enum to link-state</text>
+    </description>
+    <reference>
+      <text>1.1.0</text>
+    </reference>
+  </revision>
+  <revision date="2017-07-08">
+    <description>
+      <text>Adds test-signal</text>
+    </description>
+    <reference>
+      <text>1.0.0</text>
+    </reference>
+  </revision>
+  <revision date="2016-12-22">
+    <description>
+      <text>Fixes and additions to terminal optics model</text>
+    </description>
+    <reference>
+      <text>0.4.0</text>
+    </reference>
+  </revision>
+  <oc-ext:regexp-posix/>
+  <oc-ext:catalog-organization org="openconfig"/>
+  <oc-ext:origin origin="openconfig"/>
+  <grouping name="terminal-input-optical-power">
+    <description>
+      <text>Reusable leaves related to input optical power</text>
+    </description>
+    <leaf name="input-power">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>The input optical power of this port in units of 0.01dBm.
+If the port is an aggregate of multiple physical channels,
+this attribute is the total power or sum of all channels.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-ethernet-protocol-config">
+    <description>
+      <text>Configuration data for logical channels with Ethernet
+framing</text>
+    </description>
+    <leaf name="client-als">
+      <type name="enumeration">
+        <enum name="NONE">
+          <description>
+            <text>The client port will do nothing when a failure is
+detected on the line port or the remote client port</text>
+          </description>
+        </enum>
+        <enum name="LASER_SHUTDOWN">
+          <description>
+            <text>The client port will shut down the laser to notify the
+subtending Ethernet equipment of the failure detected on
+the line port or the remote client port.</text>
+          </description>
+        </enum>
+        <enum name="ETHERNET">
+          <description>
+            <text>The client port will propagate the local fault or remote
+fault signal to the subtending Ethernet equipment.</text>
+          </description>
+        </enum>
+      </type>
+      <default value="ETHERNET"/>
+      <description>
+        <text>Sets the client port behavior that defines if the actions
+of automatic laser shutdown (als), ethernet fault
+propagation, or nothing will be done upon the detection
+of a failure on the line port or the upstream remote
+client port.</text>
+      </description>
+    </leaf>
+    <leaf name="als-delay">
+      <type name="uint32"/>
+      <units name="milliseconds"/>
+      <default value="0"/>
+      <description>
+        <text>The timer to delay the client-als actions on the client
+port when a local or remote fault is detected on the line
+port. The delay will only be valid when the client-als is
+set to LASER_SHUTDOWN</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-ethernet-protocol-state">
+    <description>
+      <text>Ethernet-specific counters when logical channel
+is using Ethernet protocol framing, e.g., 10GE, 100GE</text>
+    </description>
+    <uses name="oc-eth:ethernet-interface-state-counters"/>
+    <uses name="terminal-ethernet-protocol-state-counters"/>
+  </grouping>
+  <grouping name="terminal-ethernet-protocol-state-counters">
+    <description>
+      <text>Ethernet-specific counters for terminal devices when
+logical channel is using Ethernet protocol framing,
+e.g., 10GE, 100GE</text>
+    </description>
+    <leaf name="in-pcs-bip-errors">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>The number of received bit interleaved parity (BIP) errors
+at the physical coding sublayer (PCS). If the interface
+consists of multiple lanes, this will be the sum of all
+errors on the lane</text>
+      </description>
+    </leaf>
+    <leaf name="in-pcs-errored-seconds">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>The number of seconds that physical coding sublayer (PCS)
+errors have crossed a sytem defined threshold indicating the
+link is erroring</text>
+      </description>
+    </leaf>
+    <leaf name="in-pcs-severely-errored-seconds">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>The number of seconds that physical coding sublayer (PCS)
+errors have crossed a system defined threshold indicating the
+link is severely erroring</text>
+      </description>
+    </leaf>
+    <leaf name="in-pcs-unavailable-seconds">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>The number of seconds that physical coding sublayer (PCS)
+errors have crossed a system defined threshold indicating the
+link is unavailable</text>
+      </description>
+    </leaf>
+    <leaf name="out-pcs-bip-errors">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>The number of transmitted bit interleaved parity (BIP) errors
+at the physical coding sublayer (PCS). If the interface
+consists of multiple lanes, this will be the sum of all
+errors on the lane</text>
+      </description>
+    </leaf>
+    <leaf name="out-crc-errors">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>Number of FCS/CRC error check failures sent on the interface</text>
+      </description>
+    </leaf>
+    <leaf name="out-block-errors">
+      <type name="oc-yang:counter64"/>
+      <description>
+        <text>The number of transmitted errored blocks. Error detection
+codes are capable of detecting whether one or more errors have
+occurred in a given sequence of bits – the block. It is
+normally not possible to determine the exact number of errored
+bits within the block</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-ethernet-protocol-top">
+    <description>
+      <text>Top-level grouping for data related to Ethernet protocol
+framing on logical channels</text>
+    </description>
+    <container name="ethernet">
+      <description>
+        <text>Top level container for data related to Ethernet framing
+for the logical channel</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for Ethernet protocol framing on
+logical channels</text>
+        </description>
+        <uses name="terminal-ethernet-protocol-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for Ethernet protocol framing
+on logical channels</text>
+        </description>
+        <uses name="terminal-ethernet-protocol-config"/>
+        <uses name="terminal-ethernet-protocol-state"/>
+      </container>
+      <uses name="lldp-logical-channel-top"/>
+    </container>
+  </grouping>
+  <grouping name="lldp-logical-channel-top">
+    <description>
+      <text>Top-level grouping for LLDP data for a logical channel</text>
+    </description>
+    <container name="lldp">
+      <description>
+        <text>LLDP data for logical channels</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>LLDP configuration data for logical channels</text>
+        </description>
+        <uses name="lldp-logical-channel-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>LLDP operational state data for logical channels</text>
+        </description>
+        <uses name="lldp-logical-channel-config"/>
+        <uses name="oc-lldp:lldp-interface-state"/>
+      </container>
+      <uses name="lldp-logical-channel-neighbor-top"/>
+    </container>
+  </grouping>
+  <grouping name="lldp-logical-channel-config">
+    <description>
+      <text>Configuration data for LLDP for logical-channels</text>
+    </description>
+    <leaf name="enabled">
+      <type name="boolean"/>
+      <default value="false"/>
+      <description>
+        <text>Enable or disable the LLDP protocol on the logical channel.</text>
+      </description>
+    </leaf>
+    <leaf name="snooping">
+      <type name="boolean"/>
+      <default value="false"/>
+      <description>
+        <text>If true, LLDP PDUs are only received and processed on
+the logical-channel, but are not originated by the local
+agent. The PDUs are not dropped by the logical channel after
+processing, but relayed to the downstream link layer
+neighbors. The snooping mode is valid only when LLDP is
+enabled on the logical channel. The snooping mode is useful
+when a logical channel does not want its link layer neighbors
+to discover itself since, for example, it is a lower-layer
+logical channel.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="lldp-logical-channel-neighbor-top">
+    <description>
+      <text>Top-level grouping for the LLDP neighbor list</text>
+    </description>
+    <container name="neighbors">
+      <config value="false"/>
+      <description>
+        <text>Enclosing container for list of LLDP neighbors on
+a logical channel</text>
+      </description>
+      <list name="neighbor">
+        <key value="id"/>
+        <description>
+          <text>List of LLDP neighbors. If the implementation only
+supports one neighbor, this would always be a list with
+one item. If the device and neighbor supported multiple
+neighbors, which can be achieved via LLDP forwarding, then
+this would be supported</text>
+        </description>
+        <reference>
+          <text>IEEE Std 802.1AB-2016, section 7.1, Destination address</text>
+        </reference>
+        <leaf name="id">
+          <type name="leafref">
+            <path value="../state/id"/>
+          </type>
+          <description>
+            <text>System generated identifier for the neighbor on
+the logical channel.</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data </text>
+          </description>
+          <uses name="lldp-logical-channel-neighbor-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data </text>
+          </description>
+          <uses name="oc-lldp:lldp-system-info-config"/>
+          <uses name="oc-lldp:lldp-system-info-state"/>
+          <uses name="oc-lldp:lldp-neighbor-config"/>
+          <uses name="oc-lldp:lldp-neighbor-state"/>
+        </container>
+        <uses name="oc-lldp:lldp-custom-tlv-top"/>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="lldp-logical-channel-neighbor-config">
+    <description>
+      <text>Configuration data for LLDP neighbors</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-otn-protocol-config">
+    <description>
+      <text>OTU configuration when logical channel
+framing is using an OTU protocol, e.g., OTU1, OTU3, etc.</text>
+    </description>
+    <leaf name="tti-msg-transmit">
+      <type name="string"/>
+      <description>
+        <text>Trail trace identifier (TTI) message transmitted</text>
+      </description>
+    </leaf>
+    <leaf name="tti-msg-expected">
+      <type name="string"/>
+      <description>
+        <text>Trail trace identifier (TTI) message expected</text>
+      </description>
+    </leaf>
+    <leaf name="tti-msg-auto">
+      <type name="boolean"/>
+      <description>
+        <text>Trail trace identifier (TTI) transmit message automatically
+created.  If true, then setting a custom transmit message
+would be invalid.</text>
+      </description>
+    </leaf>
+    <leaf name="tributary-slot-granularity">
+      <type name="identityref">
+        <base name="oc-opt-types:TRIBUTARY_SLOT_GRANULARITY"/>
+      </type>
+      <description>
+        <text>Granularity value of OPUk or OPUCn tributary slots for OTN
+signal allocation. The currently defined values follow the
+existing ITU-T G.709 standard, which can be extended as
+needed in future.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-otn-protocol-counter-stats">
+    <description>
+      <text>Counter based statistics containers for logical channels
+using OTN framing</text>
+    </description>
+    <leaf name="errored-seconds">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of seconds that at least one errored blocks
+occurs, at least one code violation occurs, loss of sync is
+detected or loss of signal is detected</text>
+      </description>
+    </leaf>
+    <leaf name="severely-errored-seconds">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of seconds that loss of frame is detected OR
+the number of errored blocks, code violations, loss of sync
+or loss of signal is detected exceeds a predefined
+threshold</text>
+      </description>
+    </leaf>
+    <leaf name="unavailable-seconds">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of seconds during which the link is unavailable</text>
+      </description>
+    </leaf>
+    <leaf name="code-violations">
+      <type name="yang:counter64"/>
+      <description>
+        <text>For ethernet or fiberchannel links, the number of 8b/10b
+coding violations. For SONET/SDH, the number of BIP (bit
+interleaved parity) errors</text>
+      </description>
+    </leaf>
+    <leaf name="errored-blocks">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of errored blocks. Error detection codes are
+capable to detect whether one or more errors have occurred
+in a given sequence of bits – the block. It is normally not
+possible to determine the exact number of errored bits within
+the block.</text>
+      </description>
+      <reference>
+        <text>ITU-T Rec. G.826</text>
+      </reference>
+    </leaf>
+    <leaf name="fec-uncorrectable-blocks">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of blocks that were uncorrectable by the FEC</text>
+      </description>
+    </leaf>
+    <leaf name="fec-uncorrectable-words">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of words that were uncorrectable by the FEC</text>
+      </description>
+    </leaf>
+    <leaf name="fec-corrected-bytes">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of bytes that were corrected by the FEC</text>
+      </description>
+    </leaf>
+    <leaf name="fec-corrected-bits">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of bits that were corrected by the FEC</text>
+      </description>
+    </leaf>
+    <leaf name="background-block-errors">
+      <type name="yang:counter64"/>
+      <description>
+        <text>The number of background block errors</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-otn-protocol-multi-stats">
+    <description>
+      <text>Multi-value statistics containers for logical channels using
+OTN framing (e.g., max, min, avg, instant)</text>
+    </description>
+    <container name="pre-fec-ber">
+      <description>
+        <text>Bit error rate before forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value</text>
+      </description>
+      <uses name="oc-opt-types:avg-min-max-instant-stats-precision18-ber"/>
+    </container>
+    <container name="post-fec-ber">
+      <description>
+        <text>Bit error rate after forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value</text>
+      </description>
+      <uses name="oc-opt-types:avg-min-max-instant-stats-precision18-ber"/>
+    </container>
+    <container name="q-value">
+      <description>
+        <text>Quality value (factor) in dB of a channel with two
+decimal precision. Values include the instantaneous,
+average, minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dB"/>
+    </container>
+    <container name="esnr">
+      <description>
+        <text>Electrical signal to noise ratio. Baud rate
+normalized signal to noise ratio based on
+error vector magnitude in dB with two decimal
+precision. Values include the instantaneous, average,
+minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dB"/>
+    </container>
+  </grouping>
+  <grouping name="terminal-otn-protocol-state">
+    <description>
+      <text>OTU operational state when logical channel
+framing is using an OTU protocol, e.g., OTU1, OTU3, etc.</text>
+    </description>
+    <leaf name="tti-msg-recv">
+      <type name="string"/>
+      <description>
+        <text>Trail trace identifier (TTI) message received</text>
+      </description>
+    </leaf>
+    <leaf name="rdi-msg">
+      <type name="string"/>
+      <description>
+        <text>Remote defect indication (RDI) message received</text>
+      </description>
+    </leaf>
+    <uses name="terminal-otn-protocol-counter-stats"/>
+    <uses name="terminal-otn-protocol-multi-stats"/>
+  </grouping>
+  <grouping name="terminal-otn-protocol-top">
+    <description>
+      <text>Top-level grouping for data related to OTN protocol framing</text>
+    </description>
+    <container name="otn">
+      <description>
+        <text>Top level container for OTU configuration when logical
+channel framing is using an OTU protocol, e.g., OTU1, OTU3,
+etc.</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for OTN protocol framing</text>
+        </description>
+        <uses name="terminal-otn-protocol-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for OTN protocol PMs, statistics,
+etc.</text>
+        </description>
+        <uses name="terminal-otn-protocol-config"/>
+        <uses name="terminal-otn-protocol-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="terminal-client-port-assignment-config">
+    <description>
+      <text>Configuration data for assigning physical client ports to
+logical channels</text>
+    </description>
+    <leaf name="index">
+      <type name="uint32"/>
+      <description>
+        <text>Index of the client port assignment</text>
+      </description>
+    </leaf>
+    <leaf name="description">
+      <type name="string"/>
+      <description>
+        <text>Descriptive name for the client port-to-logical channel
+mapping</text>
+      </description>
+    </leaf>
+    <leaf name="logical-channel">
+      <type name="leafref">
+        <path value="/oc-opt-term:terminal-device/oc-opt-term:logical-channels/oc-opt-term:channel/oc-opt-term:index"/>
+      </type>
+      <description>
+        <text>Reference to the logical channel for this
+assignment</text>
+      </description>
+    </leaf>
+    <leaf name="allocation">
+      <type name="decimal64">
+        <fraction-digits value="3"/>
+      </type>
+      <units name="Gbps"/>
+      <description>
+        <text>Allocation of the client physical port to the assigned
+logical channel expressed in Gbps.  In most cases,
+the full client physical port rate is assigned to a single
+logical channel.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-client-port-assignment-state">
+    <description>
+      <text>Operational state data for assigning physical client ports
+to logical channels</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-client-port-assignment-top">
+    <description>
+      <text>Top-level grouping for the assigment of client physical ports
+to logical channels</text>
+    </description>
+    <container name="logical-channel-assignments">
+      <description>
+        <text>Enclosing container for client port to logical client
+mappings</text>
+      </description>
+      <list name="assignment">
+        <key value="index"/>
+        <description>
+          <text>List of assignments to logical clients</text>
+        </description>
+        <leaf name="index">
+          <type name="leafref">
+            <path value="../config/index"/>
+          </type>
+          <description>
+            <text>Reference to the index of this logical client
+assignment</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data for the logical client assignment</text>
+          </description>
+          <uses name="terminal-client-port-assignment-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for the logical client
+assignment</text>
+          </description>
+          <uses name="terminal-client-port-assignment-config"/>
+          <uses name="terminal-client-port-assignment-state"/>
+        </container>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="terminal-logical-chan-assignment-config">
+    <description>
+      <text>Configuration data for assigning client logical channels
+to line-side tributaries</text>
+    </description>
+    <leaf name="index">
+      <type name="uint32"/>
+      <description>
+        <text>Index of the current logical client channel to tributary
+mapping</text>
+      </description>
+    </leaf>
+    <leaf name="description">
+      <type name="string"/>
+      <description>
+        <text>Name assigned to the logical client channel</text>
+      </description>
+    </leaf>
+    <leaf name="assignment-type">
+      <type name="enumeration">
+        <enum name="LOGICAL_CHANNEL">
+          <description>
+            <text>Subsequent channel is a logical channel</text>
+          </description>
+        </enum>
+        <enum name="OPTICAL_CHANNEL">
+          <description>
+            <text>Subsequent channel is a optical channel / carrier</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Each logical channel element may be assigned to subsequent
+stages of logical elements to implement further grooming, or
+can be assigned to a line-side optical channel for
+transmission.  Each assignment also has an associated
+bandwidth allocation.</text>
+      </description>
+    </leaf>
+    <leaf name="logical-channel">
+      <type name="leafref">
+        <path value="/oc-opt-term:terminal-device/oc-opt-term:logical-channels/oc-opt-term:channel/oc-opt-term:index"/>
+      </type>
+      <must condition="../assignment-type = 'LOGICAL_CHANNEL'">
+        <description>
+          <text>The assignment-type must be set to LOGICAL_CHANNEL for
+this leaf to be valid</text>
+        </description>
+      </must>
+      <description>
+        <text>Reference to another stage of logical channel elements.</text>
+      </description>
+    </leaf>
+    <leaf name="optical-channel">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <must condition="../assignment-type = 'OPTICAL_CHANNEL'">
+        <description>
+          <text>The assignment-type must be set to OPTICAL_CHANNEL for
+this leaf to be valid</text>
+        </description>
+      </must>
+      <description>
+        <text>Reference to the line-side optical channel that should
+carry the current logical channel element.  Use this
+reference to exit the logical element stage.</text>
+      </description>
+    </leaf>
+    <leaf name="allocation">
+      <type name="decimal64">
+        <fraction-digits value="3"/>
+      </type>
+      <units name="Gbps"/>
+      <description>
+        <text>Allocation of the logical client channel to the tributary
+or sub-channel, expressed in Gbps. Please note that if the
+assignment is to an OTN logical channel, the allocation must
+be an integer multiplication to tributary-slot-granularity
+of the OTN logical channel.</text>
+      </description>
+    </leaf>
+    <leaf name="tributary-slot-index">
+      <type name="int32"/>
+      <description>
+        <text>Indicates the first tributary slot index allocated to the
+client signal or logical channel in the assignment. Valid
+only when the assignment is to an OTN logical channel.</text>
+      </description>
+    </leaf>
+    <leaf name="mapping">
+      <type name="identityref">
+        <base name="oc-opt-types:FRAME_MAPPING_PROTOCOL"/>
+      </type>
+      <description>
+        <text>Logical channel mapping procedure. Valid only when the
+assignment is to an OTN logical channel.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-logical-chan-assignment-state">
+    <description>
+      <text>Operational state data for the assignment of logical client
+channel to line-side tributary</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-logical-chan-assignment-top">
+    <description>
+      <text>Top-level grouping for the list of logical client channel-to-
+tributary assignments</text>
+    </description>
+    <container name="logical-channel-assignments">
+      <description>
+        <text>Enclosing container for tributary assignments</text>
+      </description>
+      <list name="assignment">
+        <key value="index"/>
+        <description>
+          <text>Logical channel elements may be assigned directly to
+optical channels for line-side transmission, or can be
+further groomed into additional stages of logical channel
+elements.  The grooming can multiplex (i.e., split the
+current element into multiple elements in the subsequent
+stage) or de-multiplex (i.e., combine the current element
+with other elements into the same element in the subsequent
+stage) logical elements in each stage.
+
+Note that to support the ability to groom the logical
+elements, the list of logical channel elements should be
+populated with an entry for the logical elements at
+each stage, starting with the initial assignment from the
+respective client physical port.
+
+Each logical element assignment consists of a pointer to
+an element in the next stage, or to an optical channel,
+along with a bandwidth allocation for the corresponding
+assignment (e.g., to split or combine signal).</text>
+        </description>
+        <leaf name="index">
+          <type name="leafref">
+            <path value="../config/index"/>
+          </type>
+          <description>
+            <text>Reference to the index for the current tributary
+assignment</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data for tributary assignments</text>
+          </description>
+          <uses name="terminal-logical-chan-assignment-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for tributary assignments</text>
+          </description>
+          <uses name="terminal-logical-chan-assignment-config"/>
+          <uses name="terminal-logical-chan-assignment-state"/>
+        </container>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="terminal-logical-channel-ingress-config">
+    <description>
+      <text>Configuration data for ingress signal to logical channel</text>
+    </description>
+    <leaf name="transceiver">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to the transceiver carrying the input signal
+for the logical channel.  If specific physical channels
+are mapped to the logical channel (as opposed to all
+physical channels carried by the transceiver), they can be
+specified in the list of physical channel references.</text>
+      </description>
+    </leaf>
+    <leaf-list name="physical-channel">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-transceiver:transceiver/oc-transceiver:physical-channels/oc-transceiver:channel/oc-transceiver:index"/>
+      </type>
+      <description>
+        <text>This list should be populated with references
+to the client physical channels that feed this logical
+channel from the transceiver specified in the 'transceiver'
+leaf, which must be specified.  If this leaf-list is empty,
+all physical channels in the transceiver are assumed to be
+mapped to the logical channel.</text>
+      </description>
+    </leaf-list>
+  </grouping>
+  <grouping name="terminal-logical-channel-ingress-state">
+    <description>
+      <text>Operational state data for ingress signal to logical channel</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-logical-channel-ingress-top">
+    <description>
+      <text>Top-level grouping for ingress signal to logical channel</text>
+    </description>
+    <container name="ingress">
+      <description>
+        <text>Top-level container for specifying references to the
+source of signal for the logical channel, either a
+transceiver or individual physical channels</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for the signal source for the
+logical channel</text>
+        </description>
+        <uses name="terminal-logical-channel-ingress-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for the signal source for the
+logical channel</text>
+        </description>
+        <uses name="terminal-logical-channel-ingress-config"/>
+        <uses name="terminal-logical-channel-ingress-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="terminal-logical-channel-config">
+    <description>
+      <text>Configuration data for logical channels</text>
+    </description>
+    <leaf name="index">
+      <type name="uint32"/>
+      <description>
+        <text>Index of the current logical channel</text>
+      </description>
+    </leaf>
+    <leaf name="description">
+      <type name="string"/>
+      <description>
+        <text>Description of the logical channel</text>
+      </description>
+    </leaf>
+    <leaf name="admin-state">
+      <type name="oc-opt-types:admin-state-type"/>
+      <description>
+        <text>Sets the admin state of the logical channel</text>
+      </description>
+    </leaf>
+    <leaf name="rate-class">
+      <type name="identityref">
+        <base name="oc-opt-types:TRIBUTARY_RATE_CLASS_TYPE"/>
+      </type>
+      <description>
+        <text>Rounded bit rate of the tributary signal. Exact bit rate
+will be refined by protocol selection.</text>
+      </description>
+    </leaf>
+    <leaf name="trib-protocol">
+      <type name="identityref">
+        <base name="oc-opt-types:TRIBUTARY_PROTOCOL_TYPE"/>
+      </type>
+      <description>
+        <text>Protocol framing of the tributary signal. If this
+LogicalChannel is directly connected to a Client-Port or
+Optical-Channel, this is the protocol of the associated port.
+If the LogicalChannel is connected to other LogicalChannels,
+the TributaryProtocol of the LogicalChannels will define a
+specific mapping/demapping or multiplexing/demultiplexing
+function.
+
+Not all protocols are valid, depending on the value
+of trib-rate-class.  The expectation is that the NMS
+will validate that a correct combination of rate class
+and protocol are specfied.  Basic combinations are:
+
+rate class: 1G
+protocols: 1GE
+
+rate class: 2.5G
+protocols: OC48, STM16
+
+rate class: 10G
+protocols:  10GE LAN, 10GE WAN, OC192, STM64, OTU2, OTU2e,
+           OTU1e, ODU2, ODU2e, ODU1e
+
+rate class: 40G
+protocols:  40GE, OC768, STM256, OTU3, ODU3
+
+rate class: 100G
+protocols:  100GE, 100G MLG, OTU4, OTUCn, ODU4</text>
+      </description>
+    </leaf>
+    <leaf name="logical-channel-type">
+      <type name="identityref">
+        <base name="oc-opt-types:LOGICAL_ELEMENT_PROTOCOL_TYPE"/>
+      </type>
+      <description>
+        <text>The type / stage of the logical element determines the
+configuration and operational state parameters (PMs)
+available for the logical element</text>
+      </description>
+    </leaf>
+    <leaf name="loopback-mode">
+      <type name="oc-opt-types:loopback-mode-type"/>
+      <description>
+        <text>Sets the loopback type on the logical channel. Setting the
+mode to something besides NONE activates the loopback in
+the specified mode.</text>
+      </description>
+    </leaf>
+    <leaf name="test-signal">
+      <type name="boolean"/>
+      <description>
+        <text>When enabled the logical channel's DSP will generate a pseudo
+randmon bit stream (PRBS) which can be used during testing.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-logical-channel-state">
+    <description>
+      <text>Operational state data for logical client channels</text>
+    </description>
+    <leaf name="link-state">
+      <type name="enumeration">
+        <enum name="UP">
+          <description>
+            <text>Logical channel is operationally up</text>
+          </description>
+        </enum>
+        <enum name="DOWN">
+          <description>
+            <text>Logical channel is operationally down</text>
+          </description>
+        </enum>
+        <enum name="TESTING">
+          <description>
+            <text>Logical channel is under test as a result of
+enabling test-signal</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Link-state of the Ethernet protocol on the logical channel,
+SONET / SDH framed signal, etc.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-logical-channel-top">
+    <description>
+      <text>Top-level grouping for logical channels</text>
+    </description>
+    <container name="logical-channels">
+      <description>
+        <text>Enclosing container the list of logical channels</text>
+      </description>
+      <list name="channel">
+        <key value="index"/>
+        <description>
+          <text>List of logical channels</text>
+        </description>
+        <leaf name="index">
+          <type name="leafref">
+            <path value="../config/index"/>
+          </type>
+          <description>
+            <text>Reference to the index of the logical channel</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data for logical channels</text>
+          </description>
+          <uses name="terminal-logical-channel-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for logical channels</text>
+          </description>
+          <uses name="terminal-logical-channel-config"/>
+          <uses name="terminal-logical-channel-state"/>
+        </container>
+        <uses name="terminal-otn-protocol-top">
+          <when condition="./config/logical-channel-type = 'PROT_OTN'">
+            <description>
+              <text>Include the OTN protocol data only when the
+channel is using OTN framing.</text>
+            </description>
+          </when>
+        </uses>
+        <uses name="terminal-ethernet-protocol-top">
+          <when condition="./config/logical-channel-type = 'PROT_ETHERNET'">
+            <description>
+              <text>Include the Ethernet protocol statistics only when the
+protocol used by the link is Ethernet.</text>
+            </description>
+          </when>
+        </uses>
+        <uses name="terminal-logical-channel-ingress-top"/>
+        <uses name="terminal-logical-chan-assignment-top"/>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="terminal-optical-channel-config">
+    <description>
+      <text>Configuration data for describing optical channels</text>
+    </description>
+    <leaf name="frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>Frequency of the optical channel, expressed in MHz</text>
+      </description>
+    </leaf>
+    <leaf name="target-output-power">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>Target output optical power level of the optical channel,
+expressed in increments of 0.01 dBm (decibel-milliwats)</text>
+      </description>
+    </leaf>
+    <leaf name="operational-mode">
+      <type name="uint16"/>
+      <description>
+        <text>Vendor-specific mode identifier -- sets the operational
+mode for the channel.  The specified operational mode must
+exist in the list of supported operational modes supplied
+by the device</text>
+      </description>
+    </leaf>
+    <leaf name="line-port">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to the line-side physical port that carries
+this optical channel.  The target port should be
+a component in the physical inventory data model.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-optical-channel-state">
+    <description>
+      <text>Operational state data for optical channels</text>
+    </description>
+    <leaf name="group-id">
+      <type name="uint32"/>
+      <description>
+        <text>If the device places constraints on which optical
+channels must be managed together (e.g., transmitted on the
+same line port), it can indicate that by setting the group-id
+to the same value across related optical channels.</text>
+      </description>
+    </leaf>
+    <uses name="oc-transceiver:optical-power-state"/>
+    <container name="chromatic-dispersion">
+      <description>
+        <text>Chromatic Dispersion of an optical channel in
+picoseconds / nanometer (ps/nm) as reported by receiver
+with two decimal precision. Values include the instantaneous,
+average, minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected to just
+supply the instant value</text>
+      </description>
+      <uses name="oc-opt-types:avg-min-max-instant-stats-precision2-ps-nm"/>
+    </container>
+    <container name="polarization-mode-dispersion">
+      <description>
+        <text>Polarization Mode Dispersion of an optical channel
+in picosends (ps) as reported by receiver with two decimal
+precision. Values include the instantaneous, average,
+minimum, and maximum statistics. If avg/min/max statistics
+are not supported, the target is expected to just supply the
+instant value</text>
+      </description>
+      <uses name="oc-opt-types:avg-min-max-instant-stats-precision2-ps"/>
+    </container>
+    <container name="second-order-polarization-mode-dispersion">
+      <description>
+        <text>Second Order Polarization Mode Dispersion of an optical
+channel in picoseconds squared (ps^2) as reported by
+receiver with two decimal precision. Values include the
+instantaneous, average, minimum, and maximum statistics.
+If avg/min/max statistics are not supported, the target
+is expected to just supply the instant value</text>
+      </description>
+      <uses name="oc-opt-types:avg-min-max-instant-stats-precision2-ps2"/>
+    </container>
+    <container name="polarization-dependent-loss">
+      <description>
+        <text>Polarization Dependent Loss of an optical channel
+in dB as reported by receiver with two decimal precision.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value</text>
+      </description>
+      <uses name="oc-types:avg-min-max-instant-stats-precision2-dB"/>
+    </container>
+  </grouping>
+  <grouping name="terminal-optical-channel-top">
+    <description>
+      <text>Top-level grouping for optical channel data</text>
+    </description>
+    <container name="optical-channel">
+      <description>
+        <text>Enclosing container for the list of optical channels</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for optical channels</text>
+        </description>
+        <uses name="terminal-optical-channel-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for optical channels</text>
+        </description>
+        <uses name="terminal-optical-channel-config"/>
+        <uses name="terminal-optical-channel-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="terminal-operational-mode-config">
+    <description>
+      <text>Configuration data for vendor-supported operational modes</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-operational-mode-state">
+    <description>
+      <text>Operational state data for vendor-supported operational
+modes</text>
+    </description>
+    <leaf name="mode-id">
+      <type name="uint16"/>
+      <description>
+        <text>Two-octet encoding of the vendor-defined operational
+mode</text>
+      </description>
+    </leaf>
+    <leaf name="description">
+      <type name="string"/>
+      <description>
+        <text>Vendor-supplied textual description of the characteristics
+of this operational mode to enable operators to select the
+appropriate mode for the application.</text>
+      </description>
+    </leaf>
+    <leaf name="vendor-id">
+      <type name="string"/>
+      <description>
+        <text>Identifier to represent the vendor / supplier of the
+platform and the associated operational mode information</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="terminal-operational-mode-top">
+    <description>
+      <text>Top-level grouping for vendor-supported operational modes</text>
+    </description>
+    <container name="operational-modes">
+      <description>
+        <text>Enclosing container for list of operational modes</text>
+      </description>
+      <list name="mode">
+        <key value="mode-id"/>
+        <config value="false"/>
+        <description>
+          <text>List of operational modes supported by the platform.
+The operational mode provides a platform-defined summary
+of information such as symbol rate, modulation, pulse
+shaping, etc.</text>
+        </description>
+        <leaf name="mode-id">
+          <type name="leafref">
+            <path value="../state/mode-id"/>
+          </type>
+          <description>
+            <text>Reference to mode-id</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data for operational mode</text>
+          </description>
+          <uses name="terminal-operational-mode-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for the platform-defined
+operational mode</text>
+          </description>
+          <uses name="terminal-operational-mode-config"/>
+          <uses name="terminal-operational-mode-state"/>
+        </container>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="terminal-device-config">
+    <description>
+      <text>Configuration data for transport terminal devices at a
+device-wide level</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-device-state">
+    <description>
+      <text>Operational state data for transport terminal devices at a
+device-wide level</text>
+    </description>
+  </grouping>
+  <grouping name="terminal-device-top">
+    <description>
+      <text>Top-level grouping for data for terminal devices</text>
+    </description>
+    <container name="terminal-device">
+      <description>
+        <text>Top-level container for the terminal device</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for global terminal-device</text>
+        </description>
+        <uses name="terminal-device-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for global terminal device</text>
+        </description>
+        <uses name="terminal-device-config"/>
+        <uses name="terminal-device-state"/>
+      </container>
+      <uses name="terminal-logical-channel-top"/>
+      <uses name="terminal-operational-mode-top"/>
+    </container>
+  </grouping>
+  <uses name="terminal-device-top"/>
+  <augment target-node="/oc-platform:components/oc-platform:component">
+    <description>
+      <text>Adding optical channel data to physical inventory. This
+augmentation is only valid when the type of the component
+is OPTICAL_CHANNEL.</text>
+    </description>
+    <uses name="terminal-optical-channel-top"/>
+  </augment>
+</module>

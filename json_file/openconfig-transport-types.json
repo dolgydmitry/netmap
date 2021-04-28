@@ -1,0 +1,1889 @@
+{
+    "ns0:module": {
+        "@xmlns:ns0": "urn:ietf:params:xml:ns:yang:yin:1",
+        "@xmlns:ns1": "http://openconfig.net/yang/openconfig-ext",
+        "@name": "openconfig-transport-types",
+        "ns0:yang-version": {
+            "@value": "1"
+        },
+        "ns0:namespace": {
+            "@uri": "http://openconfig.net/yang/transport-types"
+        },
+        "ns0:prefix": {
+            "@value": "oc-opt-types"
+        },
+        "ns0:import": [
+            {
+                "@module": "openconfig-platform-types",
+                "ns0:prefix": {
+                    "@value": "oc-platform-types"
+                }
+            },
+            {
+                "@module": "openconfig-extensions",
+                "ns0:prefix": {
+                    "@value": "oc-ext"
+                }
+            },
+            {
+                "@module": "openconfig-types",
+                "ns0:prefix": {
+                    "@value": "oc-types"
+                }
+            }
+        ],
+        "ns0:organization": {
+            "ns0:text": "OpenConfig working group"
+        },
+        "ns0:contact": {
+            "ns0:text": "OpenConfig working group\nwww.openconfig.net"
+        },
+        "ns0:description": {
+            "ns0:text": "This module contains general type definitions and identities\nfor optical transport models."
+        },
+        "ns1:openconfig-version": {
+            "@semver": "0.13.0"
+        },
+        "ns0:revision": [
+            {
+                "@date": "2021-02-26",
+                "ns0:description": {
+                    "ns0:text": "Additional PMD types, form factors, and protocol types."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.13.0"
+                }
+            },
+            {
+                "@date": "2020-08-12",
+                "ns0:description": {
+                    "ns0:text": "Additional tributary rates."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.12.0"
+                }
+            },
+            {
+                "@date": "2020-04-24",
+                "ns0:description": {
+                    "ns0:text": "Add 400G protocol and additional tributary half rates."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.11.0"
+                }
+            },
+            {
+                "@date": "2020-04-22",
+                "ns0:description": {
+                    "ns0:text": "Add AOC and DAC connector identities."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.10.0"
+                }
+            },
+            {
+                "@date": "2019-06-27",
+                "ns0:description": {
+                    "ns0:text": "Add FIBER_JUMPER_TYPE identityref."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.9.0"
+                }
+            },
+            {
+                "@date": "2019-06-21",
+                "ns0:description": {
+                    "ns0:text": "Generalize and rename optical port type identity"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.8.0"
+                }
+            },
+            {
+                "@date": "2018-11-21",
+                "ns0:description": {
+                    "ns0:text": "Add OpenConfig module metadata extensions."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.7.1"
+                }
+            },
+            {
+                "@date": "2018-10-23",
+                "ns0:description": {
+                    "ns0:text": "Added frame mapping protocols for logical channels assignments\nand tributary slot granularity for OTN logical channels"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.7.0"
+                }
+            },
+            {
+                "@date": "2018-05-16",
+                "ns0:description": {
+                    "ns0:text": "Added interval,min,max time to interval stats."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.6.0"
+                }
+            },
+            {
+                "@date": "2017-08-16",
+                "ns0:description": {
+                    "ns0:text": "Added ODU Cn protocol type"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.5.0"
+                }
+            },
+            {
+                "@date": "2016-12-22",
+                "ns0:description": {
+                    "ns0:text": "Fixes and additions for terminal optics model"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.4.0"
+                }
+            }
+        ],
+        "ns1:regexp-posix": null,
+        "ns1:catalog-organization": {
+            "@org": "openconfig"
+        },
+        "ns1:origin": {
+            "@origin": "openconfig"
+        },
+        "ns0:typedef": [
+            {
+                "@name": "frequency-type",
+                "ns0:type": {
+                    "@name": "uint64"
+                },
+                "ns0:units": {
+                    "@name": "MHz"
+                },
+                "ns0:description": {
+                    "ns0:text": "Type for optical spectrum frequency values"
+                }
+            },
+            {
+                "@name": "admin-state-type",
+                "ns0:type": {
+                    "@name": "enumeration",
+                    "ns0:enum": [
+                        {
+                            "@name": "ENABLED",
+                            "ns0:description": {
+                                "ns0:text": "Sets the channel admin state to enabled"
+                            }
+                        },
+                        {
+                            "@name": "DISABLED",
+                            "ns0:description": {
+                                "ns0:text": "Sets the channel admin state to disabled"
+                            }
+                        },
+                        {
+                            "@name": "MAINT",
+                            "ns0:description": {
+                                "ns0:text": "Sets the channel to maintenance / diagnostic mode"
+                            }
+                        }
+                    ]
+                },
+                "ns0:description": {
+                    "ns0:text": "Administrative state modes for\nlogical channels in the transponder model."
+                }
+            },
+            {
+                "@name": "loopback-mode-type",
+                "ns0:type": {
+                    "@name": "enumeration",
+                    "ns0:enum": [
+                        {
+                            "@name": "NONE",
+                            "ns0:description": {
+                                "ns0:text": "No loopback is applied"
+                            }
+                        },
+                        {
+                            "@name": "FACILITY",
+                            "ns0:description": {
+                                "ns0:text": "A loopback which directs traffic normally transmitted\non the port back to the device as if received on the same\nport from an external source."
+                            }
+                        },
+                        {
+                            "@name": "TERMINAL",
+                            "ns0:description": {
+                                "ns0:text": "A loopback which directs traffic received from an external\nsource on the port back out the transmit side of the same\nport."
+                            }
+                        }
+                    ]
+                },
+                "ns0:default": {
+                    "@value": "NONE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Loopback modes for transponder logical channels"
+                }
+            }
+        ],
+        "ns0:identity": [
+            {
+                "@name": "FRAME_MAPPING_PROTOCOL",
+                "ns0:description": {
+                    "ns0:text": "Base identity for frame mapping protocols that can be used\nwhen mapping Ethernet, OTN or other client signals to OTN\nlogical channels."
+                }
+            },
+            {
+                "@name": "AMP",
+                "ns0:base": {
+                    "@name": "FRAME_MAPPING_PROTOCOL"
+                },
+                "ns0:description": {
+                    "ns0:text": "Asynchronous Mapping Procedure"
+                }
+            },
+            {
+                "@name": "GMP",
+                "ns0:base": {
+                    "@name": "FRAME_MAPPING_PROTOCOL"
+                },
+                "ns0:description": {
+                    "ns0:text": "Generic Mapping Procedure"
+                }
+            },
+            {
+                "@name": "BMP",
+                "ns0:base": {
+                    "@name": "FRAME_MAPPING_PROTOCOL"
+                },
+                "ns0:description": {
+                    "ns0:text": "Bit-synchronous Mapping Procedure"
+                }
+            },
+            {
+                "@name": "CBR",
+                "ns0:base": {
+                    "@name": "FRAME_MAPPING_PROTOCOL"
+                },
+                "ns0:description": {
+                    "ns0:text": "Constant Bit Rate Mapping Procedure"
+                }
+            },
+            {
+                "@name": "GFP_T",
+                "ns0:base": {
+                    "@name": "FRAME_MAPPING_PROTOCOL"
+                },
+                "ns0:description": {
+                    "ns0:text": "Transparent Generic Framing Protocol"
+                }
+            },
+            {
+                "@name": "GFP_F",
+                "ns0:base": {
+                    "@name": "FRAME_MAPPING_PROTOCOL"
+                },
+                "ns0:description": {
+                    "ns0:text": "Framed-Mapped Generic Framing Protocol"
+                }
+            },
+            {
+                "@name": "TRIBUTARY_SLOT_GRANULARITY",
+                "ns0:description": {
+                    "ns0:text": "Base identity for tributary slot granularity for OTN\nlogical channels."
+                }
+            },
+            {
+                "@name": "TRIB_SLOT_1.25G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_SLOT_GRANULARITY"
+                },
+                "ns0:description": {
+                    "ns0:text": "The tributary slot with a bandwidth of approximately 1.25 Gb/s\nas defined in ITU-T G.709 standard."
+                }
+            },
+            {
+                "@name": "TRIB_SLOT_2.5G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_SLOT_GRANULARITY"
+                },
+                "ns0:description": {
+                    "ns0:text": "The tributary slot with a bandwidth of approximately 2.5 Gb/s\nas defined in ITU-T G.709 standard."
+                }
+            },
+            {
+                "@name": "TRIB_SLOT_5G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_SLOT_GRANULARITY"
+                },
+                "ns0:description": {
+                    "ns0:text": "The tributary slot with a bandwidth of approximately 5 Gb/s\nas defined in ITU-T G.709 standard."
+                }
+            },
+            {
+                "@name": "TRIBUTARY_PROTOCOL_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Base identity for protocol framing used by tributary\nsignals."
+                }
+            },
+            {
+                "@name": "PROT_1GE",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1G Ethernet protocol"
+                }
+            },
+            {
+                "@name": "PROT_OC48",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OC48 protocol"
+                }
+            },
+            {
+                "@name": "PROT_STM16",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "STM 16 protocol"
+                }
+            },
+            {
+                "@name": "PROT_10GE_LAN",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "10G Ethernet LAN protocol"
+                }
+            },
+            {
+                "@name": "PROT_10GE_WAN",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "10G Ethernet WAN protocol"
+                }
+            },
+            {
+                "@name": "PROT_OC192",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OC 192 (9.6GB) port protocol"
+                }
+            },
+            {
+                "@name": "PROT_STM64",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "STM 64 protocol"
+                }
+            },
+            {
+                "@name": "PROT_OTU2",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTU 2 protocol"
+                }
+            },
+            {
+                "@name": "PROT_OTU2E",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTU 2e protocol"
+                }
+            },
+            {
+                "@name": "PROT_OTU1E",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTU 1e protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODU2",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU 2 protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODU2E",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU 2e protocol"
+                }
+            },
+            {
+                "@name": "PROT_40GE",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "40G Ethernet port protocol"
+                }
+            },
+            {
+                "@name": "PROT_OC768",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OC 768 protocol"
+                }
+            },
+            {
+                "@name": "PROT_STM256",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "STM 256 protocol"
+                }
+            },
+            {
+                "@name": "PROT_OTU3",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTU 3 protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODU3",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU 3 protocol"
+                }
+            },
+            {
+                "@name": "PROT_100GE",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "100G Ethernet protocol"
+                }
+            },
+            {
+                "@name": "PROT_100G_MLG",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "100G MLG protocol"
+                }
+            },
+            {
+                "@name": "PROT_OTU4",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTU4 signal protocol (112G) for transporting\n100GE signal"
+                }
+            },
+            {
+                "@name": "PROT_OTUCN",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTU Cn protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODUCN",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU Cn protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODU4",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU 4 protocol"
+                }
+            },
+            {
+                "@name": "PROT_400GE",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "400G Ethernet protocol"
+                }
+            },
+            {
+                "@name": "PROT_OTSIG",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Optical tributary signal group protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODUFLEX_CBR",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU Flex with CBR protocol"
+                }
+            },
+            {
+                "@name": "PROT_ODUFLEX_GFP",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "ODU Flex with GFP protocol"
+                }
+            },
+            {
+                "@name": "TRANSCEIVER_FORM_FACTOR_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Base identity for identifying the type of pluggable optic\ntransceiver (i.e,. form factor) used in a port."
+                }
+            },
+            {
+                "@name": "CFP",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "C form-factor pluggable, that can support up to a\n100 Gb/s signal with 10x10G or 4x25G physical channels"
+                }
+            },
+            {
+                "@name": "CFP2",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1/2 C form-factor pluggable, that can support up to a\n200 Gb/s signal with 10x10G, 4x25G, or 8x25G physical\nchannels"
+                }
+            },
+            {
+                "@name": "CFP2_ACO",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "CFP2 analog coherent optics transceiver, supporting\n100 Gb, 200Gb, and 250 Gb/s signal."
+                }
+            },
+            {
+                "@name": "CFP4",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1/4 C form-factor pluggable, that can support up to a\n100 Gb/s signal with 10x10G or 4x25G physical channels"
+                }
+            },
+            {
+                "@name": "QSFP",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OriginalQuad Small Form-factor Pluggable transceiver that can\nsupport 4x1G physical channels.  Not commonly used."
+                }
+            },
+            {
+                "@name": "QSFP_PLUS",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Quad Small Form-factor Pluggable transceiver that can support\nup to 4x10G physical channels."
+                }
+            },
+            {
+                "@name": "QSFP28",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "QSFP pluggable optic with support for up to 4x28G physical\nchannels"
+                }
+            },
+            {
+                "@name": "QSFP56_DD_TYPE1",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "QSFP DD pluggable optic with support for up to 8x56G physical\nchannels. Type 1 uses eight optical and electrical signals."
+                }
+            },
+            {
+                "@name": "QSFP56_DD_TYPE2",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "QSFP DD pluggable optic with support for up to 4x112G physical\nchannels. Type 2 uses four optical and eight electrical\nsignals."
+                }
+            },
+            {
+                "@name": "CPAK",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Cisco CPAK transceiver supporting 100 Gb/s."
+                }
+            },
+            {
+                "@name": "SFP",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Small form-factor pluggable transceiver supporting up to\n10 Gb/s signal"
+                }
+            },
+            {
+                "@name": "SFP_PLUS",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Enhanced small form-factor pluggable transceiver supporting\nup to 16 Gb/s signals, including 10 GbE and OTU2"
+                }
+            },
+            {
+                "@name": "XFP",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "10 Gigabit small form factor pluggable transceiver supporting\n10 GbE and OTU2"
+                }
+            },
+            {
+                "@name": "X2",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "10 Gigabit small form factor pluggable transceiver supporting\n10 GbE using a XAUI inerface and 4 data channels."
+                }
+            },
+            {
+                "@name": "OSFP",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Octal small form factor pluggable transceiver supporting\n400 Gb/s."
+                }
+            },
+            {
+                "@name": "NON_PLUGGABLE",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Represents a port that does not require a pluggable optic,\ne.g., with on-board optics like COBO"
+                }
+            },
+            {
+                "@name": "OTHER",
+                "ns0:base": {
+                    "@name": "TRANSCEIVER_FORM_FACTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Represents a transceiver form factor not otherwise listed"
+                }
+            },
+            {
+                "@name": "FIBER_CONNECTOR_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Type of optical fiber connector"
+                }
+            },
+            {
+                "@name": "SC_CONNECTOR",
+                "ns0:base": {
+                    "@name": "FIBER_CONNECTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "SC type fiber connector"
+                }
+            },
+            {
+                "@name": "LC_CONNECTOR",
+                "ns0:base": {
+                    "@name": "FIBER_CONNECTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "LC type fiber connector"
+                }
+            },
+            {
+                "@name": "MPO_CONNECTOR",
+                "ns0:base": {
+                    "@name": "FIBER_CONNECTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "MPO (multi-fiber push-on/pull-off) type fiber connector\n1x12 fibers"
+                }
+            },
+            {
+                "@name": "AOC_CONNECTOR",
+                "ns0:base": {
+                    "@name": "FIBER_CONNECTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "AOC (active optical cable) type fiber connector"
+                }
+            },
+            {
+                "@name": "DAC_CONNECTOR",
+                "ns0:base": {
+                    "@name": "FIBER_CONNECTOR_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "DAC (direct attach copper) type fiber connector"
+                }
+            },
+            {
+                "@name": "ETHERNET_PMD_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance codes (PMD) supported by transceivers"
+                }
+            },
+            {
+                "@name": "ETH_10GBASE_LRM",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 10GBASE_LRM"
+                }
+            },
+            {
+                "@name": "ETH_10GBASE_LR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 10GBASE_LR"
+                }
+            },
+            {
+                "@name": "ETH_10GBASE_ZR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 10GBASE_ZR"
+                }
+            },
+            {
+                "@name": "ETH_10GBASE_ER",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 10GBASE_ER"
+                }
+            },
+            {
+                "@name": "ETH_10GBASE_SR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 10GBASE_SR"
+                }
+            },
+            {
+                "@name": "ETH_40GBASE_CR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 40GBASE_CR4"
+                }
+            },
+            {
+                "@name": "ETH_40GBASE_SR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 40GBASE_SR4"
+                }
+            },
+            {
+                "@name": "ETH_40GBASE_LR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 40GBASE_LR4"
+                }
+            },
+            {
+                "@name": "ETH_40GBASE_ER4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 40GBASE_ER4"
+                }
+            },
+            {
+                "@name": "ETH_40GBASE_PSM4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 40GBASE_PSM4"
+                }
+            },
+            {
+                "@name": "ETH_4X10GBASE_LR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 4x10GBASE_LR"
+                }
+            },
+            {
+                "@name": "ETH_4X10GBASE_SR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 4x10GBASE_SR"
+                }
+            },
+            {
+                "@name": "ETH_100G_AOC",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100G_AOC"
+                }
+            },
+            {
+                "@name": "ETH_100G_ACC",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100G_ACC"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_SR10",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_SR10"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_SR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_SR4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_LR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_LR4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_ER4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_ER4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_CWDM4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_CWDM4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_CLR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_CLR4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_PSM4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_PSM4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_CR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_CR4"
+                }
+            },
+            {
+                "@name": "ETH_100GBASE_FR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 100GBASE_FR"
+                }
+            },
+            {
+                "@name": "ETH_400GBASE_ZR",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 400GBASE_ZR"
+                }
+            },
+            {
+                "@name": "ETH_400GBASE_LR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 400GBASE_LR4"
+                }
+            },
+            {
+                "@name": "ETH_400GBASE_FR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 400GBASE_FR4"
+                }
+            },
+            {
+                "@name": "ETH_400GBASE_LR8",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 400GBASE_LR8"
+                }
+            },
+            {
+                "@name": "ETH_400GBASE_DR4",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: 400GBASE_DR4"
+                }
+            },
+            {
+                "@name": "ETH_UNDEFINED",
+                "ns0:base": {
+                    "@name": "ETHERNET_PMD_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet compliance code: undefined"
+                }
+            },
+            {
+                "@name": "SONET_APPLICATION_CODE",
+                "ns0:description": {
+                    "ns0:text": "Supported SONET/SDH application codes"
+                }
+            },
+            {
+                "@name": "VSR2000_3R2",
+                "ns0:base": {
+                    "@name": "SONET_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "SONET/SDH application code: VSR2000_3R2"
+                }
+            },
+            {
+                "@name": "VSR2000_3R3",
+                "ns0:base": {
+                    "@name": "SONET_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "SONET/SDH application code: VSR2000_3R3"
+                }
+            },
+            {
+                "@name": "VSR2000_3R5",
+                "ns0:base": {
+                    "@name": "SONET_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "SONET/SDH application code: VSR2000_3R5"
+                }
+            },
+            {
+                "@name": "SONET_UNDEFINED",
+                "ns0:base": {
+                    "@name": "SONET_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "SONET/SDH application code: undefined"
+                }
+            },
+            {
+                "@name": "OTN_APPLICATION_CODE",
+                "ns0:description": {
+                    "ns0:text": "Supported OTN application codes"
+                }
+            },
+            {
+                "@name": "P1L1_2D1",
+                "ns0:base": {
+                    "@name": "OTN_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTN application code: P1L1_2D1"
+                }
+            },
+            {
+                "@name": "P1S1_2D2",
+                "ns0:base": {
+                    "@name": "OTN_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTN application code: P1S1_2D2"
+                }
+            },
+            {
+                "@name": "P1L1_2D2",
+                "ns0:base": {
+                    "@name": "OTN_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTN application code: P1L1_2D2"
+                }
+            },
+            {
+                "@name": "OTN_UNDEFINED",
+                "ns0:base": {
+                    "@name": "OTN_APPLICATION_CODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTN application code: undefined"
+                }
+            },
+            {
+                "@name": "TRIBUTARY_RATE_CLASS_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Rate of tributary signal _- identities will typically reflect\nrounded bit rate."
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_2.5G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "2.5G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_10G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "10G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_40G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "40G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_100G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "100G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_150G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "150G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_200G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "200G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_250G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "250G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_300G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "300G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_350G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "350G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_400G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "400G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_450G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "450G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_500G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "500G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_550G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "550G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_600G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "600G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_650G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "650G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_700G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "700G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_750G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "750G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_800G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "800G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_850G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "850G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_900G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "900G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_950G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "950G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1000G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1000G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1050G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1050G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1100G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1100G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1150G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1150G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1200G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1200G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1250G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1250G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1300G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1300G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1350G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1350G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1400G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1400G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1450G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1450G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1500G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1500G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1550G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1550G tributary signal rate"
+                }
+            },
+            {
+                "@name": "TRIB_RATE_1600G",
+                "ns0:base": {
+                    "@name": "TRIBUTARY_RATE_CLASS_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "1600G tributary signal rate"
+                }
+            },
+            {
+                "@name": "LOGICAL_ELEMENT_PROTOCOL_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Type of protocol framing used on the logical channel or\ntributary"
+                }
+            },
+            {
+                "@name": "PROT_ETHERNET",
+                "ns0:base": {
+                    "@name": "LOGICAL_ELEMENT_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ethernet protocol framing"
+                }
+            },
+            {
+                "@name": "PROT_OTN",
+                "ns0:base": {
+                    "@name": "LOGICAL_ELEMENT_PROTOCOL_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "OTN protocol framing"
+                }
+            },
+            {
+                "@name": "OPTICAL_CHANNEL",
+                "ns0:base": {
+                    "@name": "oc-platform-types:OPENCONFIG_HARDWARE_COMPONENT"
+                },
+                "ns0:description": {
+                    "ns0:text": "Optical channels act as carriers for transport traffic\ndirected over a line system.  They are represented as\nphysical components in the physical inventory model."
+                }
+            },
+            {
+                "@name": "FIBER_JUMPER_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Types of fiber jumpers used for connecting device ports"
+                }
+            },
+            {
+                "@name": "FIBER_JUMPER_SIMPLEX",
+                "ns0:base": {
+                    "@name": "FIBER_JUMPER_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Simplex fiber jumper"
+                }
+            },
+            {
+                "@name": "FIBER_JUMPER_MULTI_FIBER_STRAND",
+                "ns0:base": {
+                    "@name": "FIBER_JUMPER_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "One strand of a fiber jumper which contains multiple fibers\nwithin it, such as an MPO based fiber jumper"
+                }
+            },
+            {
+                "@name": "OPTICAL_PORT_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Type definition for optical transport port types"
+                }
+            },
+            {
+                "@name": "INGRESS",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Ingress port, corresponding to a signal entering\na line system device such as an amplifier or wavelength\nrouter."
+                }
+            },
+            {
+                "@name": "EGRESS",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Egress port, corresponding to a signal exiting\na line system device such as an amplifier or wavelength\nrouter."
+                }
+            },
+            {
+                "@name": "ADD",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Add port, corresponding to a signal injected\nat a wavelength router."
+                }
+            },
+            {
+                "@name": "DROP",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Drop port, corresponding to a signal dropped\nat a wavelength router."
+                }
+            },
+            {
+                "@name": "MONITOR",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Monitor port, corresponding to a signal used by an optical\nchannel monitor. This is used to represent the connection\nthat a channel monitor port is connected to, typically on a\nline system device. This  connection may be via physical cable\nand faceplate ports or internal to the device"
+                }
+            },
+            {
+                "@name": "TERMINAL_CLIENT",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Client-facing port on a terminal optics device (e.g.,\ntransponder or muxponder)."
+                }
+            },
+            {
+                "@name": "TERMINAL_LINE",
+                "ns0:base": {
+                    "@name": "OPTICAL_PORT_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Line-facing port on a terminal optics device (e.g.,\ntransponder or muxponder)."
+                }
+            }
+        ],
+        "ns0:grouping": [
+            {
+                "@name": "avg-min-max-instant-stats-precision2-ps-nm",
+                "ns0:description": {
+                    "ns0:text": "Common grouping for recording picosecond per nanometer\nvalues with 2 decimal precision. Values include the\ninstantaneous, average, minimum, and maximum statistics.\nStatistics are computed and reported based on a moving time\ninterval (e.g., the last 30s).  If supported by the device,\nthe time interval over which the statistics are computed, and\nthe times at which the minimum and maximum values occurred,\nare also reported."
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "instant",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps-nm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The instantaneous value of the statistic."
+                        }
+                    },
+                    {
+                        "@name": "avg",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps-nm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The arithmetic mean value of the statistic over the\ntime interval."
+                        }
+                    },
+                    {
+                        "@name": "min",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps-nm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The minimum value of the statistic over the time interval."
+                        }
+                    },
+                    {
+                        "@name": "max",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps-nm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The maximum value of the statistic over the time interval."
+                        }
+                    }
+                ],
+                "ns0:uses": [
+                    {
+                        "@name": "oc-types:stat-interval-state"
+                    },
+                    {
+                        "@name": "oc-types:min-max-time"
+                    }
+                ]
+            },
+            {
+                "@name": "avg-min-max-instant-stats-precision2-ps",
+                "ns0:description": {
+                    "ns0:text": "Common grouping for recording picosecond values with\n2 decimal precision. Values include the\ninstantaneous, average, minimum, and maximum statistics.\nStatistics are computed and reported based on a moving time\ninterval (e.g., the last 30s).  If supported by the device,\nthe time interval over which the statistics are computed, and\nthe times at which the minimum and maximum values occurred,\nare also reported."
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "instant",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The instantaneous value of the statistic."
+                        }
+                    },
+                    {
+                        "@name": "avg",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The arithmetic mean value of the statistic over the\ntime interval."
+                        }
+                    },
+                    {
+                        "@name": "min",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The minimum value of the statistic over the time interval."
+                        }
+                    },
+                    {
+                        "@name": "max",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The maximum value of the statistic over the time interval."
+                        }
+                    }
+                ],
+                "ns0:uses": [
+                    {
+                        "@name": "oc-types:stat-interval-state"
+                    },
+                    {
+                        "@name": "oc-types:min-max-time"
+                    }
+                ]
+            },
+            {
+                "@name": "avg-min-max-instant-stats-precision2-ps2",
+                "ns0:description": {
+                    "ns0:text": "Common grouping for recording picosecond^2 values with\n2 decimal precision. Values include the\ninstantaneous, average, minimum, and maximum statistics.\nStatistics are computed and reported based on a moving time\ninterval (e.g., the last 30s).  If supported by the device,\nthe time interval over which the statistics are computed, and\nthe times at which the minimum and maximum values occurred,\nare also reported."
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "instant",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps^2"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The instantaneous value of the statistic."
+                        }
+                    },
+                    {
+                        "@name": "avg",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps^2"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The arithmetic mean value of the statistic over the\ntime interval."
+                        }
+                    },
+                    {
+                        "@name": "min",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps^2"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The minimum value of the statistic over the time interval."
+                        }
+                    },
+                    {
+                        "@name": "max",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "ps^2"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The maximum value of the statistic over the time\ninterval."
+                        }
+                    }
+                ],
+                "ns0:uses": [
+                    {
+                        "@name": "oc-types:stat-interval-state"
+                    },
+                    {
+                        "@name": "oc-types:min-max-time"
+                    }
+                ]
+            },
+            {
+                "@name": "avg-min-max-instant-stats-precision18-ber",
+                "ns0:description": {
+                    "ns0:text": "Common grouping for recording bit error rate (BER) values\nwith 18 decimal precision. Note that decimal64 supports\nvalues as small as i x 10^-18 where i is an integer. Values\nsmaller than this should be reported as 0 to inidicate error\nfree or near error free performance. Values include the\ninstantaneous, average, minimum, and maximum statistics.\nStatistics are computed and reported based on a moving time\ninterval (e.g., the last 30s).  If supported by the device,\nthe time interval over which the statistics are computed, and\nthe times at which the minimum and maximum values occurred,\nare also reported."
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "instant",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "18"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "bit-errors-per-second"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The instantaneous value of the statistic."
+                        }
+                    },
+                    {
+                        "@name": "avg",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "18"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "bit-errors-per-second"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The arithmetic mean value of the statistic over the\ntime interval."
+                        }
+                    },
+                    {
+                        "@name": "min",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "18"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "bit-errors-per-second"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The minimum value of the statistic over the time\ninterval."
+                        }
+                    },
+                    {
+                        "@name": "max",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "18"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "bit-errors-per-second"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The maximum value of the statistic over the time\ninterval."
+                        }
+                    }
+                ],
+                "ns0:uses": [
+                    {
+                        "@name": "oc-types:stat-interval-state"
+                    },
+                    {
+                        "@name": "oc-types:min-max-time"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,703 @@
+{
+    "ns0:module": {
+        "@xmlns:ns0": "urn:ietf:params:xml:ns:yang:yin:1",
+        "@xmlns:ns1": "http://openconfig.net/yang/openconfig-ext",
+        "@name": "openconfig-optical-amplifier",
+        "ns0:yang-version": {
+            "@value": "1"
+        },
+        "ns0:namespace": {
+            "@uri": "http://openconfig.net/yang/optical-amplfier"
+        },
+        "ns0:prefix": {
+            "@value": "oc-opt-amp"
+        },
+        "ns0:import": [
+            {
+                "@module": "openconfig-platform",
+                "ns0:prefix": {
+                    "@value": "oc-platform"
+                }
+            },
+            {
+                "@module": "openconfig-transport-line-common",
+                "ns0:prefix": {
+                    "@value": "oc-line-com"
+                }
+            },
+            {
+                "@module": "openconfig-types",
+                "ns0:prefix": {
+                    "@value": "oc-types"
+                }
+            },
+            {
+                "@module": "openconfig-extensions",
+                "ns0:prefix": {
+                    "@value": "oc-ext"
+                }
+            }
+        ],
+        "ns0:organization": {
+            "ns0:text": "OpenConfig working group"
+        },
+        "ns0:contact": {
+            "ns0:text": "OpenConfig working group\nwww.openconfig.net"
+        },
+        "ns0:description": {
+            "ns0:text": "This model describes configuration and operational state data\nfor optical amplifiers, deployed as part of a transport\nline system."
+        },
+        "ns1:openconfig-version": {
+            "@semver": "0.5.0"
+        },
+        "ns0:revision": [
+            {
+                "@date": "2019-12-06",
+                "ns0:description": {
+                    "ns0:text": "Add DYNAMIC_GAIN mode and related leaves."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.5.0"
+                }
+            },
+            {
+                "@date": "2018-11-21",
+                "ns0:description": {
+                    "ns0:text": "Add OpenConfig module metadata extensions."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.4.1"
+                }
+            },
+            {
+                "@date": "2017-10-02",
+                "ns0:description": {
+                    "ns0:text": "Add support for fiber type profile and physical component\nassociation for amplifier gain blocks."
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.4.0"
+                }
+            },
+            {
+                "@date": "2017-09-08",
+                "ns0:description": {
+                    "ns0:text": "Correct bug with OSC interfaces"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.1"
+                }
+            },
+            {
+                "@date": "2017-07-08",
+                "ns0:description": {
+                    "ns0:text": "Add monitor port type and refs to hw ports,"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.3.0"
+                }
+            },
+            {
+                "@date": "2017-03-28",
+                "ns0:description": {
+                    "ns0:text": "Added min/max/avg stats, status for media channels, OCM, APS"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.2.0"
+                }
+            },
+            {
+                "@date": "2016-03-31",
+                "ns0:description": {
+                    "ns0:text": "Initial public release"
+                },
+                "ns0:reference": {
+                    "ns0:text": "0.1.0"
+                }
+            }
+        ],
+        "ns1:regexp-posix": null,
+        "ns1:catalog-organization": {
+            "@org": "openconfig"
+        },
+        "ns1:origin": {
+            "@origin": "openconfig"
+        },
+        "ns0:identity": [
+            {
+                "@name": "OPTICAL_AMPLIFIER_TYPE",
+                "ns0:description": {
+                    "ns0:text": "Type definition for different types of optical amplifiers"
+                }
+            },
+            {
+                "@name": "EDFA",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Erbium doped fiber amplifer (EDFA)"
+                }
+            },
+            {
+                "@name": "FORWARD_RAMAN",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Forward pumping Raman amplifier"
+                }
+            },
+            {
+                "@name": "BACKWARD_RAMAN",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Backward pumping Raman amplifier"
+                }
+            },
+            {
+                "@name": "HYBRID",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_TYPE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Hybrid backward pumping Raman + EDFA amplifier"
+                }
+            },
+            {
+                "@name": "GAIN_RANGE",
+                "ns0:description": {
+                    "ns0:text": "Base type for expressing the gain range for a switched gain\namplifier.  The gain range is expressed as a generic setting,\ne.g., LOW/MID/HIGH. The actual db range will be determined\nby the implementation."
+                }
+            },
+            {
+                "@name": "LOW_GAIN_RANGE",
+                "ns0:base": {
+                    "@name": "GAIN_RANGE"
+                },
+                "ns0:description": {
+                    "ns0:text": "LOW gain range setting"
+                }
+            },
+            {
+                "@name": "MID_GAIN_RANGE",
+                "ns0:base": {
+                    "@name": "GAIN_RANGE"
+                },
+                "ns0:description": {
+                    "ns0:text": "MID gain range setting"
+                }
+            },
+            {
+                "@name": "HIGH_GAIN_RANGE",
+                "ns0:base": {
+                    "@name": "GAIN_RANGE"
+                },
+                "ns0:description": {
+                    "ns0:text": "HIGH gain range setting"
+                }
+            },
+            {
+                "@name": "FIXED_GAIN_RANGE",
+                "ns0:base": {
+                    "@name": "GAIN_RANGE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Fixed or non-switched gain amplfier"
+                }
+            },
+            {
+                "@name": "OPTICAL_AMPLIFIER_MODE",
+                "ns0:description": {
+                    "ns0:text": "Type definition for different types of optical amplifier\noperating modes"
+                }
+            },
+            {
+                "@name": "CONSTANT_POWER",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Constant power mode. In constant power mode, the amplifier\nwill maintain a constant output power by adjusting the\namplifier gain and/or related variable optical attenuators"
+                }
+            },
+            {
+                "@name": "CONSTANT_GAIN",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Constant gain mode. In constant gain mode, the amplifier\nwill maintain a constant amplifier gain"
+                }
+            },
+            {
+                "@name": "DYNAMIC_GAIN",
+                "ns0:base": {
+                    "@name": "OPTICAL_AMPLIFIER_MODE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Dynamic gain mode. In dynamic gain mode, the amplifier will\nautomatically adjust gain to stay within parameters defined\nby:\n- target-gain\n- min-gain\n- max-gain"
+                }
+            },
+            {
+                "@name": "FIBER_TYPE_PROFILE",
+                "ns0:description": {
+                    "ns0:text": "Type definition for different profiles of fiber types"
+                }
+            },
+            {
+                "@name": "DSF",
+                "ns0:base": {
+                    "@name": "FIBER_TYPE_PROFILE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Dispersion shifted fiber"
+                }
+            },
+            {
+                "@name": "LEAF",
+                "ns0:base": {
+                    "@name": "FIBER_TYPE_PROFILE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Large effective area fiber"
+                }
+            },
+            {
+                "@name": "SSMF",
+                "ns0:base": {
+                    "@name": "FIBER_TYPE_PROFILE"
+                },
+                "ns0:description": {
+                    "ns0:text": "Standard single mode fiber"
+                }
+            },
+            {
+                "@name": "TWC",
+                "ns0:base": {
+                    "@name": "FIBER_TYPE_PROFILE"
+                },
+                "ns0:description": {
+                    "ns0:text": "True wave classic"
+                }
+            },
+            {
+                "@name": "TWRS",
+                "ns0:base": {
+                    "@name": "FIBER_TYPE_PROFILE"
+                },
+                "ns0:description": {
+                    "ns0:text": "True wave reduced slope"
+                }
+            }
+        ],
+        "ns0:grouping": [
+            {
+                "@name": "optical-amplifier-config",
+                "ns0:description": {
+                    "ns0:text": "Configuration data for optical amplifiers"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "name",
+                        "ns0:type": {
+                            "@name": "string"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "User-defined name assigned to identify a specific amplifier\nin the device"
+                        }
+                    },
+                    {
+                        "@name": "type",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "OPTICAL_AMPLIFIER_TYPE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Type of the amplifier"
+                        }
+                    },
+                    {
+                        "@name": "target-gain",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            },
+                            "ns0:range": {
+                                "@value": "0..max"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dB"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Positive gain applied by the amplifier. This is used\nwhen the amp-mode is in CONSTANT_GAIN or DYNAMIC_GAIN\nmode to set the target gain that the amplifier should\nachieve."
+                        }
+                    },
+                    {
+                        "@name": "min-gain",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The minimum allowed gain of the amplifier. This is used\nwhen the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode\nto prevent the gain from dropping below a desired threshold.\nIf left empty, the platform will apply a minimum gain based\non hardware specifications."
+                        }
+                    },
+                    {
+                        "@name": "max-gain",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The maximum allowed gain of the amplifier. This is used\nwhen the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode\nto prevent the gain from exceeding a desired threshold. If\nleft empty, the platform will apply a maximum gain based on\nhardware specifications."
+                        }
+                    },
+                    {
+                        "@name": "target-gain-tilt",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dB"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Gain tilt control"
+                        }
+                    },
+                    {
+                        "@name": "gain-range",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "GAIN_RANGE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Selected gain range.  The gain range is a platform-defined\nvalue indicating the switched gain amplifier setting"
+                        }
+                    },
+                    {
+                        "@name": "amp-mode",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "OPTICAL_AMPLIFIER_MODE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The operating mode of the amplifier"
+                        }
+                    },
+                    {
+                        "@name": "target-output-power",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Output optical power of the amplifier."
+                        }
+                    },
+                    {
+                        "@name": "max-output-power",
+                        "ns0:type": {
+                            "@name": "decimal64",
+                            "ns0:fraction-digits": {
+                                "@value": "2"
+                            }
+                        },
+                        "ns0:units": {
+                            "@name": "dBm"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The maximum optical output power of the amplifier. This\nmay be used to prevent the output power from exceeding a\ndesired threshold."
+                        }
+                    },
+                    {
+                        "@name": "enabled",
+                        "ns0:type": {
+                            "@name": "boolean"
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Turns power on / off to the amplifiers gain module."
+                        }
+                    },
+                    {
+                        "@name": "fiber-type-profile",
+                        "ns0:type": {
+                            "@name": "identityref",
+                            "ns0:base": {
+                                "@name": "FIBER_TYPE_PROFILE"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "The fiber type profile specifies details about the\nfiber type which are needed to accurately determine\nthe gain and perform efficient amplification. This is\nonly needed for Raman type amplifiers."
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "optical-amplifier-state",
+                "ns0:description": {
+                    "ns0:text": "Operational state data for optical amplifiers"
+                },
+                "ns0:leaf": [
+                    {
+                        "@name": "component",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to the system-supplied physical component that\nthe amplifier gain block is contained within. Multiple\namplifier gain blocks may be contained within the same\nphysical component."
+                        }
+                    },
+                    {
+                        "@name": "ingress-port",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to system-supplied name of the amplifier ingress\nport. This leaf is only valid for ports of type INGRESS."
+                        }
+                    },
+                    {
+                        "@name": "egress-port",
+                        "ns0:type": {
+                            "@name": "leafref",
+                            "ns0:path": {
+                                "@value": "/oc-platform:components/oc-platform:component/oc-platform:name"
+                            }
+                        },
+                        "ns0:description": {
+                            "ns0:text": "Reference to system-supplied name of the amplifier egress\nport. This leaf is only valid for ports of type EGRESS."
+                        }
+                    }
+                ],
+                "ns0:container": [
+                    {
+                        "@name": "actual-gain",
+                        "ns0:description": {
+                            "ns0:text": "The actual gain applied by the amplifier in units of\n0.01dB. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dB"
+                        }
+                    },
+                    {
+                        "@name": "actual-gain-tilt",
+                        "ns0:description": {
+                            "ns0:text": "The actual tilt applied by the amplifier in units of\n0.01dB. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dB"
+                        }
+                    },
+                    {
+                        "@name": "input-power-total",
+                        "ns0:description": {
+                            "ns0:text": "The total input optical power of this port in units\nof 0.01dBm. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    },
+                    {
+                        "@name": "input-power-c-band",
+                        "ns0:description": {
+                            "ns0:text": "The C band (consisting of approximately 191 to 195 THz or\n1530nm to 1565 nm) input optical power of this port in units\nof 0.01dBm. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    },
+                    {
+                        "@name": "input-power-l-band",
+                        "ns0:description": {
+                            "ns0:text": "The L band (consisting of approximately 184 to 191 THz or\n1565 to 1625 nm) input optical power of this port in units\nof 0.01dBm. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    },
+                    {
+                        "@name": "output-power-total",
+                        "ns0:description": {
+                            "ns0:text": "The total output optical power of this port in units\nof 0.01dBm. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    },
+                    {
+                        "@name": "output-power-c-band",
+                        "ns0:description": {
+                            "ns0:text": "The C band (consisting of approximately 191 to 195 THz or\n1530nm to 1565 nm)output optical power of this port in units\nof 0.01dBm. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    },
+                    {
+                        "@name": "output-power-l-band",
+                        "ns0:description": {
+                            "ns0:text": "The L band (consisting of approximately 184 to 191 THz or\n1565 to 1625 nm)output optical power of this port in units\nof 0.01dBm. If avg/min/max statistics are not supported,\njust supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    },
+                    {
+                        "@name": "laser-bias-current",
+                        "ns0:description": {
+                            "ns0:text": "The current applied by the system to the transmit laser to\nachieve the output power. The current is expressed in mA\nwith up to two decimal precision. If avg/min/max statistics\nare not supported, just supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-mA"
+                        }
+                    },
+                    {
+                        "@name": "optical-return-loss",
+                        "ns0:description": {
+                            "ns0:text": "The optical return loss (ORL) is the ratio of the light\nreflected back into the port to the light launched out of\nthe port. ORL is in units of 0.01dBm. If avg/min/max\nstatistics are not supported, just supply the instant value"
+                        },
+                        "ns0:uses": {
+                            "@name": "oc-types:avg-min-max-instant-stats-precision2-dBm"
+                        }
+                    }
+                ]
+            },
+            {
+                "@name": "optical-amplifier-top",
+                "ns0:description": {
+                    "ns0:text": "Top-level grouping for optical amplifier data"
+                },
+                "ns0:container": {
+                    "@name": "optical-amplifier",
+                    "ns0:description": {
+                        "ns0:text": "Enclosing container for amplifiers and supervisory channels"
+                    },
+                    "ns0:container": [
+                        {
+                            "@name": "amplifiers",
+                            "ns0:description": {
+                                "ns0:text": "Enclosing container for list of amplifiers"
+                            },
+                            "ns0:list": {
+                                "@name": "amplifier",
+                                "ns0:key": {
+                                    "@value": "name"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "List of optical amplifiers present in the device"
+                                },
+                                "ns0:leaf": {
+                                    "@name": "name",
+                                    "ns0:type": {
+                                        "@name": "leafref",
+                                        "ns0:path": {
+                                            "@value": "../config/name"
+                                        }
+                                    },
+                                    "ns0:description": {
+                                        "ns0:text": "Reference to the name of the amplifier"
+                                    }
+                                },
+                                "ns0:container": [
+                                    {
+                                        "@name": "config",
+                                        "ns0:description": {
+                                            "ns0:text": "Configuration data for the amplifier"
+                                        },
+                                        "ns0:uses": {
+                                            "@name": "optical-amplifier-config"
+                                        }
+                                    },
+                                    {
+                                        "@name": "state",
+                                        "ns0:config": {
+                                            "@value": "false"
+                                        },
+                                        "ns0:description": {
+                                            "ns0:text": "Operational state data for the amplifier"
+                                        },
+                                        "ns0:uses": [
+                                            {
+                                                "@name": "optical-amplifier-config"
+                                            },
+                                            {
+                                                "@name": "optical-amplifier-state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "@name": "supervisory-channels",
+                            "ns0:description": {
+                                "ns0:text": "Enclosing container for list of supervisory channels"
+                            },
+                            "ns0:list": {
+                                "@name": "supervisory-channel",
+                                "ns0:key": {
+                                    "@value": "interface"
+                                },
+                                "ns0:description": {
+                                    "ns0:text": "List of supervisory channels"
+                                },
+                                "ns0:leaf": {
+                                    "@name": "interface",
+                                    "ns0:type": {
+                                        "@name": "leafref",
+                                        "ns0:path": {
+                                            "@value": "../config/interface"
+                                        }
+                                    },
+                                    "ns0:description": {
+                                        "ns0:text": "Reference to the interface of the supervisory channel"
+                                    }
+                                },
+                                "ns0:uses": {
+                                    "@name": "oc-line-com:optical-osc-top"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "ns0:uses": {
+            "@name": "optical-amplifier-top"
+        }
+    }
+}

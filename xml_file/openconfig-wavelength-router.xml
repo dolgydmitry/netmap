@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="openconfig-wavelength-router"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:oc-wave-router="http://openconfig.net/yang/wavelength-router"
+        xmlns:oc-ext="http://openconfig.net/yang/openconfig-ext"
+        xmlns:oc-platform="http://openconfig.net/yang/platform"
+        xmlns:oc-opt-types="http://openconfig.net/yang/transport-types">
+  <yang-version value="1"/>
+  <namespace uri="http://openconfig.net/yang/wavelength-router"/>
+  <prefix value="oc-wave-router"/>
+  <import module="openconfig-extensions">
+    <prefix value="oc-ext"/>
+  </import>
+  <import module="openconfig-platform">
+    <prefix value="oc-platform"/>
+  </import>
+  <import module="openconfig-transport-types">
+    <prefix value="oc-opt-types"/>
+  </import>
+  <organization>
+    <text>OpenConfig working group</text>
+  </organization>
+  <contact>
+    <text>OpenConfig working group
+ www.openconfig.net</text>
+  </contact>
+  <description>
+    <text>This model describes configuration and operational state data
+for an optical transport line system node, or ROADM (incl. CDC
+ROADMs, WSS, Dynamic Gain Equalizer/DGE).
+
+Nodes are modeled as a configurable switching element with
+ingress and egress ports, as well as a number of add/drop ports
+that can be set up to direct portions of the optical spectrum
+to the appropriate degrees.
+
+In relation to configuring target spectrum powers, there
+are two, non-overlapping, configuration possibilities that are
+supported.
+1. Non-noise loaded wavelength router:
+  - The target spectrum powers are configured on each media
+    channel.
+2. Noise-loaded wavelength router:
+  - The target spectrum power values will be configured as a
+    target spectrum power profile over the full spectrum instead
+    of individual media channels.</text>
+  </description>
+  <oc-ext:openconfig-version semver="1.0.0"/>
+  <revision date="2020-08-28">
+    <description>
+      <text>Add ase-injection-delta-threshold leaf.</text>
+    </description>
+    <reference>
+      <text>1.0.0</text>
+    </reference>
+  </revision>
+  <revision date="2020-06-03">
+    <description>
+      <text>Add attenutation-control-mode to media channel config</text>
+    </description>
+    <reference>
+      <text>0.8.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-10-24">
+    <description>
+      <text>Migrate from using power spectral densisty to using power
+target values</text>
+    </description>
+    <reference>
+      <text>0.7.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-09-20">
+    <description>
+      <text>Add ASE related state and config. Also add a super channel
+parent leaf</text>
+    </description>
+    <reference>
+      <text>0.6.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-06-03">
+    <description>
+      <text>PSD profile top-level description and
+port changed to a leafref.</text>
+    </description>
+    <reference>
+      <text>0.5.0</text>
+    </reference>
+  </revision>
+  <revision date="2019-04-03">
+    <description>
+      <text>Add port PSD profile modeling.</text>
+    </description>
+    <reference>
+      <text>0.4.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-11-21">
+    <description>
+      <text>Add OpenConfig module metadata extensions.</text>
+    </description>
+    <reference>
+      <text>0.3.3</text>
+    </reference>
+  </revision>
+  <revision date="2018-07-17">
+    <description>
+      <text>Correct bug so that source/dest ports are components</text>
+    </description>
+    <reference>
+      <text>0.3.2</text>
+    </reference>
+  </revision>
+  <revision date="2017-09-08">
+    <description>
+      <text>Correct bug with OSC interfaces</text>
+    </description>
+    <reference>
+      <text>0.3.1</text>
+    </reference>
+  </revision>
+  <revision date="2017-07-08">
+    <description>
+      <text>Support multiple OCMs, add monitor port type
+and refs to hw ports, </text>
+    </description>
+    <reference>
+      <text>0.3.0</text>
+    </reference>
+  </revision>
+  <revision date="2017-03-28">
+    <description>
+      <text>Added min/max/avg stats, status for media channels, OCM, APS</text>
+    </description>
+    <reference>
+      <text>0.2.0</text>
+    </reference>
+  </revision>
+  <revision date="2016-03-31">
+    <description>
+      <text>Initial public release</text>
+    </description>
+    <reference>
+      <text>0.1.0</text>
+    </reference>
+  </revision>
+  <oc-ext:regexp-posix/>
+  <oc-ext:catalog-organization org="openconfig"/>
+  <oc-ext:origin origin="openconfig"/>
+  <identity name="ATTENUATION_CONTROL_MODE">
+    <description>
+      <text>The definition for different types of attenutation control
+modes on a media channel</text>
+    </description>
+  </identity>
+  <identity name="ATTENUATION_FIXED_LOSS">
+    <base name="ATTENUATION_CONTROL_MODE"/>
+    <description>
+      <text>The attenuation applied across a media channel will be
+calculated based on the target input and output powers as well
+as the internal losses of the wavelength router. The target
+power levels are configured using port-spectrum-power-profiles
+of the two ports</text>
+    </description>
+  </identity>
+  <identity name="ATTENUATION_DYNAMIC_LOSS">
+    <base name="ATTENUATION_CONTROL_MODE"/>
+    <description>
+      <text>The attenuation applied across a media channel is dynamically
+controlled by the device by attempting to meet the target output
+power as defined in the output port's
+port-spectrum-power-profile</text>
+    </description>
+  </identity>
+  <identity name="ASE_CONTROL_MODE">
+    <description>
+      <text>The definition for different types of ASE control modes
+on a media channel</text>
+    </description>
+  </identity>
+  <identity name="ASE_ENABLED">
+    <base name="ASE_CONTROL_MODE"/>
+    <description>
+      <text>The media channel will immediately have ASE noise injected</text>
+    </description>
+  </identity>
+  <identity name="ASE_DISABLED">
+    <base name="ASE_CONTROL_MODE"/>
+    <description>
+      <text>Removes any ASE noise injection that may be present on the
+media channel</text>
+    </description>
+  </identity>
+  <identity name="AUTO_ASE_ON_FAILURE">
+    <base name="ASE_CONTROL_MODE"/>
+    <description>
+      <text>The media channel will automatically be injected with noise
+if the media channel target spectrum power drops below the
+provided threshdold. In this mode, at time of a failure, the
+media channel is removed from the system and would need to be
+reconfigured to restore traffic. In addition, unprovisioned
+spectrum will be injected with noise</text>
+    </description>
+  </identity>
+  <identity name="AUTO_ASE_FAILURE_AND_RESTORE">
+    <base name="ASE_CONTROL_MODE"/>
+    <description>
+      <text>The media channel will automatically be injected with noise
+if the media channel target spectrum power drops below the
+provided threshold. When the original signal is restored above
+the threshold the ASE noise injection will be automatically
+removed. In addition, unprovisioned spectrum will be injected
+with noise</text>
+    </description>
+  </identity>
+  <grouping name="port-spectrum-power-profile-state">
+    <description>
+      <text>Operational state data for a wavelength-router
+port spectrum profile</text>
+    </description>
+  </grouping>
+  <grouping name="port-spectrum-power-profile-config">
+    <description>
+      <text>Configuration data for a wavelength-router port spectrum
+profile</text>
+    </description>
+    <leaf name="name">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to system-supplied name of the wavelength-router
+port component.</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="port-spectrum-power-profiles-top">
+    <description>
+      <text>Top-level grouping for the list of wavelength-router port
+spectrum power profiles</text>
+    </description>
+    <container name="port-spectrum-power-profiles">
+      <description>
+        <text>Enclosing container for wavelength-router port spectrum
+power profiles</text>
+      </description>
+      <list name="port">
+        <key value="name"/>
+        <description>
+          <text>List of ports, keyed by port name</text>
+        </description>
+        <leaf name="name">
+          <type name="leafref">
+            <path value="../config/name"/>
+          </type>
+          <description>
+            <text>References the port name</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data for each port</text>
+          </description>
+          <uses name="port-spectrum-power-profile-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for each port spectrum profile.</text>
+          </description>
+          <uses name="port-spectrum-power-profile-config"/>
+          <uses name="port-spectrum-power-profile-state"/>
+        </container>
+        <uses name="spectrum-target-power-profiles-top"/>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="media-channel-port-config">
+    <description>
+      <text>Configuration data for a media channel source/dest port</text>
+    </description>
+    <leaf name="port-name">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to the corresponding node port</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="media-channel-port-state">
+    <description>
+      <text>Operational state data for a media channel source/dest port</text>
+    </description>
+  </grouping>
+  <grouping name="media-channel-source-port-top">
+    <description>
+      <text>Top-level grouping for source of the media channel</text>
+    </description>
+    <container name="source">
+      <description>
+        <text>Top-level container for media channel source</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for the media channel source</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for the media channel source</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+        <uses name="media-channel-port-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="media-channel-dest-port-top">
+    <description>
+      <text>Top-level grouping for destination of the media channel</text>
+    </description>
+    <container name="dest">
+      <description>
+        <text>Top-level container for media channel destination</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for the media channel destination</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for the media channel destination</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+        <uses name="media-channel-port-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="spectrum-target-power-config">
+    <description>
+      <text>Configuration data for the media channel target power</text>
+    </description>
+    <leaf name="lower-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>Lower frequency of the specified target spectrum power</text>
+      </description>
+    </leaf>
+    <leaf name="upper-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>Upper frequency of the specified target spectrum power</text>
+      </description>
+    </leaf>
+    <leaf name="target-power">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>Target average power to achieve within the specified
+spectrum</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="spectrum-target-power-state">
+    <description>
+      <text>Operational state data for the target spectrum power</text>
+    </description>
+  </grouping>
+  <grouping name="spectrum-target-power-profiles-top">
+    <description>
+      <text>Top-level grouping for target spectrum profiles</text>
+    </description>
+    <container name="spectrum-power-profile">
+      <description>
+        <text>Enclosing container for the list of values describing
+the target spectrum powers</text>
+      </description>
+      <list name="distribution">
+        <key value="lower-frequency upper-frequency"/>
+        <description>
+          <text>List of tuples describing the target spectrum power
+distribution</text>
+        </description>
+        <leaf name="lower-frequency">
+          <type name="leafref">
+            <path value="../config/lower-frequency"/>
+          </type>
+          <description>
+            <text>Reference to the list key</text>
+          </description>
+        </leaf>
+        <leaf name="upper-frequency">
+          <type name="leafref">
+            <path value="../config/upper-frequency"/>
+          </type>
+          <description>
+            <text>Reference to the list key</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data for target spectrum power</text>
+          </description>
+          <uses name="spectrum-target-power-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for target spectrum power</text>
+          </description>
+          <uses name="spectrum-target-power-config"/>
+          <uses name="spectrum-target-power-state"/>
+        </container>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="media-channel-config">
+    <description>
+      <text>Configuration data for media channel definitions</text>
+    </description>
+    <leaf name="index">
+      <type name="uint32"/>
+      <description>
+        <text>Identifier for the defined media channel</text>
+      </description>
+    </leaf>
+    <leaf name="name">
+      <type name="string"/>
+      <description>
+        <text>The user supplied name of the media channel</text>
+      </description>
+    </leaf>
+    <leaf name="lower-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>The lower frequency for the spectrum defined by this media
+channel</text>
+      </description>
+    </leaf>
+    <leaf name="upper-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>The upper frequency for the spectrum defined by this media
+channel</text>
+      </description>
+    </leaf>
+    <leaf name="admin-status">
+      <type name="oc-opt-types:admin-state-type"/>
+      <description>
+        <text>Sets the admin status of the media channel</text>
+      </description>
+    </leaf>
+    <leaf name="super-channel">
+      <type name="boolean"/>
+      <description>
+        <text>True if the media channel is a super channel which
+contains multiple media channels within it. The contained
+media channels should fall within the boundaries of the
+super channel. The device should raise an error if a media
+channel crosses a super channel boundary. When using super
+channels, spectrum power targets should be defined in either
+the:
+- port-spectrum-power-profiles for the port which matches the
+  source port of the media channel representing the super
+  channel
+- media channels that are contained within the super
+  channel, but not on the super channel itself</text>
+      </description>
+    </leaf>
+    <leaf name="super-channel-parent">
+      <type name="leafref">
+        <path value="../../../channel/config/index"/>
+      </type>
+      <description>
+        <text>If the media channel is contained within a super channel this
+would specify the index of the super channel parent</text>
+      </description>
+    </leaf>
+    <leaf name="ase-control-mode">
+      <type name="identityref">
+        <base name="ASE_CONTROL_MODE"/>
+      </type>
+      <description>
+        <text>Sets the ASE control mode for the media channel.
+The control mode defines if and when ASE noise is injected
+on the media channel</text>
+      </description>
+    </leaf>
+    <leaf name="ase-injection-mode">
+      <type name="enumeration">
+        <enum name="MODE_THRESHOLD">
+          <description>
+            <text>When set ASE noise will be injected when a defined
+threshold is crossed.</text>
+          </description>
+        </enum>
+        <enum name="MODE_DELTA">
+          <description>
+            <text>When set ASE noise will be injected when a defined
+delta in optical power occurs.</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>When specified, defines the mode used to determine whether
+ASE noise should be injected on the media channel.</text>
+      </description>
+    </leaf>
+    <leaf name="ase-injection-threshold">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <when condition="../ase-injection-mode = 'MODE_THRESHOLD'"/>
+      <units name="dBm"/>
+      <description>
+        <text>Defines the optical power threshold value below which ASE
+noise should be injected on the media channel. This or
+ase-injection-delta is required if an ase-control-mode is
+configured</text>
+      </description>
+    </leaf>
+    <leaf name="ase-injection-delta">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <when condition="../ase-injection-mode = 'MODE_DELTA'"/>
+      <units name="dB"/>
+      <description>
+        <text>Defines the optical power loss from the configured spectrum
+power profile, which would indicate that ASE noise should be
+injected on the media channel. This or
+ase-injection-threshold is required if an ase-control-mode
+is configured</text>
+      </description>
+    </leaf>
+    <leaf name="attenuation-control-mode">
+      <type name="identityref">
+        <base name="ATTENUATION_CONTROL_MODE"/>
+      </type>
+      <description>
+        <text>Sets the attenuation control mode for the media channel.
+The control mode defines the behavior of how the attenuation
+across a media channel is set</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="media-channel-state">
+    <description>
+      <text>Operational state data for media channels </text>
+    </description>
+    <leaf name="oper-status">
+      <type name="enumeration">
+        <enum name="UP">
+          <description>
+            <text>Media channel is operationally up</text>
+          </description>
+        </enum>
+        <enum name="DOWN">
+          <description>
+            <text>Media channel is operationally down</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Operational state of the media channel</text>
+      </description>
+    </leaf>
+    <leaf name="ase-status">
+      <type name="enumeration">
+        <enum name="PRESENT">
+          <description>
+            <text>Media channel has injected ASE noise present</text>
+          </description>
+        </enum>
+        <enum name="NOT_PRESENT">
+          <description>
+            <text>Media channel does not have injected ASE noise present</text>
+          </description>
+        </enum>
+      </type>
+      <description>
+        <text>Status of injected ASE noise on the media channel</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="media-channel-top">
+    <description>
+      <text>Top-level grouping for list of defined media channels</text>
+    </description>
+    <container name="media-channels">
+      <description>
+        <text>Enclosing container for media channel list</text>
+      </description>
+      <list name="channel">
+        <key value="index"/>
+        <description>
+          <text>List of media channels</text>
+        </description>
+        <leaf name="index">
+          <type name="leafref">
+            <path value="../config/index"/>
+          </type>
+          <description>
+            <text>Reference to index number of the media channel</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data </text>
+          </description>
+          <uses name="media-channel-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data </text>
+          </description>
+          <uses name="media-channel-config"/>
+          <uses name="media-channel-state"/>
+        </container>
+        <uses name="media-channel-source-port-top"/>
+        <uses name="media-channel-dest-port-top"/>
+        <uses name="spectrum-target-power-profiles-top"/>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="wavelength-router-top">
+    <description>
+      <text>Top level grouping for the wavelength router</text>
+    </description>
+    <container name="wavelength-router">
+      <description>
+        <text>Top-level container for wavelength router device</text>
+      </description>
+      <uses name="media-channel-top"/>
+      <uses name="port-spectrum-power-profiles-top"/>
+    </container>
+  </grouping>
+  <uses name="wavelength-router-top"/>
+</module>

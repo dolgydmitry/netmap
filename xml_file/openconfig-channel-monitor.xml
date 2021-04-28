@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="openconfig-channel-monitor"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:oc-chan-monitor="http://openconfig.net/yang/channel-monitor"
+        xmlns:oc-ext="http://openconfig.net/yang/openconfig-ext"
+        xmlns:oc-if="http://openconfig.net/yang/interfaces"
+        xmlns:oc-platform="http://openconfig.net/yang/platform"
+        xmlns:oc-opt-types="http://openconfig.net/yang/transport-types">
+  <yang-version value="1"/>
+  <namespace uri="http://openconfig.net/yang/channel-monitor"/>
+  <prefix value="oc-chan-monitor"/>
+  <import module="openconfig-extensions">
+    <prefix value="oc-ext"/>
+  </import>
+  <import module="openconfig-interfaces">
+    <prefix value="oc-if"/>
+  </import>
+  <import module="openconfig-platform">
+    <prefix value="oc-platform"/>
+  </import>
+  <import module="openconfig-transport-types">
+    <prefix value="oc-opt-types"/>
+  </import>
+  <organization>
+    <text>OpenConfig working group</text>
+  </organization>
+  <contact>
+    <text>OpenConfig working group
+ www.openconfig.net</text>
+  </contact>
+  <description>
+    <text>This model describes operational state data for an optical
+channel monitor (OCM) for optical transport line system
+elements such as wavelength routers (ROADMs) and amplifiers.</text>
+  </description>
+  <oc-ext:openconfig-version semver="0.4.0"/>
+  <revision date="2019-10-24">
+    <description>
+      <text>Migrate from using power spectral densisty to using power
+target values</text>
+    </description>
+    <reference>
+      <text>0.4.0</text>
+    </reference>
+  </revision>
+  <revision date="2018-11-21">
+    <description>
+      <text>Add OpenConfig module metadata extensions.</text>
+    </description>
+    <reference>
+      <text>0.3.2</text>
+    </reference>
+  </revision>
+  <revision date="2017-09-08">
+    <description>
+      <text>Correct bug with OSC interfaces</text>
+    </description>
+    <reference>
+      <text>0.3.1</text>
+    </reference>
+  </revision>
+  <revision date="2017-07-08">
+    <description>
+      <text>Support multiple OCMs, add refs to hw ports, </text>
+    </description>
+    <reference>
+      <text>0.3.0</text>
+    </reference>
+  </revision>
+  <revision date="2017-03-28">
+    <description>
+      <text>Added min/max/avg stats, status for media channels, OCM, APS</text>
+    </description>
+    <reference>
+      <text>0.2.0</text>
+    </reference>
+  </revision>
+  <revision date="2016-09-14">
+    <description>
+      <text>Initial revision</text>
+    </description>
+    <reference>
+      <text>0.1.0</text>
+    </reference>
+  </revision>
+  <oc-ext:regexp-posix/>
+  <oc-ext:catalog-organization org="openconfig"/>
+  <oc-ext:origin origin="openconfig"/>
+  <grouping name="media-channel-port-config">
+    <description>
+      <text>Configuration data for a media channel source/dest port</text>
+    </description>
+    <leaf name="port-name">
+      <type name="oc-if:base-interface-ref"/>
+      <description>
+        <text>Reference to the corresponding node interface</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="media-channel-port-state">
+    <description>
+      <text>Operational state data for a media channel source/dest port</text>
+    </description>
+  </grouping>
+  <grouping name="media-channel-source-port-top">
+    <description>
+      <text>Top-level grouping for source of the media channel</text>
+    </description>
+    <container name="source">
+      <description>
+        <text>Top-level container for media channel source</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for the media channel source</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for the media channel source</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+        <uses name="media-channel-port-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="media-channel-dest-port-top">
+    <description>
+      <text>Top-level grouping for destination of the media channel</text>
+    </description>
+    <container name="dest">
+      <description>
+        <text>Top-level container for media channel destination</text>
+      </description>
+      <container name="config">
+        <description>
+          <text>Configuration data for the media channel destination</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+      </container>
+      <container name="state">
+        <config value="false"/>
+        <description>
+          <text>Operational state data for the media channel destination</text>
+        </description>
+        <uses name="media-channel-port-config"/>
+        <uses name="media-channel-port-state"/>
+      </container>
+    </container>
+  </grouping>
+  <grouping name="media-channel-spectrum-power-state">
+    <description>
+      <text>Operational state data for the media channel spectrum power</text>
+    </description>
+    <leaf name="lower-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>Lower frequency of the specified spectrum power</text>
+      </description>
+    </leaf>
+    <leaf name="upper-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>Upper frequency of the specified spectrum power</text>
+      </description>
+    </leaf>
+    <leaf name="power">
+      <type name="decimal64">
+        <fraction-digits value="2"/>
+      </type>
+      <units name="dBm"/>
+      <description>
+        <text>Average measured optical power over the specified spectrum</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="media-channel-spectrum-power-top">
+    <description>
+      <text>Top-level grouping </text>
+    </description>
+    <container name="channels">
+      <description>
+        <text>Enclosing container for the list of values describing
+the spectrum power distribution</text>
+      </description>
+      <list name="channel">
+        <key value="lower-frequency upper-frequency"/>
+        <config value="false"/>
+        <description>
+          <text>List of tuples describing the spectrum power distribution</text>
+        </description>
+        <leaf name="lower-frequency">
+          <type name="leafref">
+            <path value="../state/lower-frequency"/>
+          </type>
+          <description>
+            <text>Reference to the list key</text>
+          </description>
+        </leaf>
+        <leaf name="upper-frequency">
+          <type name="leafref">
+            <path value="../state/upper-frequency"/>
+          </type>
+          <description>
+            <text>Reference to the list key</text>
+          </description>
+        </leaf>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data for spectrum power</text>
+          </description>
+          <uses name="media-channel-spectrum-power-state"/>
+        </container>
+      </list>
+    </container>
+  </grouping>
+  <grouping name="media-channel-config">
+    <description>
+      <text>Configuration data for media channel definitions</text>
+    </description>
+    <leaf name="index">
+      <type name="uint32"/>
+      <description>
+        <text>Identifier for the defined media channel</text>
+      </description>
+    </leaf>
+    <leaf name="lower-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>The lower frequency for the spectrum defined by this media
+channel</text>
+      </description>
+    </leaf>
+    <leaf name="upper-frequency">
+      <type name="oc-opt-types:frequency-type"/>
+      <description>
+        <text>The upper frequency for the spectrum defined by this media
+channel</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="channel-monitor-config">
+    <description>
+      <text>Configuration data for the optical channel monitor</text>
+    </description>
+    <leaf name="name">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to system-supplied name of the port on the
+optical channel monitor (OCM). If this port is embedded
+in another card (i.e. an amplifier card) the device
+should still define a port representing the OCM even if
+it is internal and not physically present on the
+faceplate of the card</text>
+      </description>
+    </leaf>
+    <leaf name="monitor-port">
+      <type name="leafref">
+        <path value="/oc-platform:components/oc-platform:component/oc-platform:name"/>
+      </type>
+      <description>
+        <text>Reference to system-supplied name of the port that the
+channel monitor is physically connected to. This port
+will be of type MONITOR. This port is a tap off of the
+monitored-port and would be in the same card as the
+monitored port. If this port is embedded in another card
+(i.e. an amplifier card) the device should still define
+a port representing the monitor port if it is internal
+and not physically present on the faceplate of the card</text>
+      </description>
+    </leaf>
+  </grouping>
+  <grouping name="channel-monitor-state">
+    <description>
+      <text>Operational state data </text>
+    </description>
+  </grouping>
+  <grouping name="channel-monitor-top">
+    <description>
+      <text>Top-level grouping </text>
+    </description>
+    <container name="channel-monitors">
+      <description>
+        <text>Top-level container for optical channel monitors</text>
+      </description>
+      <list name="channel-monitor">
+        <key value="name"/>
+        <description>
+          <text>List of channel monitors, keyed by channel monitor name.</text>
+        </description>
+        <leaf name="name">
+          <type name="leafref">
+            <path value="../config/name"/>
+          </type>
+          <description>
+            <text>References the optical channel monitor name</text>
+          </description>
+        </leaf>
+        <container name="config">
+          <description>
+            <text>Configuration data </text>
+          </description>
+          <uses name="channel-monitor-config"/>
+        </container>
+        <container name="state">
+          <config value="false"/>
+          <description>
+            <text>Operational state data </text>
+          </description>
+          <uses name="channel-monitor-config"/>
+          <uses name="channel-monitor-state"/>
+        </container>
+        <uses name="media-channel-spectrum-power-top"/>
+      </list>
+    </container>
+  </grouping>
+  <uses name="channel-monitor-top"/>
+</module>
