@@ -13,9 +13,7 @@ class ConnectorDb:
     def __init__(self, file_path_parametrs=None):
         self.file_path_parametrs = file_path_parametrs
         self.db_param = None
-        self.conn = None
         self.db = None
-
 
     def load_db_param(self):
         with open(self.file_path_parametrs, 'r') as fp:
@@ -28,8 +26,9 @@ class ConnectorDb:
             username=self.db_param[db_hostname]['username'],
             password=self.db_param[db_hostname]['password']
         )
-        db = conn[self.db_param[db_hostname]['name']]
-        return db
+        #self.db = conn.createDatabase(name=self.db_param[db_hostname]['name'])
+        connector = conn[self.db_param[db_hostname]['name']]
+        return connector
 
     def launcher(self):
         self.db_param = self.load_db_param()
@@ -48,12 +47,24 @@ class DbIntArango(ConnectorDb):
         # db = Database(self.conn, self.db_name)
         # return db
 
-    # def create_collection(self):
-    #     db = self.connect_to_db()
-    #     db.createCollection(self.collection_name)
+    def create_collection(self):
+        db = self.connect_to_db
+        #db.createCollection(self.collection_name)
+        #collection = db.Database.createCollection(self.collection_name)
+        print(self.conn.username)
+        print(self.db_name)
+        print(self.collection_name)
+        collection = self.db.
+        # print(collection)
+
         
     def launcher(self):
         super().launcher()
+        print(self.db)
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -61,7 +72,7 @@ if __name__ == "__main__":
     # test.launcher()
 
     test = DbIntArango(FILE_PATH_PARAMETRS, db_name='otn-test')
+    test.collection_name = 'optical-transport'
     test.launcher()
-    print(test.db)
     # test.collection_name = 'optical-transport'
     # test.create_collection()
