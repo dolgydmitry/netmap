@@ -28,18 +28,6 @@ class ConnectorDb:
              data = json.load(fp)
         return data
 
-    def connect_to_db(self, db_hostname):
-        conn = Connection(
-            arangoURL=self.db_param[db_hostname]['url'],
-            username=self.db_param[db_hostname]['username'],
-            password=self.db_param[db_hostname]['password']
-        )
-        try:
-            connector = conn.createDatabase(name=self.db_param[db_hostname]['name'])
-        except CreationError:
-            connector = conn[self.db_param[db_hostname]['name']]
-        return connector
-
     def connect_to_db_v2(self, db_hostname):
         conn = ArangoClient(hosts=self.db_param[db_hostname]['url'])
         db = conn.db(
