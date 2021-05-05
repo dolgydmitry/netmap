@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="junos-conf-virtual-chassis"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:jc-virtual-chassis="http://yang.juniper.net/junos/conf/virtual-chassis"
+        xmlns:jt="http://yang.juniper.net/junos/common/types"
+        xmlns:jc="http://yang.juniper.net/junos/conf/root">
+  <namespace uri="http://yang.juniper.net/junos/conf/virtual-chassis"/>
+  <prefix value="jc-virtual-chassis"/>
+  <import module="junos-common-types">
+    <prefix value="jt"/>
+    <revision-date date="2019-01-01"/>
+  </import>
+  <import module="junos-conf-root">
+    <prefix value="jc"/>
+    <revision-date date="2019-01-01"/>
+  </import>
+  <organization>
+    <text>Juniper Networks, Inc.</text>
+  </organization>
+  <contact>
+    <text>yang-support@juniper.net</text>
+  </contact>
+  <description>
+    <text>Junos virtual-chassis configuration module</text>
+  </description>
+  <revision date="2019-01-01">
+    <description>
+      <text>Junos: 19.4R3.11</text>
+    </description>
+  </revision>
+  <augment target-node="/jc:configuration">
+    <uses name="virtual-chassis-group"/>
+  </augment>
+  <augment target-node="/jc:configuration/jc:groups">
+    <uses name="virtual-chassis-group"/>
+  </augment>
+  <grouping name="virtual-chassis-group">
+    <container name="virtual-chassis">
+      <description>
+        <text>Virtual chassis configuration</text>
+      </description>
+      <uses name="apply-advanced"/>
+      <container name="auto-sw-update">
+        <presence value="enable auto-sw-update"/>
+        <description>
+          <text>Auto software update</text>
+        </description>
+        <uses name="apply-advanced"/>
+        <leaf name="package-name">
+          <description>
+            <text>URL or pathname of software package</text>
+          </description>
+          <type name="string"/>
+        </leaf>
+        <container name="ex-4300">
+          <presence value="enable ex-4300"/>
+          <description>
+            <text>URL or pathname of EX-43xx software package</text>
+          </description>
+          <uses name="apply-advanced"/>
+          <leaf name="package-name">
+            <description>
+              <text>URL or pathname of software package</text>
+            </description>
+            <type name="string"/>
+          </leaf>
+        </container>
+        <container name="ex-4600">
+          <presence value="enable ex-4600"/>
+          <description>
+            <text>URL or pathname of EX-46xx software package</text>
+          </description>
+          <uses name="apply-advanced"/>
+          <leaf name="package-name">
+            <description>
+              <text>URL or pathname of software package</text>
+            </description>
+            <type name="string"/>
+          </leaf>
+        </container>
+        <container name="qfx-3">
+          <presence value="enable qfx-3"/>
+          <description>
+            <text>URL or pathname of qfx-3 software package</text>
+          </description>
+          <uses name="apply-advanced"/>
+          <leaf name="package-name">
+            <description>
+              <text>URL or pathname of software package</text>
+            </description>
+            <type name="string"/>
+          </leaf>
+        </container>
+        <container name="qfx-5">
+          <presence value="enable qfx-5"/>
+          <description>
+            <text>URL or pathname of qfx-5 software package</text>
+          </description>
+          <uses name="apply-advanced"/>
+          <leaf name="package-name">
+            <description>
+              <text>URL or pathname of software package</text>
+            </description>
+            <type name="string"/>
+          </leaf>
+        </container>
+      </container>
+      <choice name="provisioning">
+        <case name="case_1">
+          <leaf name="preprovisioned">
+            <description>
+              <text>Only accept preprovisioned members</text>
+            </description>
+            <type name="empty"/>
+          </leaf>
+        </case>
+        <case name="case_2">
+          <leaf name="auto-provisioned">
+            <description>
+              <text>Add and configure new line-card members automatically</text>
+            </description>
+            <type name="empty"/>
+          </leaf>
+        </case>
+      </choice>
+      <leaf name="id">
+        <description>
+          <text>Virtual chassis identifier, of type ISO system-id</text>
+        </description>
+        <type name="jt:isosysid"/>
+      </leaf>
+      <container name="graceful-restart">
+        <description>
+          <text>Configure graceful restart attributes</text>
+        </description>
+        <uses name="apply-advanced"/>
+        <choice name="enable-disable">
+          <case name="case_1">
+            <leaf name="disable">
+              <description>
+                <text>Disable graceful restart</text>
+              </description>
+              <type name="empty"/>
+            </leaf>
+          </case>
+        </choice>
+      </container>
+      <leaf name="no-split-detection">
+        <description>
+          <text>Disable split detection. This command is recommended to only be enabled in a 2 member setup</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+      <container name="traceoptions">
+        <description>
+          <text>Trace options for virtual chassis</text>
+        </description>
+        <uses name="juniper-virtual-chassis-traceoptions"/>
+      </container>
+      <leaf name="heartbeat-timeout">
+        <description>
+          <text>Member's timeout period for receiving a heartbeat packet</text>
+        </description>
+        <default value="2"/>
+        <units name="seconds"/>
+        <type name="union">
+          <type name="string">
+            <pattern value="&lt;.*&gt;|$.*"/>
+          </type>
+          <type name="uint32">
+            <range value="1 .. 60"/>
+          </type>
+        </type>
+      </leaf>
+      <leaf name="heartbeat-address">
+        <description>
+          <text>Peer member's IP address for sending heartbeat packet</text>
+        </description>
+        <type name="jt:ipaddr"/>
+      </leaf>
+      <leaf name="heartbeat-tos">
+        <description>
+          <text>IPv4 TOS/DS or IPv6 TC octet for heartbeat packet</text>
+        </description>
+        <default value="0"/>
+        <type name="union">
+          <type name="string">
+            <pattern value="&lt;.*&gt;|$.*"/>
+          </type>
+          <type name="uint32">
+            <range value="0 .. 255"/>
+          </type>
+        </type>
+      </leaf>
+      <leaf name="locality-bias">
+        <description>
+          <text>Bias transit packets to egress local chassis of Virtual-Chassis</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+      <list name="member">
+        <key value="name"/>
+        <ordered-by value="user"/>
+        <description>
+          <text>Member of virtual chassis configuration</text>
+        </description>
+        <leaf name="name">
+          <description>
+            <text>Member identifier</text>
+          </description>
+          <type name="union">
+            <type name="string">
+              <pattern value="&lt;.*&gt;|$.*"/>
+            </type>
+            <type name="int32"/>
+          </type>
+        </leaf>
+        <uses name="apply-advanced"/>
+        <leaf name="mastership-priority">
+          <description>
+            <text>Member's mastership priority</text>
+          </description>
+          <type name="union">
+            <type name="string">
+              <pattern value="&lt;.*&gt;|$.*"/>
+            </type>
+            <type name="int32">
+              <range value="0 .. 255"/>
+            </type>
+          </type>
+        </leaf>
+        <leaf name="fabric-tree-root">
+          <description>
+            <text>Member's participation as root of multicast distribution tree</text>
+          </description>
+          <type name="empty"/>
+        </leaf>
+        <leaf name="role">
+          <description>
+            <text>Member's role</text>
+          </description>
+          <default value="line-card"/>
+          <type name="enumeration">
+            <enum name="routing-engine">
+              <description>
+                <text>Member to assume role of routing engine</text>
+              </description>
+            </enum>
+            <enum name="line-card">
+              <description>
+                <text>Member to assume role of line card</text>
+              </description>
+            </enum>
+          </type>
+        </leaf>
+        <leaf name="serial-number">
+          <description>
+            <text>Member's serial number</text>
+          </description>
+          <type name="string">
+            <length value="1 .. 12"/>
+          </type>
+        </leaf>
+        <leaf name="no-management-vlan">
+          <description>
+            <text>Disable management VLAN</text>
+          </description>
+          <type name="empty"/>
+        </leaf>
+        <leaf name="location">
+          <description>
+            <text>Member's location</text>
+          </description>
+          <type name="string">
+            <length value="1 .. 254"/>
+          </type>
+        </leaf>
+      </list>
+      <container name="aliases">
+        <description>
+          <text>Aliases for serial numbers</text>
+        </description>
+        <uses name="apply-advanced"/>
+        <list name="serial-number">
+          <key value="name"/>
+          <ordered-by value="user"/>
+          <description>
+            <text>Set alias for a serial number</text>
+          </description>
+          <leaf name="name">
+            <description>
+              <text>Member's serial number</text>
+            </description>
+            <type name="string">
+              <length value="1 .. 12"/>
+            </type>
+          </leaf>
+          <uses name="apply-advanced"/>
+          <leaf name="alias-name">
+            <description>
+              <text>Provide an alias name for this serial-number</text>
+            </description>
+            <type name="string">
+              <length value="1 .. 12"/>
+            </type>
+          </leaf>
+        </list>
+      </container>
+      <container name="mac-persistence-timer">
+        <description>
+          <text>How long to retain MAC address when member leaves virtual chassis</text>
+        </description>
+        <uses name="apply-advanced"/>
+        <leaf name="timer">
+          <description>
+            <text>MAC persistence time</text>
+          </description>
+          <default value="60"/>
+          <units name="minutes"/>
+          <type name="union">
+            <type name="string">
+              <pattern value="&lt;.*&gt;|$.*"/>
+            </type>
+            <type name="uint32">
+              <range value="1 .. 60"/>
+            </type>
+          </type>
+        </leaf>
+        <leaf name="disable">
+          <description>
+            <text>Disable MAC persistence timer</text>
+          </description>
+          <type name="empty"/>
+        </leaf>
+      </container>
+      <container name="fast-failover">
+        <description>
+          <text>Fast failover mechanism</text>
+        </description>
+        <uses name="apply-advanced"/>
+        <leaf name="ge">
+          <description>
+            <text>Fast failover on GE VC uplink ports (ring has to be formed)</text>
+          </description>
+          <type name="empty"/>
+        </leaf>
+        <leaf name="xe">
+          <description>
+            <text>Fast failover on XE VC uplink ports (ring has to be formed)</text>
+          </description>
+          <type name="empty"/>
+        </leaf>
+        <leaf name="et">
+          <description>
+            <text>Fast failover on ET VC uplink ports (ring has to be formed)</text>
+          </description>
+          <type name="empty"/>
+        </leaf>
+        <container name="vcp">
+          <description>
+            <text>Fast failover on VCP ports</text>
+          </description>
+          <uses name="apply-advanced"/>
+          <leaf name="disable">
+            <description>
+              <text>Disable</text>
+            </description>
+            <type name="empty"/>
+          </leaf>
+        </container>
+      </container>
+      <choice name="auto_conversion_choice">
+        <case name="case_1">
+          <leaf name="no-auto-conversion">
+            <description>
+              <text>Disable automatic VC port conversion</text>
+            </description>
+            <type name="empty"/>
+          </leaf>
+        </case>
+        <case name="case_2"/>
+      </choice>
+      <leaf name="vcp-no-hold-time">
+        <description>
+          <text>Set no hold time for vcp interfaces</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+    </container>
+  </grouping>
+  <grouping name="apply-advanced">
+    <description>
+      <text>Apply advanced configuration logic</text>
+    </description>
+    <leaf-list name="apply-groups">
+      <ordered-by value="user"/>
+      <description>
+        <text>Groups from which to inherit configuration data</text>
+      </description>
+      <type name="string"/>
+    </leaf-list>
+    <leaf-list name="apply-groups-except">
+      <ordered-by value="user"/>
+      <description>
+        <text>Don't inherit configuration data from these groups</text>
+      </description>
+      <type name="string"/>
+    </leaf-list>
+    <list name="apply-macro">
+      <key value="name"/>
+      <ordered-by value="user"/>
+      <description>
+        <text>Macro and parameters for commit script expansion</text>
+      </description>
+      <uses name="apply-macro-type"/>
+    </list>
+  </grouping>
+  <grouping name="apply-macro-type">
+    <description>
+      <text>Macro data for commit-script expansion</text>
+    </description>
+    <leaf name="name">
+      <description>
+        <text>Name of the macro to be expanded</text>
+      </description>
+      <type name="string"/>
+    </leaf>
+    <list name="data">
+      <key value="name"/>
+      <uses name="macro-data-type"/>
+    </list>
+  </grouping>
+  <grouping name="juniper-virtual-chassis-traceoptions">
+    <description>
+      <text>Global tracing options for virtual chassis</text>
+    </description>
+    <uses name="apply-advanced"/>
+    <container name="file">
+      <description>
+        <text>Trace file options</text>
+      </description>
+      <uses name="vchassis_trace_file_type"/>
+    </container>
+    <list name="flag">
+      <key value="name"/>
+      <ordered-by value="user"/>
+      <description>
+        <text>Tracing parameters</text>
+      </description>
+      <leaf name="name">
+        <type name="enumeration">
+          <enum name="parse">
+            <description>
+              <text>Trace configuration parsing</text>
+            </description>
+          </enum>
+          <enum name="hello">
+            <description>
+              <text>Trace virtual chassis hello packets</text>
+            </description>
+          </enum>
+          <enum name="psn">
+            <description>
+              <text>Trace partial sequence number (PSN) packets</text>
+            </description>
+          </enum>
+          <enum name="csn">
+            <description>
+              <text>Trace complete sequence number (CSN) packets</text>
+            </description>
+          </enum>
+          <enum name="lsp">
+            <description>
+              <text>Trace virtual link-state packets</text>
+            </description>
+          </enum>
+          <enum name="normal">
+            <description>
+              <text>Trace normal events</text>
+            </description>
+          </enum>
+          <enum name="task">
+            <description>
+              <text>Trace virtual chassis task processing</text>
+            </description>
+          </enum>
+          <enum name="krt">
+            <description>
+              <text>Trace virtual chassis kernel events</text>
+            </description>
+          </enum>
+          <enum name="spf">
+            <description>
+              <text>Trace virtual chassis SPF events</text>
+            </description>
+          </enum>
+          <enum name="me">
+            <description>
+              <text>Trace virtual chassis master election events</text>
+            </description>
+          </enum>
+          <enum name="packets">
+            <description>
+              <text>Trace virtual chassis packets</text>
+            </description>
+          </enum>
+          <enum name="lsp-generation">
+            <description>
+              <text>Trace virtual chassis LSP generation</text>
+            </description>
+          </enum>
+          <enum name="error">
+            <description>
+              <text>Trace virtual chassis errors</text>
+            </description>
+          </enum>
+          <enum name="route">
+            <description>
+              <text>Trace virtual chassis routing information</text>
+            </description>
+          </enum>
+          <enum name="state">
+            <description>
+              <text>Trace virtual chassis state transitions</text>
+            </description>
+          </enum>
+          <enum name="auto-configuration">
+            <description>
+              <text>Trace virtual chassis ports auto configuration</text>
+            </description>
+          </enum>
+          <enum name="graceful-restart">
+            <description>
+              <text>Trace graceful restart events</text>
+            </description>
+          </enum>
+          <enum name="dcp-infra">
+            <description>
+              <text>Trace dcp infrastructure configuration</text>
+            </description>
+          </enum>
+          <enum name="dcp-dev-state">
+            <description>
+              <text>Trace dcp infrastructure configuration</text>
+            </description>
+          </enum>
+          <enum name="heartbeat">
+            <description>
+              <text>Trace virtual chassis heartbeat packets</text>
+            </description>
+          </enum>
+          <enum name="all">
+            <description>
+              <text>Trace everything</text>
+            </description>
+          </enum>
+        </type>
+      </leaf>
+      <leaf name="send">
+        <description>
+          <text>Trace transmitted packets</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+      <leaf name="receive">
+        <description>
+          <text>Trace received packets</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+      <leaf name="detail">
+        <description>
+          <text>Trace detailed information</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+      <leaf name="disable">
+        <description>
+          <text>Disable this trace flag</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+    </list>
+  </grouping>
+  <grouping name="macro-data-type">
+    <leaf name="name">
+      <description>
+        <text>Keyword part of the keyword-value pair</text>
+      </description>
+      <type name="string"/>
+    </leaf>
+    <leaf name="value">
+      <description>
+        <text>Value part of the keyword-value pair</text>
+      </description>
+      <type name="string"/>
+    </leaf>
+  </grouping>
+  <grouping name="vchassis_trace_file_type">
+    <leaf name="filename">
+      <description>
+        <text>Name of file in which to write trace information</text>
+      </description>
+      <type name="string">
+        <length value="1 .. 1024"/>
+      </type>
+    </leaf>
+    <leaf name="replace">
+      <description>
+        <text>Replace trace file rather than appending to it</text>
+      </description>
+      <type name="empty"/>
+    </leaf>
+    <leaf name="size">
+      <description>
+        <text>Maximum trace file size</text>
+      </description>
+      <type name="string"/>
+    </leaf>
+    <leaf name="files">
+      <description>
+        <text>Maximum number of trace files</text>
+      </description>
+      <default value="10"/>
+      <type name="union">
+        <type name="string">
+          <pattern value="&lt;.*&gt;|$.*"/>
+        </type>
+        <type name="uint32">
+          <range value="2 .. 1000"/>
+        </type>
+      </type>
+    </leaf>
+    <leaf name="no-stamp">
+      <description>
+        <text>Do not timestamp trace file</text>
+      </description>
+      <type name="empty"/>
+    </leaf>
+    <choice name="world-readable-choice">
+      <leaf name="world-readable">
+        <description>
+          <text>Allow any user to read the log file</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+      <leaf name="no-world-readable">
+        <description>
+          <text>Don't allow any user to read the log file</text>
+        </description>
+        <type name="empty"/>
+      </leaf>
+    </choice>
+  </grouping>
+</module>
